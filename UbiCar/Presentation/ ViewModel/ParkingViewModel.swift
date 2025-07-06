@@ -8,7 +8,6 @@ final class ParkingViewModel: NSObject, ObservableObject {
     @Published var userLocation: CLLocationCoordinate2D?
     @Published var authorizationStatus: CLAuthorizationStatus = .notDetermined
     @Published var placeName: String?
-    @Published var showingAlert = false
     
     private let parkingKey = "lastParkingLocation"
     private let locationManager = CLLocationManager()
@@ -42,7 +41,6 @@ final class ParkingViewModel: NSObject, ObservableObject {
         if let data = try? JSONEncoder().encode(parking) {
             UserDefaults.standard.set(data, forKey: parkingKey)
             lastParking = parking
-            showingAlert = true
         }
     }
     

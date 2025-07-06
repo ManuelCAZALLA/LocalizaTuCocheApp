@@ -8,7 +8,6 @@ struct ContentView: View {
     @StateObject private var locationManager = LocationManager.shared
     @State private var showingSaveAlert = false
     @State private var showMap = false
-    @State private var lastGeocodeDate: Date?
     @State private var parkingNote: String = ""
     @State private var showNoteSheet = false
     

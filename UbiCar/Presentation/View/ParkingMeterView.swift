@@ -18,6 +18,7 @@ struct ParkingMeterView: View {
     @State private var showAlert = false
     @State private var alertType: ParkingAlertType? = nil
     @State private var showMap = false
+    @State private var showNoParkingAlert = false
     
     enum ParkingAlertType {
         case warning
@@ -118,6 +119,7 @@ struct ParkingMeterView: View {
                 Spacer()
             }
             .padding(.top, 8)
+            
             .onAppear {
                 viewModel.requestNotificationPermission()
                 if openParkingFromNotification {
@@ -129,29 +131,38 @@ struct ParkingMeterView: View {
                     showAlert = true
                 }
             }
+            
+            .onChange(of: openParkingFromNotification) {
+                if openParkingFromNotification {
+                    alertType = .notification
+                    showAlert = true
+                    openParkingFromNotification = false
+                }
+            }
+
             .alert(isPresented: $showAlert) {
                 switch alertType {
-                case .notification:
+                case .notification, .warning:
                     return Alert(
                         title: Text("alert_attention".localized),
                         message: Text("alert_parking_expired".localized),
                         primaryButton: .default(Text("go_to_car".localized), action: {
-                            showMap = true
-                        }),
-                        secondaryButton: .cancel(Text("close".localized))
-                    )
-                case .warning:
-                    return Alert(
-                        title: Text("alert_attention".localized),
-                        message: Text("alert_parking_expired".localized),
-                        primaryButton: .default(Text("go_to_car".localized), action: {
-                            showMap = true
+                            if parking != nil {
+                                showMap = true
+                            } else {
+                                showNoParkingAlert = true
+                            }
                         }),
                         secondaryButton: .cancel(Text("close".localized))
                     )
                 case .none:
                     return Alert(title: Text(""))
                 }
+            }
+            .alert("No hay aparcamiento guardado", isPresented: $showNoParkingAlert) {
+                Button("OK", role: .cancel) {}
+            } message: {
+                Text("Primero debes guardar la ubicación de tu coche para poder volver a él.")
             }
             .fullScreenCover(isPresented: $showMap) {
                 if let parking = parking {
@@ -162,12 +173,14 @@ struct ParkingMeterView: View {
     }
 }
 
-/*#Preview {
-    ParkingMeterView(parking: ParkingLocation(
-        latitude: 40.4168,  // Madrid
-        longitude: -3.7038,
-        date: Date(),
-        placeName: "Aparcado en la Gran Vía"
-    ), openParkingFromNotification: .&&(lhs: <#T##Bool#>, rhs: <#T##() -> Bool#>)
-    )}
-*/
+#Preview {
+    ParkingMeterView(
+        parking: ParkingLocation(
+            latitude: 40.4168,
+            longitude: -3.7038,
+            date: Date(),
+            placeName: "Aparcado en la Gran Vía"
+        ),
+        openParkingFromNotification: .constant(false)
+    )
+}

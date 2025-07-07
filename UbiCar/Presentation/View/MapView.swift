@@ -15,51 +15,75 @@ struct MapView: View {
     }
     
     var body: some View {
-        Map(position: $cameraPosition) {
-            Annotation("Coche", coordinate: viewModel.parkingLocation) {
-                Image(systemName: "car.fill")
-                    .font(.title)
-                    .foregroundColor(.red)
-                    .background(Circle().fill(Color.white).frame(width: 36, height: 36))
-            }
-            
-            if let userCoord = viewModel.userLocation {
-                Annotation("Tú", coordinate: userCoord) {
-                    VStack(spacing: 4) {
-                        Image(systemName: "person.fill")
-                            .font(.title)
-                            .foregroundColor(.blue)
-                        if let distance = viewModel.distanceToCar() {
-                            Text("\(distance) m")
-                                .font(.caption2)
-                                .padding(4)
-                                .background(Color.white.opacity(0.8))
-                                .cornerRadius(6)
+        ZStack {
+            Color.background.ignoresSafeArea()
+            Map(position: $cameraPosition) {
+                Annotation("Coche", coordinate: viewModel.parkingLocation) {
+                    Image(systemName: "car.fill")
+                        .font(.title)
+                        .foregroundColor(.appPrimary)
+                        .background(Circle().fill(Color.white).frame(width: 36, height: 36).shadow(radius: 4))
+                }
+                
+                if let userCoord = viewModel.userLocation {
+                    Annotation("Tú", coordinate: userCoord) {
+                        VStack(spacing: 4) {
+                            Image(systemName: "person.fill")
+                                .font(.title)
+                                .foregroundColor(.accentColor)
+                            if let distance = viewModel.distanceToCar() {
+                                Text("\(distance) m")
+                                    .font(.caption2)
+                                    .padding(4)
+                                    .background(Color.white.opacity(0.85))
+                                    .cornerRadius(6)
+                            }
                         }
                     }
                 }
-            }
-        }
-        .mapControls {
-            MapUserLocationButton()
-            MapCompass()
-        }
-        .edgesIgnoringSafeArea(.all)
-        .onAppear {
-            viewModel.calculateRoute()
-        }
-        .overlay(
-            VStack {
+                
+                // Dibuja la polilínea de la ruta si existe
                 if let route = viewModel.route {
-                    Text("Distancia: \(Int(route.distance)) m")
-                        .padding(8)
-                        .background(Color.white.opacity(0.8))
-                        .cornerRadius(8)
-                        .padding()
+                    MapPolyline(route.polyline)
+                        .stroke(Color.appPrimary, lineWidth: 7)
                 }
-                Spacer()
             }
-        )
+            .mapControls {
+                MapUserLocationButton()
+                MapCompass()
+            }
+            .edgesIgnoringSafeArea(.all)
+            .onAppear {
+                viewModel.calculateRoute()
+            }
+           
+        }
+    }
+}
+
+struct MapFullScreenView: View {
+    let parkingLocation: ParkingLocation
+    let onClose: () -> Void
+    
+    var body: some View {
+        ZStack(alignment: .topTrailing) {
+            MapView(parkingLocation: parkingLocation)
+                .edgesIgnoringSafeArea(.all)
+            HStack {
+                Spacer()
+                Button(action: onClose) {
+                    Image(systemName: "xmark.circle.fill")
+                        .font(.system(size: 32))
+                        .foregroundColor(.appPrimary)
+                        .padding(16)
+                        .background(Color.white.opacity(0.85))
+                        .clipShape(Circle())
+                        .shadow(radius: 6)
+                }
+                .padding(.top, 32)
+                .padding(.trailing, 20)
+            }
+        }
     }
 }
 

@@ -2,7 +2,7 @@
 //  SettingView.swift
 //  UbiCar
 //
-//  Created by Manuel Cazalla Colmenero on 30/6/25.
+//  Created by Manuel Cazalla Colmenero on 4/7/25.
 //
 
 import SwiftUI

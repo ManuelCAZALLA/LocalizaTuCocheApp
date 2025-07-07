@@ -31,6 +31,14 @@
 
 // MARK: - Buttons
 "ok" = "OK";
+"share_parking" = "Compartir";
+"share_parking_text" = "Aquí he aparcado mi coche:\nApple Maps: %@\nGoogle Maps: %@";
 
 // MARK: - Coordinates
 "coordinates_format" = "Lat: %f, Lon: %f"; 
+
+// MARK: - Parking Meter Alerts
+"alert_attention" = "¡Atención!";
+"alert_parking_expired" = "El tiempo del parquímetro ha expirado o está a punto de hacerlo. ¿Quieres que te guiemos hasta tu coche?";
+"go_to_car" = "Ir al coche";
+"close" = "Cerrar"; 

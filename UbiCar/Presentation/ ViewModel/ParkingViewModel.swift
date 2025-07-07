@@ -8,7 +8,6 @@ final class ParkingViewModel: NSObject, ObservableObject {
     @Published var userLocation: CLLocationCoordinate2D?
     @Published var authorizationStatus: CLAuthorizationStatus = .notDetermined
     @Published var placeName: String?
-    @Published var showingAlert = false
     
     private let parkingKey = "lastParkingLocation"
     private let locationManager = CLLocationManager()
@@ -42,7 +41,6 @@ final class ParkingViewModel: NSObject, ObservableObject {
         if let data = try? JSONEncoder().encode(parking) {
             UserDefaults.standard.set(data, forKey: parkingKey)
             lastParking = parking
-            showingAlert = true
         }
     }
     
@@ -79,18 +77,6 @@ final class ParkingViewModel: NSObject, ObservableObject {
                 }
             }
         }
-    }
-    
-    // MARK: - Nueva función para hablar la distancia al coche
-    func speakDistance(to parking: ParkingLocation) {
-        guard let userLoc = userLocation else { return }
-        let userLocation = CLLocation(latitude: userLoc.latitude, longitude: userLoc.longitude)
-        let carLocation = CLLocation(latitude: parking.latitude, longitude: parking.longitude)
-        let distance = userLocation.distance(from: carLocation)
-        let texto = "Tu coche está a \(Int(distance)) metros."
-        let utterance = AVSpeechUtterance(string: texto)
-        utterance.voice = AVSpeechSynthesisVoice(language: "es-ES")
-        speechSynthesizer.speak(utterance)
     }
 }
 

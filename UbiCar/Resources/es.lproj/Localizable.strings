@@ -31,6 +31,26 @@
 
 // MARK: - Buttons
 "ok" = "OK";
+"share_parking" = "Compartir";
+"share_parking_text" = "Aquí he aparcado mi coche:\nApple Maps: %@\nGoogle Maps: %@";
 
 // MARK: - Coordinates
 "coordinates_format" = "Lat: %f, Lon: %f"; 
+
+// MARK: - Parking Meter Alerts
+"alert_attention" = "¡Atención!";
+"alert_parking_expired" = "El tiempo del parquímetro ha expirado o está a punto de hacerlo. ¿Quieres que te guiemos hasta tu coche?";
+"go_to_car" = "Ir al coche";
+"close" = "Cerrar"; 
+
+// MARK: - Ajustes
+"settings_tab_title" = "Opciones";
+"settings_section_about" = "Acerca de";
+"settings_app_name" = "UbicaTuCar";
+"settings_version" = "Versión";
+"settings_share_whatsapp" = "Compartir por WhatsApp";
+"settings_privacy_policy" = "Política de privacidad";
+"settings_contact" = "Contacto";
+"settings_section_premium" = "Experiencia Premium";
+"settings_remove_ads" = "Eliminar anuncios";
+"settings_ads_removed" = "Anuncios desactivados ✅"; 

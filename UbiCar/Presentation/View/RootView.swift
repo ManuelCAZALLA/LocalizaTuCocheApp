@@ -9,11 +9,12 @@ import SwiftUI
 
 struct RootView: View {
     @StateObject private var launchVM = LaunchViewModel()
+    @EnvironmentObject var appState: AppState
     
     var body: some View {
         Group {
             if launchVM.isAuthorized {
-                MainTabView()
+                MainTabView(openParkingFromNotification: $appState.openParkingFromNotification)
             } else {
                 LaunchView(viewModel: launchVM)
             }

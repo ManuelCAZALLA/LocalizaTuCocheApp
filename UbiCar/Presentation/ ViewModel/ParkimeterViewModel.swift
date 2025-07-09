@@ -21,7 +21,7 @@ final class ParkingMeterViewModel: ObservableObject {
         hasActiveTimer = true
         updateRemainingTime()
         scheduleNotification()
-        schedulePreEndNotification(minutesBefore: preEndAlert)
+        schedulePreEndNotification(preEndAlert)
         startCountdown()
     }
 
@@ -79,32 +79,21 @@ final class ParkingMeterViewModel: ObservableObject {
 
         UNUserNotificationCenter.current().add(request)
     }
-
-    private func schedulePreEndNotification(minutesBefore: Int) {
+    
+    private func schedulePreEndNotification(_ preEndAlert: Int) {
         guard let end = endTime else { return }
-        let preEndTime = end.addingTimeInterval(Double(-minutesBefore * 60))
-        let timeInterval = preEndTime.timeIntervalSinceNow
+        let preEndDate = end.addingTimeInterval(Double(-preEndAlert * 60))
+        let timeInterval = preEndDate.timeIntervalSinceNow
         guard timeInterval > 0 else { return }
-
         let content = UNMutableNotificationContent()
-        content.title = "⏰ ¡Quedan pocos minutos!"
-        content.body = "Tu parquímetro termina en \(minutesBefore) minutos."
+        content.title = "⏰ ¡Queda poco tiempo!"
+        content.body = "Tu parquímetro expirará en \(preEndAlert) minutos."
         content.sound = .default
-
-        let trigger = UNTimeIntervalNotificationTrigger(
-            timeInterval: timeInterval,
-            repeats: false
-        )
-
-        let request = UNNotificationRequest(
-            identifier: "meterPreEndReminder",
-            content: content,
-            trigger: trigger
-        )
-
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
+        let request = UNNotificationRequest(identifier: "meterPreEndReminder", content: content, trigger: trigger)
         UNUserNotificationCenter.current().add(request)
     }
-    
+
     func timeString(from interval: TimeInterval?) -> String {
         guard let interval = interval else { return "--:--" }
         let totalSeconds = Int(interval)
@@ -112,6 +101,7 @@ final class ParkingMeterViewModel: ObservableObject {
         let seconds = totalSeconds % 60
         return String(format: "%02d:%02d", minutes, seconds)
     }
+
 
     private func removeNotification() {
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["meterReminder", "meterPreEndReminder"])

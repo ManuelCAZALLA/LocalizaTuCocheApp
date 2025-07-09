@@ -1,0 +1,15 @@
+// Localizable.strings
+// Arabic (ar)
+
+"settings_tab_title" = "الإعدادات";
+"settings_section_about" = "حول التطبيق";
+"settings_app_name" = "UbicaTuCar";
+"settings_version" = "الإصدار";
+"settings_share_whatsapp" = "مشاركة عبر واتساب";
+"settings_privacy_policy" = "سياسة الخصوصية";
+"settings_contact" = "اتصل بنا";
+"settings_section_premium" = "تجربة بريميوم";
+"settings_remove_ads" = "إزالة الإعلانات";
+"settings_ads_removed" = "تمت إزالة الإعلانات ✅";
+
+// Puedes añadir aquí el resto de las claves de la app siguiendo el mismo formato. 

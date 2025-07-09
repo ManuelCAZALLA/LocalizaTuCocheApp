@@ -11,6 +11,7 @@ struct MainTabView: View {
     @StateObject private var parkingViewModel = ParkingViewModel()
     @Binding var openParkingFromNotification: Bool
     @State private var selectedTab = 0
+    @StateObject private var settingsViewModel = SettingsViewModel()
     
     var body: some View {
         TabView(selection: $selectedTab) {
@@ -26,9 +27,9 @@ struct MainTabView: View {
                 }
                 .tag(1)
 
-            SettingView()
+            SettingView(viewModel: settingsViewModel)
                 .tabItem {
-                    Label("Opciones", systemImage: "gearshape.fill")
+                    Label("settings_tab_title".localized, systemImage: "gearshape.fill")
                 }
                 .tag(2)
         }

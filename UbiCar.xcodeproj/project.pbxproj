@@ -29,9 +29,22 @@
 		3CFC1D502E0803A00072BC1C /* UbiCarUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UbiCarUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		3C3DDEDC2E1EDC1200AEDE1C /* Exceptions for "UbiCar" folder in "UbiCar" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 3CFC1D352E0803990072BC1C /* UbiCar */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		3CFC1D382E0803990072BC1C /* UbiCar */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				3C3DDEDC2E1EDC1200AEDE1C /* Exceptions for "UbiCar" folder in "UbiCar" target */,
+			);
 			path = UbiCar;
 			sourceTree = "<group>";
 		};
@@ -195,6 +208,7 @@
 				es,
 				fr,
 				de,
+				ar,
 			);
 			mainGroup = 3CFC1D2D2E0803990072BC1C;
 			minimizedProjectReferenceProxies = 1;

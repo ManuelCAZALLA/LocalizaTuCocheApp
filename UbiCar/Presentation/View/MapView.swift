@@ -17,7 +17,7 @@ struct MapView: View {
     }
     
     var body: some View {
-        ZStack {
+        ZStack(alignment: .top) {
             Map(position: $cameraPosition, interactionModes: .all) {
                 Annotation("Coche", coordinate: viewModel.parkingLocation) {
                     Image(systemName: "car.fill")
@@ -45,51 +45,53 @@ struct MapView: View {
             .gesture(DragGesture().onChanged { _ in
                 shouldAutoFit = false
             })
-
-            // Distancia y botón cerrar
-            VStack { Spacer() } // ocupa toda la pantalla
-                .overlay {
-                    ZStack {
-                        // Badge centrado
-                        HStack {
-                            Spacer()
-                            if let distance = viewModel.distanceToCar(), let minutes = viewModel.expectedTravelTimeMinutes {
-                                Text("Distancia: \(distance) m   ·   Tiempo: \(minutes) min")
-                                    .font(.subheadline)
-                                    .foregroundColor(.white)
-                                    .padding(.horizontal, 16)
-                                    .padding(.vertical, 8)
-                                    .background(Color.black.opacity(0.7))
-                                    .cornerRadius(14)
-                            } else if let distance = viewModel.distanceToCar() {
-                                Text("Distancia: \(distance) m")
-                                    .font(.subheadline)
-                                    .foregroundColor(.white)
-                                    .padding(.horizontal, 16)
-                                    .padding(.vertical, 8)
-                                    .background(Color.black.opacity(0.7))
-                                    .cornerRadius(14)
-                            }
-                            Spacer()
-                        }
-                        .padding(.top, 16)
-
-                        // Botón cerrar arriba a la derecha
-                        if let onClose = onClose {
-                            Button(action: onClose) {
-                                Image(systemName: "xmark")
-                                    .font(.system(size: 18, weight: .bold))
-                                    .foregroundColor(Color.white.opacity(0.85))
-                                    .padding(10)
-                            }
-                            .background(Color.black.opacity(0.4))
-                            .clipShape(Circle())
+            
+            // Distancia/tiempo
+            VStack() {
+                HStack {
+                    
+                    if let distance = viewModel.distanceToCar(), let minutes = viewModel.expectedTravelTimeMinutes {
+                        Text("Distancia: \(distance) m   ·   Tiempo: \(minutes) min")
+                            .font(.subheadline)
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
+                            .background(Color.black.opacity(0.7))
+                            .cornerRadius(14)
+                            .padding(.leading, 16)
                             .padding(.top, 16)
-                            .padding(.trailing, 16)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+                        
+                    } else if let distance = viewModel.distanceToCar() {
+                        Text("Distancia: \(distance) m")
+                            .font(.subheadline)
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
+                            .background(Color.black.opacity(0.7))
+                            .cornerRadius(14)
+                            .padding(.leading, 16)
+                            .padding(.top, 16)
+                    }
+                    
+                    Spacer()
+                    
+                    // Botón cerrar
+                    if let onClose = onClose {
+                        Button(action: onClose) {
+                            Image(systemName: "xmark")
+                                .font(.system(size: 18, weight: .bold))
+                                .foregroundColor(Color.white.opacity(0.85))
+                                .padding(10)
                         }
+                        .background(Color.black.opacity(0.4))
+                        .clipShape(Circle())
+                        .padding(.trailing, 16)
+                        .padding(.top, 16)
+                        .buttonStyle(.plain)
                     }
                 }
+                Spacer()
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }

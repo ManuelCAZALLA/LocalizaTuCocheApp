@@ -4,60 +4,94 @@ import MapKit
 struct MapView: View {
     @StateObject private var viewModel: MapViewModel
     @State private var cameraPosition: MapCameraPosition
+    @State private var shouldAutoFit: Bool = true
+    var onClose: (() -> Void)? = nil
     
-    init(parkingLocation: ParkingLocation) {
-        
+    init(parkingLocation: ParkingLocation, onClose: (() -> Void)? = nil) {
         let coord = CLLocationCoordinate2D(latitude: parkingLocation.latitude, longitude: parkingLocation.longitude)
         _viewModel = StateObject(wrappedValue: MapViewModel(parkingLocation: coord))
         _cameraPosition = State(initialValue: .region(
             MKCoordinateRegion(center: coord, span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005))
         ))
+        self.onClose = onClose
     }
     
     var body: some View {
         ZStack {
-            Color.background.ignoresSafeArea()
-            Map(position: $cameraPosition) {
+            Map(position: $cameraPosition, interactionModes: .all) {
                 Annotation("Coche", coordinate: viewModel.parkingLocation) {
                     Image(systemName: "car.fill")
                         .font(.title)
                         .foregroundColor(.appPrimary)
                         .background(Circle().fill(Color.white).frame(width: 36, height: 36).shadow(radius: 4))
                 }
-                
                 if let userCoord = viewModel.userLocation {
                     Annotation("Tú", coordinate: userCoord) {
-                        VStack(spacing: 4) {
-                            Image(systemName: "person.fill")
-                                .font(.title)
-                                .foregroundColor(.accentColor)
-                            if let distance = viewModel.distanceToCar() {
-                                Text("\(distance) m")
-                                    .font(.caption2)
-                                    .padding(4)
-                                    .background(Color.white.opacity(0.85))
-                                    .cornerRadius(6)
-                            }
-                        }
+                        Image(systemName: "person.fill")
+                            .font(.title)
+                            .foregroundColor(.accentColor)
+                            .background(Circle().fill(Color.white).frame(width: 36, height: 36).shadow(radius: 4))
                     }
                 }
-                
-                // Dibuja la polilínea de la ruta si existe
-                if let route = viewModel.route {
-                    MapPolyline(route.polyline)
+                if let polyline = viewModel.trimmedPolyline {
+                    MapPolyline(polyline)
                         .stroke(Color.appPrimary, lineWidth: 7)
                 }
             }
-            .mapControls {
-                MapUserLocationButton()
-                MapCompass()
-            }
-            .edgesIgnoringSafeArea(.all)
+            .ignoresSafeArea()
             .onAppear {
-                viewModel.calculateRoute()
+                shouldAutoFit = true
             }
-           
+            .gesture(DragGesture().onChanged { _ in
+                shouldAutoFit = false
+            })
+
+            // Distancia y botón cerrar
+            VStack { Spacer() } // ocupa toda la pantalla
+                .overlay {
+                    ZStack {
+                        // Badge centrado
+                        HStack {
+                            Spacer()
+                            if let distance = viewModel.distanceToCar(), let minutes = viewModel.expectedTravelTimeMinutes {
+                                Text("Distancia: \(distance) m   ·   Tiempo: \(minutes) min")
+                                    .font(.subheadline)
+                                    .foregroundColor(.white)
+                                    .padding(.horizontal, 16)
+                                    .padding(.vertical, 8)
+                                    .background(Color.black.opacity(0.7))
+                                    .cornerRadius(14)
+                            } else if let distance = viewModel.distanceToCar() {
+                                Text("Distancia: \(distance) m")
+                                    .font(.subheadline)
+                                    .foregroundColor(.white)
+                                    .padding(.horizontal, 16)
+                                    .padding(.vertical, 8)
+                                    .background(Color.black.opacity(0.7))
+                                    .cornerRadius(14)
+                            }
+                            Spacer()
+                        }
+                        .padding(.top, 16)
+
+                        // Botón cerrar arriba a la derecha
+                        if let onClose = onClose {
+                            Button(action: onClose) {
+                                Image(systemName: "xmark")
+                                    .font(.system(size: 18, weight: .bold))
+                                    .foregroundColor(Color.white.opacity(0.85))
+                                    .padding(10)
+                            }
+                            .background(Color.black.opacity(0.4))
+                            .clipShape(Circle())
+                            .padding(.top, 16)
+                            .padding(.trailing, 16)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+                        }
+                    }
+                }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
@@ -66,24 +100,7 @@ struct MapFullScreenView: View {
     let onClose: () -> Void
     
     var body: some View {
-        ZStack(alignment: .topTrailing) {
-            MapView(parkingLocation: parkingLocation)
-                .edgesIgnoringSafeArea(.all)
-            HStack {
-                Spacer()
-                Button(action: onClose) {
-                    Image(systemName: "xmark.circle.fill")
-                        .font(.system(size: 32))
-                        .foregroundColor(.appPrimary)
-                        .padding(16)
-                        .background(Color.white.opacity(0.85))
-                        .clipShape(Circle())
-                        .shadow(radius: 6)
-                }
-                .padding(.top, 32)
-                .padding(.trailing, 20)
-            }
-        }
+        MapView(parkingLocation: parkingLocation, onClose: onClose)
     }
 }
 

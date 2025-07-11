@@ -19,6 +19,44 @@ class MapViewModel: NSObject, ObservableObject {
     private let locationManager = CLLocationManager()
     private var lastSpokenStepIndex: Int? = nil
     
+    // Distancia máxima permitida a la ruta antes de recalcular (en metros)
+    private let maxDistanceFromRoute: CLLocationDistance = 50
+
+    // Comprueba si el usuario está fuera de la ruta y recalcula si es necesario
+    private func checkIfUserIsOffRouteAndRecalculate() {
+        guard let route = route, let userCoord = userLocation else { return }
+        let userLoc = CLLocation(latitude: userCoord.latitude, longitude: userCoord.longitude)
+        let polyline = route.polyline
+        let points = polyline.points()
+        let count = polyline.pointCount
+        var minDistance = CLLocationDistance.greatestFiniteMagnitude
+        for i in 0..<count {
+            let coord = points[i].coordinate
+            let loc = CLLocation(latitude: coord.latitude, longitude: coord.longitude)
+            let distance = userLoc.distance(from: loc)
+            if distance < minDistance {
+                minDistance = distance
+            }
+        }
+        if minDistance > maxDistanceFromRoute {
+            announceRecalculatingRouteIfNeeded()
+            calculateRoute()
+        }
+    }
+
+    private var hasAnnouncedRecalculation = false
+    private func announceRecalculatingRouteIfNeeded() {
+        if !hasAnnouncedRecalculation {
+            let utterance = AVSpeechUtterance(string: "Recalculando ruta")
+            utterance.voice = AVSpeechSynthesisVoice(language: "es-ES")
+            speechSynthesizer.speak(utterance)
+            hasAnnouncedRecalculation = true
+        }
+    }
+    private func resetRecalculationAnnouncement() {
+        hasAnnouncedRecalculation = false
+    }
+    
     init(parkingLocation: CLLocationCoordinate2D) {
         self.parkingLocation = parkingLocation
         super.init()
@@ -53,6 +91,8 @@ class MapViewModel: NSObject, ObservableObject {
         return Int(distance)
     }
     
+    private var lastAnnouncedInstruction: String? = nil
+
     func announceClosestStepIfNeeded() {
         guard let route = route, let userCoord = userLocation else { return }
         let userLoc = CLLocation(latitude: userCoord.latitude, longitude: userCoord.longitude)
@@ -66,19 +106,59 @@ class MapViewModel: NSObject, ObservableObject {
                 closestIndex = i
             }
         }
-        // Solo anunciar si es un paso nuevo y la instrucción no está vacía
-        if let idx = closestIndex, idx != lastSpokenStepIndex {
-            let step = route.steps[idx]
-            if !step.instructions.isEmpty {
-                // No hablar si ya está hablando
-                if speechSynthesizer.isSpeaking { return }
-                speechSynthesizer.stopSpeaking(at: .immediate)
-                let utterance = AVSpeechUtterance(string: step.instructions)
+        guard let idx = closestIndex else { return }
+        let step = route.steps[idx]
+        let ignoredInstructions = [
+            "", "Ve al inicio de la ruta", "En 2 metros llegará a su destino"
+        ]
+        // No anunciar instrucciones vacías o genéricas más de una vez
+        if !ignoredInstructions.contains(step.instructions) &&
+            (step.instructions != lastAnnouncedInstruction) {
+            let utterance = AVSpeechUtterance(string: step.instructions)
+            utterance.voice = AVSpeechSynthesisVoice(language: "es-ES")
+            speechSynthesizer.speak(utterance)
+            lastAnnouncedInstruction = step.instructions
+        } else if idx + 1 < route.steps.count {
+            let nextStep = route.steps[idx + 1]
+            let nextStepLoc = CLLocation(latitude: nextStep.polyline.coordinate.latitude, longitude: nextStep.polyline.coordinate.longitude)
+            let distanceToNext = userLoc.distance(from: nextStepLoc)
+            if distanceToNext < 30 && !ignoredInstructions.contains(nextStep.instructions) && (nextStep.instructions != lastAnnouncedInstruction) {
+                let utterance = AVSpeechUtterance(string: "En \(Int(distanceToNext)) metros, \(nextStep.instructions)")
                 utterance.voice = AVSpeechSynthesisVoice(language: "es-ES")
                 speechSynthesizer.speak(utterance)
-                lastSpokenStepIndex = idx
+                lastAnnouncedInstruction = nextStep.instructions
             }
         }
+    }
+    
+    // Devuelve una polilínea  desde el punto más cercano al usuario hasta el coche
+    var trimmedPolyline: MKPolyline? {
+        guard let route = route, let userCoord = userLocation else { return route?.polyline }
+        let userLocation = CLLocation(latitude: userCoord.latitude, longitude: userCoord.longitude)
+        let polyline = route.polyline
+        let points = polyline.points()
+        let count = polyline.pointCount
+        // Buscar el punto de la polilínea más cercano al usuario
+        var closestIndex = 0
+        var minDistance = CLLocationDistance.greatestFiniteMagnitude
+        for i in 0..<count {
+            let coord = points[i].coordinate
+            let loc = CLLocation(latitude: coord.latitude, longitude: coord.longitude)
+            let distance = userLocation.distance(from: loc)
+            if distance < minDistance {
+                minDistance = distance
+                closestIndex = i
+            }
+        }
+        // Crear una nueva polilínea desde el punto más cercano hasta el final
+        let trimmedCoords = (closestIndex..<count).map { points[$0].coordinate }
+        guard trimmedCoords.count > 1 else { return nil }
+        return MKPolyline(coordinates: trimmedCoords, count: trimmedCoords.count)
+    }
+    
+    var expectedTravelTimeMinutes: Int? {
+        guard let route = route else { return nil }
+        return Int(route.expectedTravelTime / 60)
     }
 }
 
@@ -98,6 +178,8 @@ extension MapViewModel: CLLocationManagerDelegate {
             }
             self.userLocation = newLocation
             self.announceClosestStepIfNeeded()
+            self.checkIfUserIsOffRouteAndRecalculate()
+            self.resetRecalculationAnnouncement()
             self.calculateRoute()
         }
     }

@@ -15,7 +15,7 @@ struct ContentView: View {
         ZStack {
             Color.background.ignoresSafeArea()
             VStack(spacing: 24) {
-                // Frase motivacional con icono decorativo (más arriba)
+                
                 HStack(spacing: 8) {
                     Image(systemName: "sparkles")
                         .foregroundColor(.accentColor)
@@ -50,7 +50,11 @@ struct ContentView: View {
                         .shadow(radius: 1)
                 }
                 .padding(.bottom, 4)
-                .sheet(isPresented: $showNoteSheet) {
+                .sheet(isPresented: $showNoteSheet, onDismiss: {
+                    if let _ = viewModel.lastParking {
+                        viewModel.updateParkingNote(note: parkingNote)
+                    }
+                }) {
                     NavigationView {
                         VStack(alignment: .leading, spacing: 16) {
                             Text("Nota para el aparcamiento:")
@@ -71,7 +75,7 @@ struct ContentView: View {
                         }
                     }
                 }
-                // Tarjeta de último aparcamiento o mensaje contextual
+                // Tarjeta de último aparcamiento
                 if let last = viewModel.lastParking {
                     ParkingInfoCard(parking: last, onDelete: {
                         viewModel.clearParkingLocation()

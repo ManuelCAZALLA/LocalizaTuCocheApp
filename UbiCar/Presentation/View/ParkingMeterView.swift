@@ -122,23 +122,25 @@ struct ParkingMeterView: View {
             
             .onAppear {
                 viewModel.requestNotificationPermission()
+                // Siempre resetea la alerta al aparecer
+                showAlert = false
                 if openParkingFromNotification {
                     alertType = .notification
                     showAlert = true
                     openParkingFromNotification = false
-                } else if let remaining = viewModel.remainingTime, (!viewModel.hasActiveTimer && remaining <= 0) || (remaining > 0 && remaining < 60 * 5) {
+                } else if let remaining = viewModel.remainingTime, !viewModel.hasActiveTimer && remaining <= 0 {
                     alertType = .warning
                     showAlert = true
                 }
             }
-            
-            .onChange(of: openParkingFromNotification) {
-                if openParkingFromNotification {
+            .onChange(of: openParkingFromNotification) { oldValue, newValue in
+                if newValue {
                     alertType = .notification
                     showAlert = true
                     openParkingFromNotification = false
                 }
             }
+
 
             .alert(isPresented: $showAlert) {
                 switch alertType {

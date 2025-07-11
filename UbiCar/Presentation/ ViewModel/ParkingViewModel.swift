@@ -78,6 +78,22 @@ final class ParkingViewModel: NSObject, ObservableObject {
             }
         }
     }
+
+    func updateParkingNote(note: String) {
+        guard var parking = lastParking else { return }
+        parking = ParkingLocation(
+            latitude: parking.latitude,
+            longitude: parking.longitude,
+            date: parking.date,
+            placeName: parking.placeName,
+            note: note,
+            id: parking.id
+        )
+        if let data = try? JSONEncoder().encode(parking) {
+            UserDefaults.standard.set(data, forKey: parkingKey)
+            lastParking = parking
+        }
+    }
 }
 
 extension ParkingViewModel: CLLocationManagerDelegate {

@@ -8,6 +8,7 @@
 import SwiftUI
 import UserNotifications
 import Combine
+import GoogleMobileAds
 
 @main
 
@@ -19,6 +20,7 @@ struct UbiCarApp: App {
         UIView.appearance().overrideUserInterfaceStyle = .light
         NotificationDelegate.shared.appState = appState
         UNUserNotificationCenter.current().delegate = NotificationDelegate.shared
+        MobileAds.shared.start(completionHandler: { _ in }) // Inicialización del SDK de anuncios
     }
     
     var body: some Scene {

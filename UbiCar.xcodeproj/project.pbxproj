@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		3C3DE0592E22C24800AEDE1C /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 3C3DE0582E22C24800AEDE1C /* GoogleMobileAds */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		3CFC1D472E0803A00072BC1C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -30,31 +34,113 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		3C3DDEDC2E1EDC1200AEDE1C /* Exceptions for "UbiCar" folder in "UbiCar" target */ = {
+		3C3DE10C2E22C7D200AEDE1C /* Exceptions for "UbiCarUITests" folder in "UbiCarTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Info.plist,
+				UbiCarTests/UbiCarTests.swift,
+			);
+			target = 3CFC1D452E0803A00072BC1C /* UbiCarTests */;
+		};
+		3C3DE10D2E22C7D200AEDE1C /* Exceptions for "UbiCarUITests" folder in "UbiCarUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				UbiCarTests/UbiCarTests.swift,
+			);
+			target = 3CFC1D4F2E0803A00072BC1C /* UbiCarUITests */;
+		};
+		3C3DE1642E22C7D800AEDE1C /* Exceptions for "UbiCar" folder in "UbiCar" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"/Localized: Resources/InfoPlist.strings",
+				"/Localized: Resources/Localizable.strings",
+				"Data/Extension/Extension+CoreLocation/Extension+CoreLocation.swift",
+				Data/Models/ParkingLocation.swift,
+				Domain/AppState.swift,
+				Domain/Services/AdManager.swift,
+				Domain/Services/CompassService.swift,
+				Domain/Services/LocationManager.swift,
+				"Presentation/ ViewModel/LaunchViewModel.swift",
+				"Presentation/ ViewModel/MapViewModel.swift",
+				"Presentation/ ViewModel/ParkimeterViewModel.swift",
+				"Presentation/ ViewModel/ParkingViewModel.swift",
+				"Presentation/ ViewModel/RootViewModel.swift",
+				"Presentation/ ViewModel/SettingsViewModel.swift",
+				Presentation/View/Component/DeleteButton.swift,
+				Presentation/View/Component/MapGuideButton.swift,
+				Presentation/View/Component/ParkingButton.swift,
+				Presentation/View/ContentView.swift,
+				Presentation/View/LaunchView.swift,
+				Presentation/View/MainTabView.swift,
+				Presentation/View/MapView.swift,
+				Presentation/View/ParkingMeterView.swift,
+				Presentation/View/RootView.swift,
+				Presentation/View/SettingView.swift,
+				Presentation/View/SubViews/LocationStatusView.swift,
+				Presentation/View/SubViews/ParkingInfoCard.swift,
+				"Preview Content/Assets.xcassets",
+				"Preview Content/Preview Assets.xcassets",
+				"Resources/String+Localization.swift",
+				Resources/VoiceGuideService.swift,
+				UbiCarApp.swift,
 			);
 			target = 3CFC1D352E0803990072BC1C /* UbiCar */;
+		};
+		3C3DE1652E22C7D800AEDE1C /* Exceptions for "UbiCar" folder in "UbiCarUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"/Localized: Resources/InfoPlist.strings",
+				"/Localized: Resources/Localizable.strings",
+				"Data/Extension/Extension+CoreLocation/Extension+CoreLocation.swift",
+				Data/Models/ParkingLocation.swift,
+				Domain/AppState.swift,
+				Domain/Services/AdManager.swift,
+				Domain/Services/CompassService.swift,
+				Domain/Services/LocationManager.swift,
+				Info.plist,
+				"Presentation/ ViewModel/LaunchViewModel.swift",
+				"Presentation/ ViewModel/MapViewModel.swift",
+				"Presentation/ ViewModel/ParkimeterViewModel.swift",
+				"Presentation/ ViewModel/ParkingViewModel.swift",
+				"Presentation/ ViewModel/RootViewModel.swift",
+				"Presentation/ ViewModel/SettingsViewModel.swift",
+				Presentation/View/Component/DeleteButton.swift,
+				Presentation/View/Component/MapGuideButton.swift,
+				Presentation/View/Component/ParkingButton.swift,
+				Presentation/View/ContentView.swift,
+				Presentation/View/LaunchView.swift,
+				Presentation/View/MainTabView.swift,
+				Presentation/View/MapView.swift,
+				Presentation/View/ParkingMeterView.swift,
+				Presentation/View/RootView.swift,
+				Presentation/View/SettingView.swift,
+				Presentation/View/SubViews/LocationStatusView.swift,
+				Presentation/View/SubViews/ParkingInfoCard.swift,
+				"Preview Content/Assets.xcassets",
+				"Preview Content/Preview Assets.xcassets",
+				"Resources/String+Localization.swift",
+				Resources/VoiceGuideService.swift,
+				UbiCarApp.swift,
+			);
+			target = 3CFC1D4F2E0803A00072BC1C /* UbiCarUITests */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		3CFC1D382E0803990072BC1C /* UbiCar */ = {
+		3C3DE1442E22C7D800AEDE1C /* UbiCar */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				3C3DDEDC2E1EDC1200AEDE1C /* Exceptions for "UbiCar" folder in "UbiCar" target */,
+				3C3DE1642E22C7D800AEDE1C /* Exceptions for "UbiCar" folder in "UbiCar" target */,
+				3C3DE1652E22C7D800AEDE1C /* Exceptions for "UbiCar" folder in "UbiCarUITests" target */,
 			);
 			path = UbiCar;
 			sourceTree = "<group>";
 		};
-		3CFC1D492E0803A00072BC1C /* UbiCarTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = UbiCarTests;
-			sourceTree = "<group>";
-		};
 		3CFC1D532E0803A00072BC1C /* UbiCarUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				3C3DE10C2E22C7D200AEDE1C /* Exceptions for "UbiCarUITests" folder in "UbiCarTests" target */,
+				3C3DE10D2E22C7D200AEDE1C /* Exceptions for "UbiCarUITests" folder in "UbiCarUITests" target */,
+			);
 			path = UbiCarUITests;
 			sourceTree = "<group>";
 		};
@@ -65,6 +151,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3C3DE0592E22C24800AEDE1C /* GoogleMobileAds in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,8 +175,7 @@
 		3CFC1D2D2E0803990072BC1C = {
 			isa = PBXGroup;
 			children = (
-				3CFC1D382E0803990072BC1C /* UbiCar */,
-				3CFC1D492E0803A00072BC1C /* UbiCarTests */,
+				3C3DE1442E22C7D800AEDE1C /* UbiCar */,
 				3CFC1D532E0803A00072BC1C /* UbiCarUITests */,
 				3CFC1D372E0803990072BC1C /* Products */,
 			);
@@ -120,11 +206,9 @@
 			);
 			dependencies = (
 			);
-			fileSystemSynchronizedGroups = (
-				3CFC1D382E0803990072BC1C /* UbiCar */,
-			);
 			name = UbiCar;
 			packageProductDependencies = (
+				3C3DE0582E22C24800AEDE1C /* GoogleMobileAds */,
 			);
 			productName = UbiCar;
 			productReference = 3CFC1D362E0803990072BC1C /* UbiCar.app */;
@@ -142,9 +226,6 @@
 			);
 			dependencies = (
 				3CFC1D482E0803A00072BC1C /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				3CFC1D492E0803A00072BC1C /* UbiCarTests */,
 			);
 			name = UbiCarTests;
 			packageProductDependencies = (
@@ -167,6 +248,7 @@
 				3CFC1D522E0803A00072BC1C /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
+				3C3DE1442E22C7D800AEDE1C /* UbiCar */,
 				3CFC1D532E0803A00072BC1C /* UbiCarUITests */,
 			);
 			name = UbiCarUITests;
@@ -212,6 +294,9 @@
 			);
 			mainGroup = 3CFC1D2D2E0803990072BC1C;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				3C3DE0572E22C24800AEDE1C /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3CFC1D372E0803990072BC1C /* Products */;
 			projectDirPath = "";
@@ -418,6 +503,7 @@
 				DEVELOPMENT_TEAM = YNAD5X38LN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/UbiCar/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Necesitamos tu ubicacion para volver al coche";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -449,6 +535,7 @@
 				DEVELOPMENT_TEAM = YNAD5X38LN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/UbiCar/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Necesitamos tu ubicacion para volver al coche";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -577,6 +664,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3C3DE0572E22C24800AEDE1C /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.7.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3C3DE0582E22C24800AEDE1C /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3C3DE0572E22C24800AEDE1C /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3CFC1D2E2E0803990072BC1C /* Project object */;
 }

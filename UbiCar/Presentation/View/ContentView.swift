@@ -1,7 +1,6 @@
 import SwiftUI
 import CoreLocation
 
-
 struct ContentView: View {
     
     @StateObject private var viewModel = ParkingViewModel()
@@ -15,7 +14,6 @@ struct ContentView: View {
         ZStack {
             Color.background.ignoresSafeArea()
             VStack(spacing: 24) {
-                
                 HStack(spacing: 8) {
                     Image(systemName: "sparkles")
                         .foregroundColor(.accentColor)

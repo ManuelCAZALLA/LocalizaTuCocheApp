@@ -44,7 +44,6 @@ struct ParkingInfoCard: View {
                     }
                     Spacer()
                 }
-                
                 HStack(spacing: 20) {
                     Button(action: onDelete) {
                         Label("delete".localized, systemImage: "trash")
@@ -54,7 +53,6 @@ struct ParkingInfoCard: View {
                             .background(Color.error.opacity(0.12))
                             .cornerRadius(10)
                     }
-                    
                     Button(action: onNavigate) {
                         Label("back_to_car".localized, systemImage: "location.fill")
                             .foregroundColor(.white)
@@ -67,10 +65,9 @@ struct ParkingInfoCard: View {
                 }
             }
             .padding()
-            .background(Color.white)
+            .background(Color.white.opacity(0.95))
             .cornerRadius(22)
-            .shadow(color: Color.appPrimary.opacity(0.10), radius: 12, x: 0, y: 6)
-            
+            .shadow(color: Color.black.opacity(0.08), radius: 12, x: 0, y: 6)
             // Botón de compartir en la esquina superior derecha
             ShareLink(item: shareText) {
                 Image(systemName: "square.and.arrow.up")

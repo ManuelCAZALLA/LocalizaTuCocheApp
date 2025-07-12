@@ -13,18 +13,19 @@ struct LaunchView: View {
                 if viewModel.isAuthorized {
                     ContentView()
                 } else {
-                    VStack(spacing: 32) {
-                        Image("UbiCar")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 180, height: 180)
-                            .shadow(radius: 16)
-                        Text("¡Bienvenido a UbiCar!")
-                            .font(.largeTitle.bold())
-                            .foregroundColor(.appPrimary)
-                            .shadow(radius: 4)
-                        Text("Te ayudamos a encontrar tu coche fácilmente. Para empezar, necesitamos acceso a tu ubicación.")
-                            .font(.title3)
+                    VStack(spacing: 28) {
+                        Text("UbicaTuCar")
+                            .font(.system(size: 44, weight: .bold, design: .rounded))
+                            .foregroundColor(.white)
+                            .shadow(color: Color.black.opacity(0.18), radius: 8, x: 0, y: 4)
+                            .padding(.top, 40)
+                        Text("Encuentra tu coche fácilmente")
+                            .font(.title2.weight(.semibold))
+                            .foregroundColor(.white.opacity(0.92))
+                            .multilineTextAlignment(.center)
+                        Spacer(minLength: 0)
+                        Text("Para empezar, necesitamos acceso a tu ubicación.")
+                            .font(.body)
                             .foregroundColor(.white.opacity(0.85))
                             .multilineTextAlignment(.center)
                             .padding(.horizontal)
@@ -35,12 +36,13 @@ struct LaunchView: View {
                                 .font(.title2.bold())
                                 .padding()
                                 .frame(maxWidth: .infinity)
-                                .background(Color.accentColor)
+                                .background(Color.white.opacity(0.18))
                                 .foregroundColor(.white)
                                 .cornerRadius(14)
                                 .shadow(radius: 6)
                         }
                         .padding(.horizontal, 32)
+                        .padding(.bottom, 40)
                     }
                     .padding(.horizontal, 24)
                 }

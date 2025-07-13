@@ -1,5 +1,6 @@
 import SwiftUI
 import CoreLocation
+import GoogleMobileAds
 
 struct ContentView: View {
     
@@ -108,7 +109,12 @@ struct ContentView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             .padding(.top, 0)
             .alert("location_saved".localized, isPresented: $showingSaveAlert) {
-                Button("ok".localized, role: .cancel) {}
+                Button("ok".localized, role: .cancel) {
+                    if let root = UIApplication.shared.connectedScenes
+                        .compactMap({ ($0 as? UIWindowScene)?.keyWindow }).first?.rootViewController {
+                        AdManager.shared.showInterstitial(from: root)
+                    }
+                }
             }
         }
     }

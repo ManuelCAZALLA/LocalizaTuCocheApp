@@ -8,6 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		3C3DE0592E22C24800AEDE1C /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 3C3DE0582E22C24800AEDE1C /* GoogleMobileAds */; };
+		3C5329E62E242CB800AD184B /* FirebaseAI in Frameworks */ = {isa = PBXBuildFile; productRef = 3C5329E52E242CB700AD184B /* FirebaseAI */; };
+		3C5329E82E242CB800AD184B /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 3C5329E72E242CB800AD184B /* FirebaseAnalytics */; };
+		3C5329EA2E242CB800AD184B /* FirebaseAnalyticsCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3C5329E92E242CB800AD184B /* FirebaseAnalyticsCore */; };
+		3C5329EC2E242CB800AD184B /* FirebaseAnalyticsIdentitySupport in Frameworks */ = {isa = PBXBuildFile; productRef = 3C5329EB2E242CB800AD184B /* FirebaseAnalyticsIdentitySupport */; };
+		3C5329EE2E242CB800AD184B /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 3C5329ED2E242CB800AD184B /* FirebaseAnalyticsOnDeviceConversion */; };
+		3C5329F02E242CB800AD184B /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 3C5329EF2E242CB800AD184B /* FirebaseAnalyticsWithoutAdIdSupport */; };
+		3C5329F22E242CB800AD184B /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 3C5329F12E242CB800AD184B /* FirebaseAppCheck */; };
+		3C5329F42E242CB800AD184B /* FirebaseAppDistribution-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 3C5329F32E242CB800AD184B /* FirebaseAppDistribution-Beta */; };
+		3C5329F62E242CB800AD184B /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 3C5329F52E242CB800AD184B /* FirebaseCrashlytics */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,12 +68,7 @@
 				Domain/Services/AdManager.swift,
 				Domain/Services/CompassService.swift,
 				Domain/Services/LocationManager.swift,
-				"Presentation/ ViewModel/LaunchViewModel.swift",
-				"Presentation/ ViewModel/MapViewModel.swift",
-				"Presentation/ ViewModel/ParkimeterViewModel.swift",
-				"Presentation/ ViewModel/ParkingViewModel.swift",
-				"Presentation/ ViewModel/RootViewModel.swift",
-				"Presentation/ ViewModel/SettingsViewModel.swift",
+				"GoogleService-Info.plist",
 				Presentation/View/Component/DeleteButton.swift,
 				Presentation/View/Component/MapGuideButton.swift,
 				Presentation/View/Component/ParkingButton.swift,
@@ -77,6 +81,12 @@
 				Presentation/View/SettingView.swift,
 				Presentation/View/SubViews/LocationStatusView.swift,
 				Presentation/View/SubViews/ParkingInfoCard.swift,
+				Presentation/ViewModel/LaunchViewModel.swift,
+				Presentation/ViewModel/MapViewModel.swift,
+				Presentation/ViewModel/ParkimeterViewModel.swift,
+				Presentation/ViewModel/ParkingViewModel.swift,
+				Presentation/ViewModel/RootViewModel.swift,
+				Presentation/ViewModel/SettingsViewModel.swift,
 				"Preview Content/Assets.xcassets",
 				"Preview Content/Preview Assets.xcassets",
 				"Resources/String+Localization.swift",
@@ -96,13 +106,8 @@
 				Domain/Services/AdManager.swift,
 				Domain/Services/CompassService.swift,
 				Domain/Services/LocationManager.swift,
+				"GoogleService-Info.plist",
 				Info.plist,
-				"Presentation/ ViewModel/LaunchViewModel.swift",
-				"Presentation/ ViewModel/MapViewModel.swift",
-				"Presentation/ ViewModel/ParkimeterViewModel.swift",
-				"Presentation/ ViewModel/ParkingViewModel.swift",
-				"Presentation/ ViewModel/RootViewModel.swift",
-				"Presentation/ ViewModel/SettingsViewModel.swift",
 				Presentation/View/Component/DeleteButton.swift,
 				Presentation/View/Component/MapGuideButton.swift,
 				Presentation/View/Component/ParkingButton.swift,
@@ -115,6 +120,12 @@
 				Presentation/View/SettingView.swift,
 				Presentation/View/SubViews/LocationStatusView.swift,
 				Presentation/View/SubViews/ParkingInfoCard.swift,
+				Presentation/ViewModel/LaunchViewModel.swift,
+				Presentation/ViewModel/MapViewModel.swift,
+				Presentation/ViewModel/ParkimeterViewModel.swift,
+				Presentation/ViewModel/ParkingViewModel.swift,
+				Presentation/ViewModel/RootViewModel.swift,
+				Presentation/ViewModel/SettingsViewModel.swift,
 				"Preview Content/Assets.xcassets",
 				"Preview Content/Preview Assets.xcassets",
 				"Resources/String+Localization.swift",
@@ -151,7 +162,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3C5329F22E242CB800AD184B /* FirebaseAppCheck in Frameworks */,
 				3C3DE0592E22C24800AEDE1C /* GoogleMobileAds in Frameworks */,
+				3C5329EE2E242CB800AD184B /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
+				3C5329EC2E242CB800AD184B /* FirebaseAnalyticsIdentitySupport in Frameworks */,
+				3C5329E62E242CB800AD184B /* FirebaseAI in Frameworks */,
+				3C5329F02E242CB800AD184B /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
+				3C5329E82E242CB800AD184B /* FirebaseAnalytics in Frameworks */,
+				3C5329F62E242CB800AD184B /* FirebaseCrashlytics in Frameworks */,
+				3C5329EA2E242CB800AD184B /* FirebaseAnalyticsCore in Frameworks */,
+				3C5329F42E242CB800AD184B /* FirebaseAppDistribution-Beta in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,6 +229,15 @@
 			name = UbiCar;
 			packageProductDependencies = (
 				3C3DE0582E22C24800AEDE1C /* GoogleMobileAds */,
+				3C5329E52E242CB700AD184B /* FirebaseAI */,
+				3C5329E72E242CB800AD184B /* FirebaseAnalytics */,
+				3C5329E92E242CB800AD184B /* FirebaseAnalyticsCore */,
+				3C5329EB2E242CB800AD184B /* FirebaseAnalyticsIdentitySupport */,
+				3C5329ED2E242CB800AD184B /* FirebaseAnalyticsOnDeviceConversion */,
+				3C5329EF2E242CB800AD184B /* FirebaseAnalyticsWithoutAdIdSupport */,
+				3C5329F12E242CB800AD184B /* FirebaseAppCheck */,
+				3C5329F32E242CB800AD184B /* FirebaseAppDistribution-Beta */,
+				3C5329F52E242CB800AD184B /* FirebaseCrashlytics */,
 			);
 			productName = UbiCar;
 			productReference = 3CFC1D362E0803990072BC1C /* UbiCar.app */;
@@ -296,6 +325,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				3C3DE0572E22C24800AEDE1C /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+				3C5329E42E242CB700AD184B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3CFC1D372E0803990072BC1C /* Products */;
@@ -504,6 +534,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/UbiCar/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = UbiCar;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Necesitamos tu ubicacion para volver al coche";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -516,7 +547,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ManuelCazalla.UbiCar;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ManuelCazalla.UbicaTuCar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -536,6 +567,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/UbiCar/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = UbiCar;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Necesitamos tu ubicacion para volver al coche";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -548,7 +580,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ManuelCazalla.UbiCar;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ManuelCazalla.UbicaTuCar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -674,6 +706,14 @@
 				minimumVersion = 12.7.0;
 			};
 		};
+		3C5329E42E242CB700AD184B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.15.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -681,6 +721,51 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3C3DE0572E22C24800AEDE1C /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
 			productName = GoogleMobileAds;
+		};
+		3C5329E52E242CB700AD184B /* FirebaseAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3C5329E42E242CB700AD184B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAI;
+		};
+		3C5329E72E242CB800AD184B /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3C5329E42E242CB700AD184B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		3C5329E92E242CB800AD184B /* FirebaseAnalyticsCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3C5329E42E242CB700AD184B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsCore;
+		};
+		3C5329EB2E242CB800AD184B /* FirebaseAnalyticsIdentitySupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3C5329E42E242CB700AD184B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsIdentitySupport;
+		};
+		3C5329ED2E242CB800AD184B /* FirebaseAnalyticsOnDeviceConversion */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3C5329E42E242CB700AD184B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsOnDeviceConversion;
+		};
+		3C5329EF2E242CB800AD184B /* FirebaseAnalyticsWithoutAdIdSupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3C5329E42E242CB700AD184B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsWithoutAdIdSupport;
+		};
+		3C5329F12E242CB800AD184B /* FirebaseAppCheck */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3C5329E42E242CB700AD184B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAppCheck;
+		};
+		3C5329F32E242CB800AD184B /* FirebaseAppDistribution-Beta */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3C5329E42E242CB700AD184B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseAppDistribution-Beta";
+		};
+		3C5329F52E242CB800AD184B /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3C5329E42E242CB700AD184B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

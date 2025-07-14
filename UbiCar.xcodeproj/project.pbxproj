@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3C3DE0592E22C24800AEDE1C /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 3C3DE0582E22C24800AEDE1C /* GoogleMobileAds */; };
 		3C5329E62E242CB800AD184B /* FirebaseAI in Frameworks */ = {isa = PBXBuildFile; productRef = 3C5329E52E242CB700AD184B /* FirebaseAI */; };
 		3C5329E82E242CB800AD184B /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 3C5329E72E242CB800AD184B /* FirebaseAnalytics */; };
 		3C5329EA2E242CB800AD184B /* FirebaseAnalyticsCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3C5329E92E242CB800AD184B /* FirebaseAnalyticsCore */; };
@@ -70,8 +69,10 @@
 				Domain/Services/LocationManager.swift,
 				"GoogleService-Info.plist",
 				Presentation/View/Component/DeleteButton.swift,
+				Presentation/View/Component/ImagePicker.swift,
 				Presentation/View/Component/MapGuideButton.swift,
 				Presentation/View/Component/ParkingButton.swift,
+				Presentation/View/Component/RateOrRecommendPopup.swift,
 				Presentation/View/ContentView.swift,
 				Presentation/View/LaunchView.swift,
 				Presentation/View/MainTabView.swift,
@@ -109,8 +110,10 @@
 				"GoogleService-Info.plist",
 				Info.plist,
 				Presentation/View/Component/DeleteButton.swift,
+				Presentation/View/Component/ImagePicker.swift,
 				Presentation/View/Component/MapGuideButton.swift,
 				Presentation/View/Component/ParkingButton.swift,
+				Presentation/View/Component/RateOrRecommendPopup.swift,
 				Presentation/View/ContentView.swift,
 				Presentation/View/LaunchView.swift,
 				Presentation/View/MainTabView.swift,
@@ -163,7 +166,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C5329F22E242CB800AD184B /* FirebaseAppCheck in Frameworks */,
-				3C3DE0592E22C24800AEDE1C /* GoogleMobileAds in Frameworks */,
 				3C5329EE2E242CB800AD184B /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
 				3C5329EC2E242CB800AD184B /* FirebaseAnalyticsIdentitySupport in Frameworks */,
 				3C5329E62E242CB800AD184B /* FirebaseAI in Frameworks */,
@@ -228,7 +230,6 @@
 			);
 			name = UbiCar;
 			packageProductDependencies = (
-				3C3DE0582E22C24800AEDE1C /* GoogleMobileAds */,
 				3C5329E52E242CB700AD184B /* FirebaseAI */,
 				3C5329E72E242CB800AD184B /* FirebaseAnalytics */,
 				3C5329E92E242CB800AD184B /* FirebaseAnalyticsCore */,
@@ -324,7 +325,6 @@
 			mainGroup = 3CFC1D2D2E0803990072BC1C;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				3C3DE0572E22C24800AEDE1C /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 				3C5329E42E242CB700AD184B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
@@ -536,6 +536,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/UbiCar/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = UbiCar;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Necesitamos acceder a la cámara para que puedas guardar una foto de tu aparcamiento.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Necesitamos tu ubicacion para volver al coche";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -569,6 +570,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/UbiCar/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = UbiCar;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Necesitamos acceder a la cámara para que puedas guardar una foto de tu aparcamiento.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Necesitamos tu ubicacion para volver al coche";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -629,6 +631,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YNAD5X38LN;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ManuelCazalla.UbiCarUITests;
@@ -645,6 +648,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YNAD5X38LN;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ManuelCazalla.UbiCarUITests;
@@ -698,14 +702,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		3C3DE0572E22C24800AEDE1C /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 12.7.0;
-			};
-		};
 		3C5329E42E242CB700AD184B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -717,11 +713,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		3C3DE0582E22C24800AEDE1C /* GoogleMobileAds */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3C3DE0572E22C24800AEDE1C /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
-			productName = GoogleMobileAds;
-		};
 		3C5329E52E242CB700AD184B /* FirebaseAI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 3C5329E42E242CB700AD184B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

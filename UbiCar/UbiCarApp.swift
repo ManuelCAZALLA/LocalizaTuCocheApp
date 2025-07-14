@@ -8,7 +8,6 @@
 import SwiftUI
 import FirebaseCore
 import UserNotifications
-import GoogleMobileAds
 
 // MARK: - AppDelegate para Firebase
 class AppDelegate: NSObject, UIApplicationDelegate {
@@ -18,8 +17,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         
         FirebaseApp.configure()
 
-        
-        MobileAds.shared.start(completionHandler: nil)
         
         return true
     }

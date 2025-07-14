@@ -9,6 +9,16 @@ struct ParkingInfoCard: View {
     var body: some View {
         ZStack(alignment: .topTrailing) {
             VStack(spacing: 18) {
+                // Mostrar la foto arriba si existe
+                if let photoData = parking.photoData, let uiImage = UIImage(data: photoData) {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(height: 180)
+                        .clipped()
+                        .cornerRadius(16)
+                        .padding(.bottom, 4)
+                }
                 HStack(alignment: .top, spacing: 14) {
                     ZStack {
                         Circle()

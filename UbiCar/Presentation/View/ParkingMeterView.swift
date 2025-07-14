@@ -11,23 +11,25 @@ struct ParkingMeterView: View {
     let parking: ParkingLocation?
     @Binding var openParkingFromNotification: Bool
     @StateObject private var viewModel = ParkingMeterViewModel()
+
     @State private var selectedMinutes: Int = 15
     @State private var preEndAlertMinutes: Int = 5
-    let minuteOptions = [5, 10, 15, 30, 45, 60]
-    let preEndOptions = [1, 3, 5, 10, 15]
     @State private var showAlert = false
     @State private var alertType: ParkingAlertType? = nil
     @State private var showMap = false
     @State private var showNoParkingAlert = false
-    
+
+    let minuteOptions = [15,20, 30, 45, 60, 90, 120]
+    let preEndOptions = [1, 3, 5, 10, 15]
+
     enum ParkingAlertType {
-        case warning
-        case notification
+        case warning, notification
     }
 
     var body: some View {
         ZStack {
             Color.background.ignoresSafeArea()
+
             VStack(spacing: 32) {
                 Text("🅿️ Parquímetro")
                     .font(.largeTitle.bold())
@@ -41,10 +43,10 @@ struct ParkingMeterView: View {
                             .foregroundColor(.appPrimary)
                         ZStack {
                             Circle()
-                                .stroke(Color.appPrimary.opacity(0.2), lineWidth: 8)
-                                .frame(width: 120, height: 120)
+                                .stroke(Color.appPrimary.opacity(0.2), lineWidth: 16)
+                                .frame(width: 240, height: 240)
                             Text(viewModel.timeString(from: viewModel.remainingTime))
-                                .font(.system(size: 44, weight: .bold, design: .monospaced))
+                                .font(.system(size: 90, weight: .bold, design: .monospaced))
                                 .foregroundColor(.accentColor)
                         }
                         Button(role: .destructive) {
@@ -65,75 +67,82 @@ struct ParkingMeterView: View {
                     .padding(.horizontal)
                     Spacer()
                 } else {
-                    VStack(spacing: 28) {
-                        VStack(spacing: 12) {
-                            Text("Duración del parquímetro")
-                                .font(.headline)
-                                .foregroundColor(.appPrimary)
-                            Picker("Minutos", selection: $selectedMinutes) {
-                                ForEach(minuteOptions, id: \ .self) { minute in
-                                    Text("\(minute) min").tag(minute)
+                    VStack {
+                        Spacer()
+                        VStack(spacing: 32) {
+                            // Duración
+                            VStack(spacing: 16) {
+                                Text("Duración del parquímetro")
+                                    .font(.title2.bold())
+                                    .foregroundColor(.appPrimary)
+                                Picker("Minutos", selection: $selectedMinutes) {
+                                    ForEach(minuteOptions, id: \.self) { minute in
+                                        Text("\(minute) min").tag(minute)
+                                    }
                                 }
+                                .pickerStyle(WheelPickerStyle())
+                                .frame(height: 180)
+                                .clipped()
                             }
-                            .pickerStyle(WheelPickerStyle())
-                            .frame(height: 100)
-                            .background(RoundedRectangle(cornerRadius: 12).fill(Color.white.opacity(0.95)))
-                            .shadow(radius: 2)
-                        }
-                        .padding()
-                        .background(Color.white)
-                        .cornerRadius(16)
-                        .shadow(color: Color.appPrimary.opacity(0.06), radius: 6, x: 0, y: 2)
-                        VStack(spacing: 12) {
-                            Text("Aviso antes de finalizar")
-                                .font(.headline)
-                                .foregroundColor(.appPrimary)
-                            Picker("Avisar antes", selection: $preEndAlertMinutes) {
-                                ForEach(preEndOptions, id: \ .self) { min in
-                                    Text("\(min) min").tag(min)
+                            .frame(maxWidth: .infinity)
+                            .background(Color.white)
+                            .cornerRadius(20)
+                            .shadow(color: Color.appPrimary.opacity(0.08), radius: 10, x: 0, y: 4)
+                            .padding(.horizontal)
+
+                            // Aviso antes de finalizar
+                            VStack(spacing: 16) {
+                                Text("Aviso antes de finalizar")
+                                    .font(.title3.bold())
+                                    .foregroundColor(.appPrimary)
+                                Picker("Avisar antes", selection: $preEndAlertMinutes) {
+                                    ForEach(preEndOptions, id: \.self) { min in
+                                        Text("\(min) min").tag(min)
+                                    }
                                 }
+                                .pickerStyle(SegmentedPickerStyle())
+                                .padding(.horizontal)
                             }
-                            .pickerStyle(SegmentedPickerStyle())
-                            .frame(width: 220)
+                            .frame(maxWidth: .infinity)
+                            .background(Color.white)
+                            .cornerRadius(20)
+                            .shadow(color: Color.appPrimary.opacity(0.08), radius: 10, x: 0, y: 4)
+                            .padding(.horizontal)
                         }
-                        .padding()
-                        .background(Color.white)
-                        .cornerRadius(16)
-                        .shadow(color: Color.appPrimary.opacity(0.06), radius: 6, x: 0, y: 2)
+                        Spacer()
+                        
                         Button {
                             viewModel.start(minutes: selectedMinutes, preEndAlert: preEndAlertMinutes)
                         } label: {
                             Text("Iniciar")
                                 .bold()
+                                .font(.title2)
                                 .frame(maxWidth: .infinity)
                                 .padding()
                                 .background(Color.accent)
                                 .foregroundColor(.white)
-                                .cornerRadius(14)
-                                .shadow(radius: 4)
+                                .cornerRadius(16)
+                                .shadow(radius: 6)
                         }
-                        .padding(.top, 8)
+                        .padding(.horizontal)
+                        .padding(.bottom, 32)
                     }
-                    .padding(.horizontal)
+                    .ignoresSafeArea(.keyboard)
                 }
                 Spacer()
             }
             .padding(.top, 8)
-            
+
             .onAppear {
                 viewModel.requestNotificationPermission()
-                // Siempre resetea la alerta al aparecer
                 showAlert = false
                 if openParkingFromNotification {
                     alertType = .notification
                     showAlert = true
                     openParkingFromNotification = false
-                } else if let remaining = viewModel.remainingTime, !viewModel.hasActiveTimer && remaining <= 0 {
-                    alertType = .warning
-                    showAlert = true
                 }
             }
-            .onChange(of: openParkingFromNotification) { oldValue, newValue in
+            .onChange(of: openParkingFromNotification) { _, newValue in
                 if newValue {
                     alertType = .notification
                     showAlert = true
@@ -141,37 +150,134 @@ struct ParkingMeterView: View {
                 }
             }
 
-
             .alert(isPresented: $showAlert) {
                 switch alertType {
                 case .notification, .warning:
                     return Alert(
                         title: Text("alert_attention".localized),
                         message: Text("alert_parking_expired".localized),
-                        primaryButton: .default(Text("go_to_car".localized), action: {
+                        primaryButton: .default(Text("go_to_car".localized)) {
                             if parking != nil {
                                 showMap = true
                             } else {
                                 showNoParkingAlert = true
                             }
-                        }),
+                        },
                         secondaryButton: .cancel(Text("close".localized))
                     )
                 case .none:
                     return Alert(title: Text(""))
                 }
             }
+
             .alert("No hay aparcamiento guardado", isPresented: $showNoParkingAlert) {
-                Button("OK", role: .cancel) {}
+                Button("OK", role: .cancel) { }
             } message: {
                 Text("Primero debes guardar la ubicación de tu coche para poder volver a él.")
             }
+
             .fullScreenCover(isPresented: $showMap) {
                 if let parking = parking {
                     MapFullScreenView(parkingLocation: parking, onClose: { showMap = false })
                 }
             }
         }
+    }
+
+    private var activeTimerView: some View {
+        VStack(spacing: 24) {
+            Text("Tiempo restante")
+                .font(.title2.bold())
+                .foregroundColor(.appPrimary)
+
+            ZStack {
+                Circle()
+                    .stroke(Color.appPrimary.opacity(0.15), lineWidth: 16)
+                Circle()
+                    .stroke(Color.accent, style: StrokeStyle(lineWidth: 16, lineCap: .round))
+                    .rotationEffect(.degrees(-90))
+                    .animation(.easeInOut, value: viewModel.remainingTime)
+                Text(viewModel.timeString(from: viewModel.remainingTime))
+                    .font(.system(size: 64, weight: .bold, design: .monospaced))
+                    .foregroundColor(.accent)
+            }
+            .frame(width: 220, height: 220)
+
+            Button(role: .destructive) {
+                viewModel.cancel()
+            } label: {
+                Label("Cancelar parquímetro", systemImage: "xmark.circle")
+                    .font(.title3.bold())
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.error.opacity(0.15))
+                    .foregroundColor(.error)
+                    .cornerRadius(16)
+            }
+        }
+        .padding()
+        .background(Color.white)
+        .cornerRadius(24)
+        .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 4)
+        .padding(.horizontal)
+    }
+
+    private var configurationView: some View {
+        VStack(spacing: 24) {
+            durationPickerView
+            preEndPickerView
+
+            Button {
+                viewModel.start(minutes: selectedMinutes, preEndAlert: preEndAlertMinutes)
+            } label: {
+                Text("Iniciar")
+                    .bold()
+                    .font(.title3)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.accent)
+                    .foregroundColor(.white)
+                    .cornerRadius(16)
+                    .shadow(radius: 6)
+            }
+            .padding(.top, 4)
+        }
+        .padding(.horizontal)
+    }
+
+    private var durationPickerView: some View {
+        VStack(spacing: 12) {
+            Text("Duración del parquímetro")
+                .font(.headline)
+                .foregroundColor(.appPrimary)
+
+            Picker("Minutos", selection: $selectedMinutes) {
+                ForEach(minuteOptions, id: \.self) { Text("\($0) min").tag($0) }
+            }
+            .pickerStyle(WheelPickerStyle())
+            .frame(height: 140)
+        }
+        .padding()
+        .background(Color.white)
+        .cornerRadius(16)
+        .shadow(color: Color.black.opacity(0.05), radius: 6, x: 0, y: 2)
+    }
+
+    private var preEndPickerView: some View {
+        VStack(spacing: 12) {
+            Text("Aviso antes de finalizar")
+                .font(.headline)
+                .foregroundColor(.appPrimary)
+
+            Picker("Avisar antes", selection: $preEndAlertMinutes) {
+                ForEach(preEndOptions, id: \.self) { Text("\($0) min").tag($0) }
+            }
+            .pickerStyle(SegmentedPickerStyle())
+        }
+        .padding()
+        .background(Color.white)
+        .cornerRadius(16)
+        .shadow(color: Color.black.opacity(0.05), radius: 6, x: 0, y: 2)
     }
 }
 

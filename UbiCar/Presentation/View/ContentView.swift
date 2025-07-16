@@ -72,12 +72,17 @@ struct ContentView: View {
                                     .font(.title2)
                                 Text(parkingPhoto == nil ? "Añadir foto" : "Cambiar foto")
                                     .font(.headline)
+                                    .fontWeight(.semibold)
                             }
-                            .padding(.vertical, 10)
-                            .padding(.horizontal, 18)
-                            .background(Color.accentColor.opacity(0.15))
-                            .foregroundColor(.accentColor)
-                            .cornerRadius(10)
+                            .padding(.vertical, 12)
+                            .padding(.horizontal, 22)
+                            .background(Color.accentColor)
+                            .foregroundColor(.white)
+                            .cornerRadius(12)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(Color.accentColor, lineWidth: 1.5)
+                            )
                             .shadow(radius: 2)
                         }
                         Button(action: { showNoteSheet = true }) {
@@ -86,12 +91,17 @@ struct ContentView: View {
                                     .font(.title2)
                                 Text(parkingNote.isEmpty ? "Añadir nota" : "Editar nota")
                                     .font(.headline)
+                                    .fontWeight(.semibold)
                             }
-                            .padding(.vertical, 10)
-                            .padding(.horizontal, 18)
-                            .background(Color.yellow.opacity(0.18))
-                            .foregroundColor(.orange)
-                            .cornerRadius(10)
+                            .padding(.vertical, 12)
+                            .padding(.horizontal, 22)
+                            .background(Color.orange)
+                            .foregroundColor(.white)
+                            .cornerRadius(12)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(Color.orange, lineWidth: 1.5)
+                            )
                             .shadow(radius: 2)
                         }
                     }
@@ -127,12 +137,17 @@ struct ContentView: View {
                                         .font(.title2)
                                     Text(last.photoData == nil ? "Añadir foto" : "Editar foto")
                                         .font(.headline)
+                                        .fontWeight(.semibold)
                                 }
-                                .padding(.vertical, 10)
-                                .padding(.horizontal, 18)
+                                .padding(.vertical, 12)
+                                .padding(.horizontal, 22)
                                 .background(Color.accentColor)
-                                .foregroundColor(.accentColor)
-                                .cornerRadius(10)
+                                .foregroundColor(.white)
+                                .cornerRadius(12)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .stroke(Color.accentColor, lineWidth: 1.5)
+                                )
                                 .shadow(radius: 2)
                             }
                             Button(action: { showNoteSheet = true }) {
@@ -141,12 +156,17 @@ struct ContentView: View {
                                         .font(.title2)
                                     Text(last.note == nil || last.note!.isEmpty ? "Añadir nota" : "Editar nota")
                                         .font(.headline)
+                                        .fontWeight(.semibold)
                                 }
-                                .padding(.vertical, 10)
-                                .padding(.horizontal, 18)
-                                .background(Color.yellow)
-                                .foregroundColor(.orange)
-                                .cornerRadius(10)
+                                .padding(.vertical, 12)
+                                .padding(.horizontal, 22)
+                                .background(Color.orange)
+                                .foregroundColor(.white)
+                                .cornerRadius(12)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .stroke(Color.orange, lineWidth: 1.5)
+                                )
                                 .shadow(radius: 2)
                             }
                         }
@@ -240,6 +260,3 @@ struct ContentView: View {
 #Preview {
     ContentView()
 }
-
-
-

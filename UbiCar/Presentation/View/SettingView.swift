@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import StoreKit
 
 struct SettingView: View {
     @ObservedObject var viewModel: SettingsViewModel
@@ -30,57 +31,60 @@ struct SettingView: View {
                             .foregroundColor(.secondary)
                     }
 
-                    // Sección de acciones
+                    // Sección de acciones (Contacto)
                     VStack(spacing: 16) {
-                        SettingActionButton(
-                            icon: "square.and.arrow.up",
-                            title: "settings_share_whatsapp".localized,
-                            action: viewModel.shareOnWhatsApp
-                        )
-                        SettingActionButton(
-                            icon: "doc.text",
-                            title: "settings_privacy_policy".localized,
-                            action: viewModel.openPrivacyPolicy
-                        )
+                        Text("Contacto")
+                            .font(.headline)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal)
                         SettingActionButton(
                             icon: "envelope",
-                            title: "settings_contact".localized,
+                            title: "soporte@tuapp.com",
                             action: viewModel.contactSupport
                         )
                     }
                     .padding(.horizontal)
 
-                    // Sección premium
+                    // Sección Acerca de
                     VStack(spacing: 16) {
-                        Text("settings_section_premium".localized)
+                        Text("Acerca de")
                             .font(.headline)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.horizontal)
-                        if !viewModel.adsRemoved {
-                            Button(action: viewModel.removeAds) {
-                                HStack {
-                                    Image(systemName: "nosign")
-                                    Text("settings_remove_ads".localized)
-                                        .fontWeight(.bold)
+                        SettingActionButton(
+                            icon: "square.and.arrow.up",
+                            title: "Compartir por WhatsApp",
+                            action: viewModel.shareOnWhatsApp
+                        )
+                        SettingActionButton(
+                            icon: "globe",
+                            title: "Página web",
+                            action: {
+                                if let url = URL(string: "https://tuapp.com") {
+                                    UIApplication.shared.open(url)
                                 }
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(Color.orange)
-                                .foregroundColor(.white)
-                                .cornerRadius(12)
-                                .shadow(radius: 4)
                             }
-                            .padding(.horizontal)
-                        } else {
-                            Label("settings_ads_removed".localized, systemImage: "checkmark.circle")
-                                .foregroundColor(.green)
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(Color(.systemGray6))
-                                .cornerRadius(12)
-                                .padding(.horizontal)
-                        }
+                        )
+                        SettingActionButton(
+                            icon: "doc.text",
+                            title: "Política de privacidad",
+                            action: viewModel.openPrivacyPolicy
+                        )
+                        SettingActionButton(
+                            icon: "star.fill",
+                            title: "Valórame",
+                            action: {
+                                if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                                    if #available(iOS 18.0, *) {
+                                        AppStore.requestReview(in: scene)
+                                    } else {
+                                        SKStoreReviewController.requestReview(in: scene)
+                                    }
+                                }
+                            }
+                        )
                     }
+                    .padding(.horizontal)
                 }
                 .padding(.bottom, 32)
             }

@@ -1,6 +1,7 @@
 import SwiftUI
 import CoreLocation
 import StoreKit
+import AVFoundation
 
 
 struct ContentView: View {
@@ -12,16 +13,24 @@ struct ContentView: View {
     @State private var parkingNote: String = ""
     @State private var showNoteSheet = false
     @State private var showRatePopup = false
+    
     // Estados para la foto
     @State private var showImagePicker = false
     @State private var parkingPhoto: UIImage? = nil
     @State private var editingPhotoForSavedParking = false
+    @State private var showCameraDeniedAlert = false
+    @State private var hasCountedLaunch = false
     
     private func checkRatePopupLogic() {
         let hasRated = UserDefaults.standard.bool(forKey: "hasRatedOrRecommended")
         guard !hasRated else { return }
-        let launches = UserDefaults.standard.integer(forKey: "launchCount") + 1
-        UserDefaults.standard.set(launches, forKey: "launchCount")
+        if !hasCountedLaunch {
+            let launches = UserDefaults.standard.integer(forKey: "launchCount") + 1
+            UserDefaults.standard.set(launches, forKey: "launchCount")
+            hasCountedLaunch = true
+        }
+        
+        let launches = UserDefaults.standard.integer(forKey: "launchCount")
         let lastShown = UserDefaults.standard.object(forKey: "lastRatePopupDate") as? Date
         let now = Date()
         let fiveDays: TimeInterval = 5 * 24 * 60 * 60
@@ -33,6 +42,27 @@ struct ContentView: View {
         }
     }
     
+    private func checkCameraPermission() {
+        switch AVCaptureDevice.authorizationStatus(for: .video) {
+        case .authorized:
+            showImagePicker = true
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { granted in
+                DispatchQueue.main.async {
+                    if granted {
+                        showImagePicker = true
+                    } else {
+                        showCameraDeniedAlert = true
+                    }
+                }
+            }
+        case .denied, .restricted:
+            showCameraDeniedAlert = true
+        @unknown default:
+            showCameraDeniedAlert = true
+        }
+    }
+    
     var body: some View {
         ZStack {
             Color.background.ignoresSafeArea()
@@ -41,7 +71,7 @@ struct ContentView: View {
                     Image(systemName: "sparkles")
                         .foregroundColor(.accentColor)
                         .font(.title2)
-                    Text("Aparca, guarda y vuelve sin complicaciones.")
+                    Text("main_slogan".localized)
                         .font(.callout)
                         .foregroundColor(.appPrimary)
                         .multilineTextAlignment(.leading)
@@ -65,12 +95,12 @@ struct ContentView: View {
                     // Botones de añadir foto y añadir nota juntos
                     HStack(spacing: 16) {
                         Button {
-                            showImagePicker = true
+                            checkCameraPermission()
                         } label: {
                             HStack {
                                 Image(systemName: "camera")
                                     .font(.title2)
-                                Text(parkingPhoto == nil ? "Añadir foto" : "Cambiar foto")
+                                Text(parkingPhoto == nil ? "add_photo".localized : "change_photo".localized)
                                     .font(.headline)
                                     .fontWeight(.semibold)
                             }
@@ -89,7 +119,7 @@ struct ContentView: View {
                             HStack {
                                 Image(systemName: "pencil")
                                     .font(.title2)
-                                Text(parkingNote.isEmpty ? "Añadir nota" : "Editar nota")
+                                Text(parkingNote.isEmpty ? "add_note".localized : "edit_note".localized)
                                     .font(.headline)
                                     .fontWeight(.semibold)
                             }
@@ -135,7 +165,7 @@ struct ContentView: View {
                                 HStack {
                                     Image(systemName: last.photoData == nil ? "camera" : "camera.fill")
                                         .font(.title2)
-                                    Text(last.photoData == nil ? "Añadir foto" : "Editar foto")
+                                    Text(last.photoData == nil ? "add_photo".localized : "change_photo".localized)
                                         .font(.headline)
                                         .fontWeight(.semibold)
                                 }
@@ -154,7 +184,7 @@ struct ContentView: View {
                                 HStack {
                                     Image(systemName: "pencil")
                                         .font(.title2)
-                                    Text(last.note == nil || last.note!.isEmpty ? "Añadir nota" : "Editar nota")
+                                    Text(last.note == nil || last.note!.isEmpty ? "add_note".localized : "edit_note".localized)
                                         .font(.headline)
                                         .fontWeight(.semibold)
                                 }
@@ -184,11 +214,11 @@ struct ContentView: View {
                             .frame(width: 60, height: 60)
                             .foregroundColor(.appPrimary)
                             .opacity(0.7)
-                        Text("Aún no aparcaste hoy")
+                        Text("no_parking_today".localized)
                             .font(.title2)
                             .foregroundColor(.appPrimary)
                             .multilineTextAlignment(.center)
-                        Text("Guarda tu aparcamiento para encontrar tu coche fácilmente.")
+                        Text("save_parking_hint".localized)
                             .font(.body)
                             .foregroundColor(.secondary)
                             .multilineTextAlignment(.center)
@@ -225,6 +255,11 @@ struct ContentView: View {
                         editingPhotoForSavedParking = false
                     }
                 }
+        }
+        .alert("camera_permission_denied".localized, isPresented: $showCameraDeniedAlert) {
+            Button("ok".localized, role: .cancel) {}
+        } message: {
+            Text("camera_permission_message".localized)
         }
     }
 

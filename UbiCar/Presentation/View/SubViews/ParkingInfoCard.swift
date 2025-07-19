@@ -6,18 +6,42 @@ struct ParkingInfoCard: View {
     let onNavigate: () -> Void
     let note: String?
     
+    @State private var showFullImage = false
+    
     var body: some View {
         ZStack(alignment: .topTrailing) {
             VStack(spacing: 18) {
                 // Mostrar la foto arriba si existe
                 if let photoData = parking.photoData, let uiImage = UIImage(data: photoData) {
-                    Image(uiImage: uiImage)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(height: 180)
-                        .clipped()
-                        .cornerRadius(16)
-                        .padding(.bottom, 4)
+                    Button(action: { showFullImage = true }) {
+                        Image(uiImage: uiImage)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(height: 180)
+                            .clipped()
+                            .cornerRadius(16)
+                            .padding(.bottom, 4)
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    .fullScreenCover(isPresented: $showFullImage) {
+                        ZoomableImageView(image: uiImage) {
+                            showFullImage = false
+                        }
+                    }
+                }
+                HStack(alignment: .center, spacing: 8) {
+                    Spacer()
+                    Text("last_parking".localized)
+                        .font(.headline)
+                        .foregroundColor(.appPrimary)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                    Spacer()
+                    ShareLink(item: shareText) {
+                        Image(systemName: "square.and.arrow.up")
+                            .font(.title2)
+                            .foregroundColor(.appPrimary)
+                            .padding(4)
+                    }
                 }
                 HStack(alignment: .top, spacing: 14) {
                     ZStack {
@@ -29,9 +53,6 @@ struct ParkingInfoCard: View {
                             .font(.title2)
                     }
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("last_parking".localized)
-                            .font(.headline)
-                            .foregroundColor(.appPrimary)
                         if let name = parking.placeName {
                             Text(name)
                                 .font(.subheadline)
@@ -78,14 +99,6 @@ struct ParkingInfoCard: View {
             .background(Color.white.opacity(0.95))
             .cornerRadius(22)
             .shadow(color: Color.black.opacity(0.08), radius: 12, x: 0, y: 6)
-            // Botón de compartir en la esquina superior derecha
-            ShareLink(item: shareText) {
-                Image(systemName: "square.and.arrow.up")
-                    .font(.title2)
-                    .foregroundColor(.appPrimary)
-                    .padding(12)
-            }
-            .padding([.top, .trailing], 8)
         }
     }
     

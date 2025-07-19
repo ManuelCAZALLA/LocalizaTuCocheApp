@@ -11,7 +11,7 @@ class SettingsViewModel: ObservableObject {
     }
     
     init() {
-        self.adsRemoved = UserDefaults.standard.bool(forKey: "settings_adsRemoved")
+        self.adsRemoved = false // No hay anuncios en la primera versión
     }
     
     func shareOnWhatsApp() {
@@ -35,11 +35,5 @@ class SettingsViewModel: ObservableObject {
         if let url = URL(string: "mailto:\(email)") {
             UIApplication.shared.open(url)
         }
-    }
-    
-    func removeAds() {
-        // Aquí iría la lógica de compra o desbloqueo
-        // Por ahora, simplemente marca los anuncios como eliminados
-        adsRemoved = true
     }
 } 

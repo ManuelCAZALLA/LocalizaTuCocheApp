@@ -90,7 +90,7 @@ class MapViewModel: NSObject, ObservableObject {
             if distanceToNext < 30 &&
                 !ignoredInstructions.contains(nextStep.instructions) &&
                 (nextStep.instructions != lastAnnouncedInstruction) {
-                let announcement = "En \(Int(distanceToNext)) metros, \(nextStep.instructions)"
+                let announcement = String(format: NSLocalizedString("in_meters_instruction", comment: ""), Int(distanceToNext), nextStep.instructions)
                 VoiceGuideService.shared.speak(announcement)
                 lastAnnouncedInstruction = nextStep.instructions
                 lastSpokenTime = Date()
@@ -123,7 +123,7 @@ class MapViewModel: NSObject, ObservableObject {
 
     private func announceRecalculatingRouteIfNeeded() {
         if !hasAnnouncedRecalculation {
-            VoiceGuideService.shared.speak("Recalculando ruta")
+            VoiceGuideService.shared.speak(NSLocalizedString("recalculating_route", comment: ""))
             hasAnnouncedRecalculation = true
         }
     }

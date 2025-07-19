@@ -2,20 +2,16 @@ import Foundation
 import SwiftUI
 
 class SettingsViewModel: ObservableObject {
-    @Published var adsRemoved: Bool {
-        didSet { UserDefaults.standard.set(adsRemoved, forKey: "settings_adsRemoved") }
-    }
-    
     var appVersion: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
     }
     
-    init() {
-        self.adsRemoved = UserDefaults.standard.bool(forKey: "settings_adsRemoved")
-    }
+    private let appStoreURL = URL(string: "https://apps.apple.com/app/idTU_ID_DE_APP")! // REEMPLAZA ESTE ENLACE POR EL REAL CUANDO LA APP ESTÉ PUBLICADA
+    
+    init() {}
     
     func shareOnWhatsApp() {
-        let message = "¡Descarga UbicaTuCar! https://tuapp.com"
+        let message = "¡Descarga UbicaTuCar! " + appStoreURL.absoluteString
         let urlString = "whatsapp://send?text=\(message.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")"
         if let url = URL(string: urlString), UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url)
@@ -35,11 +31,5 @@ class SettingsViewModel: ObservableObject {
         if let url = URL(string: "mailto:\(email)") {
             UIApplication.shared.open(url)
         }
-    }
-    
-    func removeAds() {
-        // Aquí iría la lógica de compra o desbloqueo
-        // Por ahora, simplemente marca los anuncios como eliminados
-        adsRemoved = true
     }
 } 

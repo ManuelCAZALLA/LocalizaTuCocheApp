@@ -51,26 +51,49 @@ struct MapView: View {
                 HStack {
                     
                     if let distance = viewModel.distanceToCar(), let minutes = viewModel.expectedTravelTimeMinutes {
-                        Text("Distancia: \(distance) m   ·   Tiempo: \(minutes) min")
-                            .font(.subheadline)
-                            .foregroundColor(.white)
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 8)
-                            .background(Color.black.opacity(0.7))
-                            .cornerRadius(14)
-                            .padding(.leading, 16)
-                            .padding(.top, 16)
-                        
+                        if distance >= 1000 {
+                            Text(String(format: NSLocalizedString("distance_time_km", comment: ""), Double(distance)/1000.0, minutes))
+                                .font(.subheadline)
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 8)
+                                .background(Color.black.opacity(0.7))
+                                .cornerRadius(14)
+                                .padding(.leading, 16)
+                                .padding(.top, 16)
+                        } else {
+                            Text(String(format: NSLocalizedString("distance_time", comment: ""), distance, minutes))
+                                .font(.subheadline)
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 8)
+                                .background(Color.black.opacity(0.7))
+                                .cornerRadius(14)
+                                .padding(.leading, 16)
+                                .padding(.top, 16)
+                        }
                     } else if let distance = viewModel.distanceToCar() {
-                        Text("Distancia: \(distance) m")
-                            .font(.subheadline)
-                            .foregroundColor(.white)
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 8)
-                            .background(Color.black.opacity(0.7))
-                            .cornerRadius(14)
-                            .padding(.leading, 16)
-                            .padding(.top, 16)
+                        if distance >= 1000 {
+                            Text(String(format: NSLocalizedString("distance_km", comment: ""), Double(distance)/1000.0))
+                                .font(.subheadline)
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 8)
+                                .background(Color.black.opacity(0.7))
+                                .cornerRadius(14)
+                                .padding(.leading, 16)
+                                .padding(.top, 16)
+                        } else {
+                            Text(String(format: NSLocalizedString("distance", comment: ""), distance))
+                                .font(.subheadline)
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 8)
+                                .background(Color.black.opacity(0.7))
+                                .cornerRadius(14)
+                                .padding(.leading, 16)
+                                .padding(.top, 16)
+                        }
                     }
                     
                     Spacer()
@@ -93,7 +116,6 @@ struct MapView: View {
                 Spacer()
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 

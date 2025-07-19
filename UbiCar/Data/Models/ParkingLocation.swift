@@ -8,7 +8,7 @@ struct ParkingLocation: Codable, Identifiable {
     let date: Date
     let placeName: String?
     let note: String?
-    var photoData: Data? // Nueva propiedad para la foto
+    var photoData: Data? 
 
     init(latitude: Double, longitude: Double, date: Date, placeName: String?, note: String? = nil, photoData: Data? = nil, id: UUID = UUID()) {
         self.latitude = latitude

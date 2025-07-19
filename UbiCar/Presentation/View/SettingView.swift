@@ -33,46 +33,50 @@ struct SettingView: View {
 
                     // Sección de acciones (Contacto)
                     VStack(spacing: 16) {
-                        Text("Contacto")
+                        Text("contact".localized)
                             .font(.headline)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.horizontal)
                         SettingActionButton(
                             icon: "envelope",
-                            title: "soporte@tuapp.com",
-                            action: viewModel.contactSupport
+                            title: "Email",
+                            action: {
+                                if let url = URL(string: "mailto:soportecazalla@gmail.com") {
+                                    UIApplication.shared.open(url)
+                                }
+                            }
                         )
                     }
                     .padding(.horizontal)
 
                     // Sección Acerca de
                     VStack(spacing: 16) {
-                        Text("Acerca de")
+                        Text("about".localized)
                             .font(.headline)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.horizontal)
                         SettingActionButton(
                             icon: "square.and.arrow.up",
-                            title: "Compartir por WhatsApp",
+                            title: "share_whatsapp".localized,
                             action: viewModel.shareOnWhatsApp
                         )
                         SettingActionButton(
                             icon: "globe",
-                            title: "Página web",
+                            title: "website".localized,
                             action: {
-                                if let url = URL(string: "https://tuapp.com") {
+                                if let url = URL(string: "https://manuelcazalla.github.io/UbicaTuCar-Web/") {
                                     UIApplication.shared.open(url)
                                 }
                             }
                         )
                         SettingActionButton(
                             icon: "doc.text",
-                            title: "Política de privacidad",
+                            title: "settings_privacy_policy".localized,
                             action: viewModel.openPrivacyPolicy
                         )
                         SettingActionButton(
                             icon: "star.fill",
-                            title: "Valórame",
+                            title: "rate_me".localized,
                             action: {
                                 if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
                                     if #available(iOS 18.0, *) {

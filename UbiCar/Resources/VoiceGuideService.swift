@@ -24,7 +24,10 @@ class VoiceGuideService {
         }
 
         let utterance = AVSpeechUtterance(string: text)
-        utterance.voice = AVSpeechSynthesisVoice(language: "es-ES")
+        // Detectar idioma del sistema
+        let lang = Locale.current.language.languageCode?.identifier ?? "es"
+        let region = Locale.current.region?.identifier ?? "ES"
+        utterance.voice = AVSpeechSynthesisVoice(language: "\(lang)-\(region)")
         utterance.rate = 0.5  // Velocidad moderada
         utterance.volume = 1.0 // Volumen máximo
 

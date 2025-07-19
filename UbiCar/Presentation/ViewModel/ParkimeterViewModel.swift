@@ -12,8 +12,11 @@ final class ParkingMeterViewModel: ObservableObject {
     @Published var endTime: Date?
     @Published var remainingTime: TimeInterval?
     @Published var hasActiveTimer: Bool = false
+    var onPreEndAlert: (() -> Void)?
 
     private var timer: Timer?
+    private var preEndAlertSeconds: Int = 0
+    private var preEndAlertTriggered: Bool = false
 
     // MARK: - Start meter countdown
     func start(minutes: Int, preEndAlert: Int) {
@@ -22,6 +25,8 @@ final class ParkingMeterViewModel: ObservableObject {
         updateRemainingTime()
         scheduleNotification()
         schedulePreEndNotification(preEndAlert)
+        preEndAlertSeconds = preEndAlert * 60
+        preEndAlertTriggered = false
         startCountdown()
     }
 
@@ -46,7 +51,12 @@ final class ParkingMeterViewModel: ObservableObject {
     private func updateRemainingTime() {
         guard let end = endTime else { return }
         let timeLeft = end.timeIntervalSinceNow
-
+        if !preEndAlertTriggered, preEndAlertSeconds > 0, Int(timeLeft) <= preEndAlertSeconds, Int(timeLeft) > 0 {
+            preEndAlertTriggered = true
+            DispatchQueue.main.async {
+                self.onPreEndAlert?()
+            }
+        }
         if timeLeft <= 0 {
             remainingTime = 0
             hasActiveTimer = false
@@ -61,7 +71,7 @@ final class ParkingMeterViewModel: ObservableObject {
     private func scheduleNotification() {
         let content = UNMutableNotificationContent()
         content.title = "⏰ ¡Se acabó el tiempo!"
-        content.body = "Tu parquímetro ha expirado. Vuelve al coche o renueva el ticket."
+        content.body = "Tu parquímetro ha expirado. Vuelve al coche."
         content.sound = .default
 
         guard let end = endTime else { return }

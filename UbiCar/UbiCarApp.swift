@@ -26,7 +26,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 @main
 struct UbiCarApp: App {
     
-    // Registrar el AppDelegate para Firebase y Ads
+    // Registro el AppDelegate para Firebase
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
     let appState = AppState()

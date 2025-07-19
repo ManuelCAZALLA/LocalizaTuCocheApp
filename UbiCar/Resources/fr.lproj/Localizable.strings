@@ -28,6 +28,8 @@
 
 // MARK: - Voice Guide
 "car_distance_message" = "Votre voiture est à %d mètres.";
+"recalculating_route" = "Recalcul de l'itinéraire";
+"in_meters_instruction" = "Dans %d mètres, %@";
 
 // MARK: - Buttons
 "ok" = "OK";

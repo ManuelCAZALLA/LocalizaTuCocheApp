@@ -18,6 +18,7 @@ struct ParkingMeterView: View {
     @State private var alertType: ParkingAlertType? = nil
     @State private var showMap = false
     @State private var showNoParkingAlert = false
+    @State private var showPreEndAlert = false
 
     let minuteOptions = [15,20, 30, 45, 60, 90, 120]
     let preEndOptions = [1, 3, 5, 10, 15]
@@ -136,6 +137,9 @@ struct ParkingMeterView: View {
             .onAppear {
                 viewModel.requestNotificationPermission()
                 showAlert = false
+                viewModel.onPreEndAlert = {
+                    showPreEndAlert = true
+                }
                 if openParkingFromNotification {
                     alertType = .notification
                     showAlert = true
@@ -174,6 +178,19 @@ struct ParkingMeterView: View {
                 Button("OK", role: .cancel) { }
             } message: {
                 Text("Primero debes guardar la ubicación de tu coche para poder volver a él.")
+            }
+
+            .alert("¡Queda poco tiempo!", isPresented: $showPreEndAlert) {
+                Button("Volver al coche") {
+                    if parking != nil {
+                        showMap = true
+                    } else {
+                        showNoParkingAlert = true
+                    }
+                }
+                Button("Seguir la cuenta atrás", role: .cancel) {}
+            } message: {
+                Text("¿Quieres volver al coche o seguir la cuenta atrás?")
             }
 
             .fullScreenCover(isPresented: $showMap) {

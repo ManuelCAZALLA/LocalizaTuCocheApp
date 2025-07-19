@@ -5,6 +5,8 @@ struct RateOrRecommendPopup: View {
     @Binding var isPresented: Bool
     let onRatedOrRecommended: () -> Void
     
+    private let appStoreURL = URL(string: "https://apps.apple.com/app/idTU_ID_DE_APP")! // REEMPLAZA ESTE ENLACE POR EL REAL CUANDO LA APP ESTÉ PUBLICADA
+    
     var body: some View {
         EmptyView()
             .alert("rate_or_recommend_message".localized, isPresented: $isPresented) {
@@ -21,7 +23,7 @@ struct RateOrRecommendPopup: View {
                     onRatedOrRecommended()
                 }
                 Button("recommend_friend".localized) {
-                    let url = URL(string: "https://apps.apple.com/app/idTU_ID_DE_APP")!
+                    let url = appStoreURL
                     let activityVC = UIActivityViewController(activityItems: [url], applicationActivities: nil)
                     if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                        let rootVC = scene.windows.first?.rootViewController {

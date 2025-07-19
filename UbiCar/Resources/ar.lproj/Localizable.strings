@@ -46,5 +46,7 @@
 "time_remaining" = "الوقت المتبقي";
 "distance_km" = "المسافة: %.2f كم";
 "distance_time_km" = "المسافة: %.2f كم   ·   الوقت: %d دقيقة";
+"recalculating_route" = "إعادة حساب المسار";
+"in_meters_instruction" = "بعد %d متر، %@";
 
 // Puedes añadir aquí el resto de las claves de la app siguiendo el mismo formato. 

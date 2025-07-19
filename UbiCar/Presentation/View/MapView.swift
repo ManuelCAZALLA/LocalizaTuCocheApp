@@ -116,7 +116,6 @@ struct MapView: View {
                 Spacer()
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 

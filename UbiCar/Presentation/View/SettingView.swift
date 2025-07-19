@@ -39,8 +39,12 @@ struct SettingView: View {
                             .padding(.horizontal)
                         SettingActionButton(
                             icon: "envelope",
-                            title: "soporte@tuapp.com",
-                            action: viewModel.contactSupport
+                            title: "Email",
+                            action: {
+                                if let url = URL(string: "mailto:soportecazalla@gmail.com") {
+                                    UIApplication.shared.open(url)
+                                }
+                            }
                         )
                     }
                     .padding(.horizontal)
@@ -60,7 +64,7 @@ struct SettingView: View {
                             icon: "globe",
                             title: "website".localized,
                             action: {
-                                if let url = URL(string: "https://tuapp.com") {
+                                if let url = URL(string: "https://manuelcazalla.github.io/UbicaTuCar-Web/") {
                                     UIApplication.shared.open(url)
                                 }
                             }

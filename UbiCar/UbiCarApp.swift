@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseCore
+import FirebaseCrashlytics
 import UserNotifications
 
 // MARK: - AppDelegate para Firebase
@@ -16,8 +17,14 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         
         
         FirebaseApp.configure()
+        //Crashlytics.crashlytics().setCrashlyticsCollectionEnabled(true)
 
-        
+
+        // Crash de prueba
+         /*DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+             fatalError("Crash de prueba para Firebase Crashlytics")
+         }*/
+
         return true
     }
 }

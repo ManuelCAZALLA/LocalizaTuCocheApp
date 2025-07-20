@@ -21,24 +21,25 @@ struct ContentView: View {
     @State private var showCameraDeniedAlert = false
     @State private var hasCountedLaunch = false
     
+    @AppStorage("hasRatedOrRecommended") private var hasRated = false
+    @AppStorage("launchCount") private var launchCount = 0
+    @AppStorage("lastRatePopupDate") private var lastPopupDate = Date.distantPast
+    @State private var ratePopupAlreadyShown = false
+    
     private func checkRatePopupLogic() {
-        let hasRated = UserDefaults.standard.bool(forKey: "hasRatedOrRecommended")
-        guard !hasRated else { return }
-        if !hasCountedLaunch {
-            let launches = UserDefaults.standard.integer(forKey: "launchCount") + 1
-            UserDefaults.standard.set(launches, forKey: "launchCount")
-            hasCountedLaunch = true
-        }
-        
-        let launches = UserDefaults.standard.integer(forKey: "launchCount")
-        let lastShown = UserDefaults.standard.object(forKey: "lastRatePopupDate") as? Date
+        guard !hasRated, !ratePopupAlreadyShown else { return }
+
+        launchCount += 1
+        ratePopupAlreadyShown = true // Evita que lo muestre más de una vez por sesión
+
         let now = Date()
         let fiveDays: TimeInterval = 5 * 24 * 60 * 60
-        let shouldShowByLaunch = launches % 3 == 0
-        let shouldShowByDate = lastShown == nil || (now.timeIntervalSince(lastShown!) > fiveDays)
+        let shouldShowByLaunch = launchCount % 3 == 0
+        let shouldShowByDate = now.timeIntervalSince(lastPopupDate) > fiveDays
+
         if shouldShowByLaunch || shouldShowByDate {
             showRatePopup = true
-            UserDefaults.standard.set(now, forKey: "lastRatePopupDate")
+            lastPopupDate = now
         }
     }
     
@@ -261,6 +262,22 @@ struct ContentView: View {
         } message: {
             Text("camera_permission_message".localized)
         }
+        .sheet(isPresented: $showNoteSheet) {
+            NoteSheet(
+                initialText: viewModel.lastParking?.note ?? parkingNote,
+                onSave: { note in
+                    if viewModel.lastParking != nil {
+                        viewModel.updateParkingNote(note: note)
+                    } else {
+                        parkingNote = note
+                    }
+                    showNoteSheet = false
+                },
+                onCancel: {
+                    showNoteSheet = false
+                }
+            )
+        }
     }
 
     private var locationSection: some View {
@@ -294,4 +311,59 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+}
+
+struct NoteSheet: View {
+    @State private var text: String
+    let onSave: (String) -> Void
+    let onCancel: () -> Void
+    
+    init(initialText: String, onSave: @escaping (String) -> Void, onCancel: @escaping () -> Void) {
+        _text = State(initialValue: initialText)
+        self.onSave = onSave
+        self.onCancel = onCancel
+    }
+    
+    var body: some View {
+        VStack(spacing: 24) {
+            HStack {
+                Image(systemName: "pencil")
+                    .font(.title)
+                    .foregroundColor(.accentColor)
+                Text("Nota para tu aparcamiento")
+                    .font(.title3.bold())
+            }
+            .padding(.top, 8)
+            TextEditor(text: $text)
+                .frame(height: 120)
+                .padding(8)
+                .background(Color(.systemGray6))
+                .cornerRadius(12)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(Color.accentColor.opacity(0.2), lineWidth: 1)
+                )
+            Spacer()
+            HStack(spacing: 16) {
+                Button(action: onCancel) {
+                    Text("Cancelar")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color(.systemGray5))
+                        .foregroundColor(.red)
+                        .cornerRadius(10)
+                }
+                Button(action: { onSave(text) }) {
+                    Text("Guardar")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.accentColor)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+            }
+        }
+        .padding()
+        .presentationDetents([.medium, .large])
+    }
 }

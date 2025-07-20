@@ -7,6 +7,8 @@
 
 import SwiftUI
 import StoreKit
+import FirebaseCore
+import FirebaseCrashlytics
 
 struct SettingView: View {
     @ObservedObject var viewModel: SettingsViewModel

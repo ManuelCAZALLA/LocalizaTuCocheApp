@@ -20,5 +20,7 @@
 	<array>
 		<string>whatsapp</string>
 	</array>
+	<key>FirebaseCrashlyticsCollectionEnabled</key>
+	<true/>
 </dict>
 </plist>

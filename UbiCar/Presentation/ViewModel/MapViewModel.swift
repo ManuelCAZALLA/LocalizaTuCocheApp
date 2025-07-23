@@ -8,17 +8,19 @@
 import Foundation
 import MapKit
 import CoreLocation
+import AVFoundation
+import UIKit
 
 class MapViewModel: NSObject, ObservableObject {
     @Published var route: MKRoute?
     @Published var userLocation: CLLocationCoordinate2D?
     let parkingLocation: CLLocationCoordinate2D
-    
+
     private let locationManager = CLLocationManager()
     private var lastSpokenStepIndex: Int? = nil
     private var lastAnnouncedInstruction: String? = nil
     private var lastSpokenTime: Date = .distantPast
-    
+
     private let maxDistanceFromRoute: CLLocationDistance = 50
     private var hasAnnouncedRecalculation = false
 
@@ -29,13 +31,13 @@ class MapViewModel: NSObject, ObservableObject {
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
     }
-    
+
     func calculateRoute() {
         let request = MKDirections.Request()
         request.source = MKMapItem.forCurrentLocation()
         request.destination = MKMapItem(placemark: MKPlacemark(coordinate: parkingLocation))
         request.transportType = .walking
-        
+
         let directions = MKDirections(request: request)
         directions.calculate { [weak self] response, error in
             if let route = response?.routes.first {
@@ -58,8 +60,6 @@ class MapViewModel: NSObject, ObservableObject {
 
     func announceClosestStepIfNeeded() {
         guard let route = route, let userCoord = userLocation else { return }
-
-        // Evitar repetir la voz demasiado seguido
         guard Date().timeIntervalSince(lastSpokenTime) > 3 else { return }
 
         let userLoc = CLLocation(latitude: userCoord.latitude, longitude: userCoord.longitude)
@@ -67,8 +67,10 @@ class MapViewModel: NSObject, ObservableObject {
         var minDistance: CLLocationDistance = .greatestFiniteMagnitude
 
         for (i, step) in route.steps.enumerated() {
-            let stepLoc = CLLocation(latitude: step.polyline.coordinate.latitude, longitude: step.polyline.coordinate.longitude)
+            let stepCoord = step.polyline.coordinate
+            let stepLoc = CLLocation(latitude: stepCoord.latitude, longitude: stepCoord.longitude)
             let distance = userLoc.distance(from: stepLoc)
+
             if distance < minDistance {
                 minDistance = distance
                 closestIndex = i
@@ -78,29 +80,41 @@ class MapViewModel: NSObject, ObservableObject {
         guard let idx = closestIndex else { return }
         let step = route.steps[idx]
         let ignoredInstructions = ["", "Ve al inicio de la ruta", "En 2 metros llegará a su destino"]
+        guard step.distance > 10 else { return }
 
+        let distanceToStep = userLoc.distance(from: CLLocation(latitude: step.polyline.coordinate.latitude, longitude: step.polyline.coordinate.longitude))
+
+        // Nueva lógica para avisos más naturales
         if !ignoredInstructions.contains(step.instructions) && (step.instructions != lastAnnouncedInstruction) {
-            VoiceGuideService.shared.speak(step.instructions)
+            if distanceToStep < 10 {
+                // Muy cerca: solo la instrucción
+                speak(step.instructions)
+            } else if distanceToStep < 50 {
+                // Cerca: redondear a 10 más cercano
+                let rounded = Int((distanceToStep / 10.0).rounded() * 10)
+                let announcement = "En \(rounded) metros, \(step.instructions.lowercased())"
+                speak(announcement)
+            } else {
+                // Más lejos: redondear a 10 más cercano
+                let rounded = Int((distanceToStep / 10.0).rounded() * 10)
+                let announcement = "En \(rounded) metros, \(step.instructions.lowercased())"
+                speak(announcement)
+            }
             lastAnnouncedInstruction = step.instructions
             lastSpokenTime = Date()
-        } else if idx + 1 < route.steps.count {
-            let nextStep = route.steps[idx + 1]
-            let nextStepLoc = CLLocation(latitude: nextStep.polyline.coordinate.latitude, longitude: nextStep.polyline.coordinate.longitude)
-            let distanceToNext = userLoc.distance(from: nextStepLoc)
-            if distanceToNext < 30 &&
-                !ignoredInstructions.contains(nextStep.instructions) &&
-                (nextStep.instructions != lastAnnouncedInstruction) {
-                let announcement = String(format: NSLocalizedString("in_meters_instruction", comment: ""), Int(distanceToNext), nextStep.instructions)
-                VoiceGuideService.shared.speak(announcement)
-                lastAnnouncedInstruction = nextStep.instructions
-                lastSpokenTime = Date()
-            }
         }
+    }
+
+    private func speak(_ instruction: String) {
+        VoiceGuideService.shared.speak(instruction)
+        let generator = UINotificationFeedbackGenerator()
+        generator.notificationOccurred(.success)
     }
 
     private func checkIfUserIsOffRouteAndRecalculate() {
         guard let route = route, let userCoord = userLocation else { return }
         let userLoc = CLLocation(latitude: userCoord.latitude, longitude: userCoord.longitude)
+
         let polyline = route.polyline
         let points = polyline.points()
         let count = polyline.pointCount
@@ -184,3 +198,4 @@ extension MapViewModel: CLLocationManagerDelegate {
         }
     }
 }
+

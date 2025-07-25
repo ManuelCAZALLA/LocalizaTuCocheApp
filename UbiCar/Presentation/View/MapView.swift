@@ -22,20 +22,27 @@ struct MapView: View {
                 Annotation("Coche", coordinate: viewModel.parkingLocation) {
                     Image(systemName: "car.fill")
                         .font(.title)
-                        .foregroundColor(.appPrimary)
+                        .foregroundColor(Color("AppPrimary"))
                         .background(Circle().fill(Color.white).frame(width: 36, height: 36).shadow(radius: 4))
                 }
                 if let userCoord = viewModel.userLocation {
                     Annotation("Tú", coordinate: userCoord) {
-                        Image(systemName: "person.fill")
-                            .font(.title)
-                            .foregroundColor(.accentColor)
-                            .background(Circle().fill(Color.white).frame(width: 36, height: 36).shadow(radius: 4))
+                        ZStack {
+                            Circle()
+                                .fill(Color.white)
+                                .frame(width: 36, height: 36)
+                                .shadow(radius: 4)
+                            
+                            Image(systemName: "person.fill")
+                                .font(.title2)
+                                .foregroundColor(Color.blue)
+                        }
+
                     }
                 }
                 if let polyline = viewModel.trimmedPolyline {
                     MapPolyline(polyline)
-                        .stroke(Color.appPrimary, lineWidth: 7)
+                        .stroke(Color("AppPrimary"), lineWidth: 7)
                 }
             }
             .ignoresSafeArea()
@@ -45,7 +52,6 @@ struct MapView: View {
             .gesture(DragGesture().onChanged { _ in
                 shouldAutoFit = false
             })
-            
             // Distancia/tiempo
             VStack() {
                 HStack {

@@ -8,7 +8,7 @@ struct LaunchView: View {
     var body: some View {
         ZStack {
             // Fondo degradado profesional
-            LinearGradient(gradient: Gradient(colors: [Color.appPrimary, Color.secondary]), startPoint: .topLeading, endPoint: .bottomTrailing)
+            LinearGradient(gradient: Gradient(colors: [Color("AppPrimary"), Color.secondary]), startPoint: .topLeading, endPoint: .bottomTrailing)
                 .ignoresSafeArea()
             
             Group {

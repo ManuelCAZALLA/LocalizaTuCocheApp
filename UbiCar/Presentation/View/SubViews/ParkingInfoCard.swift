@@ -33,23 +33,23 @@ struct ParkingInfoCard: View {
                     Spacer()
                     Text("last_parking".localized)
                         .font(.headline)
-                        .foregroundColor(.appPrimary)
+                        .foregroundColor(Color("AppPrimary"))
                         .frame(maxWidth: .infinity, alignment: .center)
                     Spacer()
                     ShareLink(item: shareText) {
                         Image(systemName: "square.and.arrow.up")
                             .font(.title2)
-                            .foregroundColor(.appPrimary)
+                            .foregroundColor(Color("AppPrimary"))
                             .padding(4)
                     }
                 }
                 HStack(alignment: .top, spacing: 14) {
                     ZStack {
                         Circle()
-                            .fill(Color.appPrimary.opacity(0.15))
+                            .fill(Color("AppPrimary").opacity(0.15))
                             .frame(width: 48, height: 48)
                         Image(systemName: "car.fill")
-                            .foregroundColor(.appPrimary)
+                            .foregroundColor(Color("AppPrimary"))
                             .font(.title2)
                     }
                     VStack(alignment: .leading, spacing: 4) {
@@ -78,10 +78,10 @@ struct ParkingInfoCard: View {
                 HStack(spacing: 20) {
                     Button(action: onDelete) {
                         Label("delete".localized, systemImage: "trash")
-                            .foregroundColor(.error)
+                            .foregroundColor(Color("ErrorColor"))
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.error.opacity(0.12))
+                            .background(Color("ErrorColor").opacity(0.12))
                             .cornerRadius(10)
                     }
                     Button(action: onNavigate) {
@@ -89,16 +89,22 @@ struct ParkingInfoCard: View {
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.appPrimary)
+                            .background(Color("AppPrimary"))
                             .cornerRadius(10)
                             .shadow(radius: 2)
                     }
                 }
             }
             .padding()
-            .background(Color.white.opacity(0.95))
-            .cornerRadius(22)
-            .shadow(color: Color.black.opacity(0.08), radius: 12, x: 0, y: 6)
+            .background(
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(Color(.systemGray5))
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(Color.white.opacity(0.5), lineWidth: 0.5)
+                    )
+                    .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
         }
     }
     

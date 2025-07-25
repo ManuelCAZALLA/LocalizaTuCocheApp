@@ -23,7 +23,7 @@ struct SettingView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 64, height: 64)
-                            .foregroundColor(.accentColor)
+                            .foregroundColor(Color("AccentColor"))
                             .padding(.top, 24)
                         Text("settings_app_name".localized)
                             .font(.title)
@@ -109,7 +109,7 @@ struct SettingActionButton: View {
         Button(action: action) {
             HStack {
                 Image(systemName: icon)
-                    .foregroundColor(.accentColor)
+                    .foregroundColor(Color("AccentColor"))
                     .frame(width: 28)
                 Text(title)
                     .foregroundColor(.primary)

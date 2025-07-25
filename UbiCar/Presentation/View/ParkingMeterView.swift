@@ -29,26 +29,26 @@ struct ParkingMeterView: View {
 
     var body: some View {
         ZStack {
-            Color.background.ignoresSafeArea()
+            Color("BackgroundColor").ignoresSafeArea()
 
             VStack(spacing: 32) {
                 Text("🅿️ Parquímetro")
                     .font(.largeTitle.bold())
-                    .foregroundColor(.appPrimary)
+                    .foregroundColor(Color("AppPrimary"))
                     .padding(.top)
 
                 if viewModel.hasActiveTimer {
                     VStack(spacing: 24) {
                         Text("Tiempo restante")
                             .font(.headline)
-                            .foregroundColor(.appPrimary)
+                            .foregroundColor(Color("AppPrimary"))
                         ZStack {
                             Circle()
-                                .stroke(Color.appPrimary.opacity(0.2), lineWidth: 16)
+                                .stroke(Color("AppPrimary").opacity(0.2), lineWidth: 16)
                                 .frame(width: 240, height: 240)
                             Text(viewModel.timeString(from: viewModel.remainingTime))
                                 .font(.system(size: 90, weight: .bold, design: .monospaced))
-                                .foregroundColor(.accentColor)
+                                .foregroundColor(Color("AccentColor"))
                         }
                         Button(role: .destructive) {
                             viewModel.cancel()
@@ -56,15 +56,15 @@ struct ParkingMeterView: View {
                             Label("Cancelar parquímetro", systemImage: "xmark.circle")
                                 .padding()
                                 .frame(maxWidth: .infinity)
-                                .background(Color.error.opacity(0.15))
-                                .foregroundColor(.error)
+                                .background(Color("ErrorColor").opacity(0.15))
+                                .foregroundColor(Color("ErrorColor"))
                                 .cornerRadius(12)
                         }
                     }
                     .padding()
                     .background(Color.white)
                     .cornerRadius(20)
-                    .shadow(color: Color.appPrimary.opacity(0.08), radius: 8, x: 0, y: 4)
+                    .shadow(color: Color("AppPrimary").opacity(0.08), radius: 8, x: 0, y: 4)
                     .padding(.horizontal)
                     Spacer()
                 } else {
@@ -75,7 +75,7 @@ struct ParkingMeterView: View {
                             VStack(spacing: 16) {
                                 Text("Duración del parquímetro")
                                     .font(.title2.bold())
-                                    .foregroundColor(.appPrimary)
+                                    .foregroundColor(Color("AppPrimary"))
                                 Picker("Minutos", selection: $selectedMinutes) {
                                     ForEach(minuteOptions, id: \.self) { minute in
                                         Text("\(minute) min").tag(minute)
@@ -88,14 +88,14 @@ struct ParkingMeterView: View {
                             .frame(maxWidth: .infinity)
                             .background(Color.white)
                             .cornerRadius(20)
-                            .shadow(color: Color.appPrimary.opacity(0.08), radius: 10, x: 0, y: 4)
+                            .shadow(color: Color("AppPrimary").opacity(0.08), radius: 10, x: 0, y: 4)
                             .padding(.horizontal)
 
                             // Aviso antes de finalizar
                             VStack(spacing: 16) {
                                 Text("Aviso antes de finalizar")
                                     .font(.title3.bold())
-                                    .foregroundColor(.appPrimary)
+                                    .foregroundColor(Color("AppPrimary"))
                                 Picker("Avisar antes", selection: $preEndAlertMinutes) {
                                     ForEach(preEndOptions, id: \.self) { min in
                                         Text("\(min) min").tag(min)
@@ -107,7 +107,7 @@ struct ParkingMeterView: View {
                             .frame(maxWidth: .infinity)
                             .background(Color.white)
                             .cornerRadius(20)
-                            .shadow(color: Color.appPrimary.opacity(0.08), radius: 10, x: 0, y: 4)
+                            .shadow(color: Color("AppPrimary").opacity(0.08), radius: 10, x: 0, y: 4)
                             .padding(.horizontal)
                         }
                         Spacer()
@@ -120,7 +120,7 @@ struct ParkingMeterView: View {
                                 .font(.title2)
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.accent)
+                                .background(Color("AccentColor"))
                                 .foregroundColor(.white)
                                 .cornerRadius(16)
                                 .shadow(radius: 6)
@@ -205,18 +205,18 @@ struct ParkingMeterView: View {
         VStack(spacing: 24) {
             Text("Tiempo restante")
                 .font(.title2.bold())
-                .foregroundColor(.appPrimary)
+                .foregroundColor(Color("AppPrimary"))
 
             ZStack {
                 Circle()
-                    .stroke(Color.appPrimary.opacity(0.15), lineWidth: 16)
+                    .stroke(Color("AppPrimary").opacity(0.15), lineWidth: 16)
                 Circle()
-                    .stroke(Color.accent, style: StrokeStyle(lineWidth: 16, lineCap: .round))
+                    .stroke(Color("AccentColor"), style: StrokeStyle(lineWidth: 16, lineCap: .round))
                     .rotationEffect(.degrees(-90))
                     .animation(.easeInOut, value: viewModel.remainingTime)
                 Text(viewModel.timeString(from: viewModel.remainingTime))
                     .font(.system(size: 64, weight: .bold, design: .monospaced))
-                    .foregroundColor(.accent)
+                    .foregroundColor(Color("AccentColor"))
             }
             .frame(width: 220, height: 220)
 
@@ -227,8 +227,8 @@ struct ParkingMeterView: View {
                     .font(.title3.bold())
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .background(Color.error.opacity(0.15))
-                    .foregroundColor(.error)
+                    .background(Color("ErrorColor").opacity(0.15))
+                    .foregroundColor(Color("ErrorColor"))
                     .cornerRadius(16)
             }
         }
@@ -252,7 +252,7 @@ struct ParkingMeterView: View {
                     .font(.title3)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.accent)
+                    .background(Color("AccentColor"))
                     .foregroundColor(.white)
                     .cornerRadius(16)
                     .shadow(radius: 6)
@@ -266,7 +266,7 @@ struct ParkingMeterView: View {
         VStack(spacing: 12) {
             Text("Duración del parquímetro")
                 .font(.headline)
-                .foregroundColor(.appPrimary)
+                .foregroundColor(Color("AppPrimary"))
 
             Picker("Minutos", selection: $selectedMinutes) {
                 ForEach(minuteOptions, id: \.self) { Text("\($0) min").tag($0) }
@@ -284,7 +284,7 @@ struct ParkingMeterView: View {
         VStack(spacing: 12) {
             Text("Aviso antes de finalizar")
                 .font(.headline)
-                .foregroundColor(.appPrimary)
+                .foregroundColor(Color("AppPrimary"))
 
             Picker("Avisar antes", selection: $preEndAlertMinutes) {
                 ForEach(preEndOptions, id: \.self) { Text("\($0) min").tag($0) }

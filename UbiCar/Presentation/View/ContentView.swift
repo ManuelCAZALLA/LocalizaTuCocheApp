@@ -27,10 +27,9 @@ struct ContentView: View {
     @State private var ratePopupAlreadyShown = false
     
     private func checkRatePopupLogic() {
-        guard !hasRated, !ratePopupAlreadyShown else { return }
+        guard !hasRated else { return }
 
         launchCount += 1
-        ratePopupAlreadyShown = true // Evita que lo muestre más de una vez por sesión
 
         let now = Date()
         let fiveDays: TimeInterval = 5 * 24 * 60 * 60
@@ -39,9 +38,11 @@ struct ContentView: View {
 
         if shouldShowByLaunch || shouldShowByDate {
             showRatePopup = true
+            
             lastPopupDate = now
         }
     }
+
     
     private func checkCameraPermission() {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
@@ -66,15 +67,20 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
-            Color.background.ignoresSafeArea()
+            LinearGradient(
+                gradient: Gradient(colors: [Color(.systemGray6), Color(.white)]),
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
             VStack(spacing: 24) {
                 HStack(spacing: 8) {
                     Image(systemName: "sparkles")
-                        .foregroundColor(.accentColor)
+                        .foregroundColor(Color("AccentColor"))
                         .font(.title2)
                     Text("main_slogan".localized)
                         .font(.callout)
-                        .foregroundColor(.appPrimary)
+                        .foregroundColor(Color("AppPrimary"))
                         .multilineTextAlignment(.leading)
                 }
                 .padding(.top, 8)
@@ -93,7 +99,7 @@ struct ContentView: View {
                             .cornerRadius(12)
                             .padding(.bottom, 8)
                     }
-                    // Botones de añadir foto y añadir nota juntos
+                    // Botones de añadir foto y añadir nota
                     HStack(spacing: 16) {
                         Button {
                             checkCameraPermission()
@@ -107,12 +113,12 @@ struct ContentView: View {
                             }
                             .padding(.vertical, 12)
                             .padding(.horizontal, 22)
-                            .background(Color.accentColor)
+                            .background(Color("AccentColor"))
                             .foregroundColor(.white)
                             .cornerRadius(12)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 12)
-                                    .stroke(Color.accentColor, lineWidth: 1.5)
+                                    .stroke(Color("AccentColor"), lineWidth: 1.5)
                             )
                             .shadow(radius: 2)
                         }
@@ -172,15 +178,17 @@ struct ContentView: View {
                                 }
                                 .padding(.vertical, 12)
                                 .padding(.horizontal, 22)
-                                .background(Color.accentColor)
+                                .background(Color("AccentColor"))
                                 .foregroundColor(.white)
                                 .cornerRadius(12)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 12)
-                                        .stroke(Color.accentColor, lineWidth: 1.5)
+                                        .stroke(Color("AccentColor"), lineWidth: 1.5)
                                 )
                                 .shadow(radius: 2)
                             }
+                            .frame(maxWidth: .infinity)
+                            
                             Button(action: { showNoteSheet = true }) {
                                 HStack {
                                     Image(systemName: "pencil")
@@ -213,11 +221,11 @@ struct ContentView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 60, height: 60)
-                            .foregroundColor(.appPrimary)
+                            .foregroundColor(Color("AppPrimary"))
                             .opacity(0.7)
                         Text("no_parking_today".localized)
                             .font(.title2)
-                            .foregroundColor(.appPrimary)
+                            .foregroundColor(Color("AppPrimary"))
                             .multilineTextAlignment(.center)
                         Text("save_parking_hint".localized)
                             .font(.body)
@@ -226,6 +234,10 @@ struct ContentView: View {
                     }
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 32)
+                    .padding(.horizontal, 24)
+                    .background(Color.white.opacity(0.92))
+                    .cornerRadius(20)
+                    .shadow(color: Color("AppPrimary").opacity(0.08), radius: 8, x: 0, y: 4)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
@@ -285,21 +297,21 @@ struct ContentView: View {
             if locationManager.userLocation != nil {
                 HStack(spacing: 10) {
                     Image(systemName: "location.fill")
-                        .foregroundColor(.appSecondary)
+                        .foregroundColor(Color("AppSecondary"))
                     if let placeName = viewModel.placeName {
                         Text(placeName)
                             .font(.headline)
-                            .foregroundColor(.appPrimary)
+                            .foregroundColor(Color("AppPrimary"))
                     } else {
                         ProgressView("getting_place_name".localized)
-                            .progressViewStyle(CircularProgressViewStyle(tint: .appPrimary))
+                            .progressViewStyle(CircularProgressViewStyle(tint: Color("AppPrimary")))
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding()
                 .background(Color.white.opacity(0.9))
                 .cornerRadius(15)
-                .shadow(color: Color.appPrimary.opacity(0.08), radius: 8, x: 0, y: 4)
+                .shadow(color: Color("AppPrimary").opacity(0.08), radius: 8, x: 0, y: 4)
                 .padding(.horizontal)
             } else {
                 LocationStatusView(status: locationManager.authorizationStatus)
@@ -329,7 +341,7 @@ struct NoteSheet: View {
             HStack {
                 Image(systemName: "pencil")
                     .font(.title)
-                    .foregroundColor(.accentColor)
+                    .foregroundColor(Color("AccentColor"))
                 Text("Nota para tu aparcamiento")
                     .font(.title3.bold())
             }
@@ -341,7 +353,7 @@ struct NoteSheet: View {
                 .cornerRadius(12)
                 .overlay(
                     RoundedRectangle(cornerRadius: 12)
-                        .stroke(Color.accentColor.opacity(0.2), lineWidth: 1)
+                        .stroke(Color("AccentColor").opacity(0.2), lineWidth: 1)
                 )
             Spacer()
             HStack(spacing: 16) {
@@ -357,7 +369,7 @@ struct NoteSheet: View {
                     Text("Guardar")
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.accentColor)
+                        .background(Color("AccentColor"))
                         .foregroundColor(.white)
                         .cornerRadius(10)
                 }

@@ -73,6 +73,7 @@
 				Presentation/View/Component/ParkingButton.swift,
 				Presentation/View/Component/RateOrRecommendPopup.swift,
 				Presentation/View/ContentView.swift,
+				Presentation/View/LaunchScreen.swift,
 				Presentation/View/LaunchView.swift,
 				Presentation/View/MainTabView.swift,
 				Presentation/View/MapView.swift,
@@ -114,6 +115,7 @@
 				Presentation/View/Component/ParkingButton.swift,
 				Presentation/View/Component/RateOrRecommendPopup.swift,
 				Presentation/View/ContentView.swift,
+				Presentation/View/LaunchScreen.swift,
 				Presentation/View/LaunchView.swift,
 				Presentation/View/MainTabView.swift,
 				Presentation/View/MapView.swift,
@@ -535,7 +537,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/UbiCar/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = UbiCar;
-				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Necesitamos acceder a la cámara para que puedas guardar una foto de tu aparcamiento.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Necesitamos tu ubicacion para volver al coche";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -569,7 +571,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/UbiCar/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = UbiCar;
-				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Necesitamos acceder a la cámara para que puedas guardar una foto de tu aparcamiento.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Necesitamos tu ubicacion para volver al coche";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

@@ -10,12 +10,14 @@
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
-	<key>UILaunchStoryboardName</key>
+	<key>UILaunchScreenProvider</key>
 	<string>LaunchScreen</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Necesitamos tu ubicación para ayudarte a encontrar tu coche.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>Necesitamos acceder al reconocimiento de voz para guiarte hasta tu coche.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Necesitamos acceder a tu camara para guardar la foto de tu aparcamiento</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>whatsapp</string>

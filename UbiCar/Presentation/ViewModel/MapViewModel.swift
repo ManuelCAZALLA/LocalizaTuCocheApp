@@ -17,12 +17,11 @@ class MapViewModel: NSObject, ObservableObject {
     let parkingLocation: CLLocationCoordinate2D
 
     private let locationManager = CLLocationManager()
-    private var lastSpokenStepIndex: Int? = nil
     private var lastAnnouncedInstruction: String? = nil
     private var lastSpokenTime: Date = .distantPast
-
     private let maxDistanceFromRoute: CLLocationDistance = 50
     private var hasAnnouncedRecalculation = false
+    private var hasSpokenInitialInstruction = false
 
     init(parkingLocation: CLLocationCoordinate2D) {
         self.parkingLocation = parkingLocation
@@ -43,19 +42,12 @@ class MapViewModel: NSObject, ObservableObject {
             if let route = response?.routes.first {
                 DispatchQueue.main.async {
                     self?.route = route
+                    self?.announceInitialInstructionIfNeeded()
                 }
             } else if let error = error {
                 print("Error calculando ruta: \(error.localizedDescription)")
             }
         }
-    }
-
-    func distanceToCar() -> Int? {
-        guard let userCoord = userLocation else { return nil }
-        let userLoc = CLLocation(latitude: userCoord.latitude, longitude: userCoord.longitude)
-        let carLoc = CLLocation(latitude: parkingLocation.latitude, longitude: parkingLocation.longitude)
-        let distance = userLoc.distance(from: carLoc)
-        return Int(distance)
     }
 
     func announceClosestStepIfNeeded() {
@@ -79,29 +71,58 @@ class MapViewModel: NSObject, ObservableObject {
 
         guard let idx = closestIndex else { return }
         let step = route.steps[idx]
-        let ignoredInstructions = ["", "Ve al inicio de la ruta", "En 2 metros llegará a su destino"]
-        guard step.distance > 10 else { return }
-
         let distanceToStep = userLoc.distance(from: CLLocation(latitude: step.polyline.coordinate.latitude, longitude: step.polyline.coordinate.longitude))
 
-        // Nueva lógica para avisos más naturales
-        if !ignoredInstructions.contains(step.instructions) && (step.instructions != lastAnnouncedInstruction) {
-            if distanceToStep < 10 {
-                // Muy cerca: solo la instrucción
-                speak(step.instructions)
-            } else if distanceToStep < 50 {
-                // Cerca: redondear a 10 más cercano
-                let rounded = Int((distanceToStep / 10.0).rounded() * 10)
-                let announcement = "En \(rounded) metros, \(step.instructions.lowercased())"
-                speak(announcement)
-            } else {
-                // Más lejos: redondear a 10 más cercano
-                let rounded = Int((distanceToStep / 10.0).rounded() * 10)
-                let announcement = "En \(rounded) metros, \(step.instructions.lowercased())"
-                speak(announcement)
-            }
-            lastAnnouncedInstruction = step.instructions
-            lastSpokenTime = Date()
+        guard !step.instructions.isEmpty, distanceToStep > 5 else { return }
+        guard step.instructions != lastAnnouncedInstruction else { return }
+
+        let message = personalizedInstruction(for: step.instructions)
+
+        if distanceToStep < 10 {
+            speak(message)
+        } else if distanceToStep < 50 {
+            let rounded = Int((distanceToStep / 10.0).rounded() * 10)
+            speak("En \(rounded) metros, \(message.lowercased())")
+        } else {
+            let rounded = Int((distanceToStep / 10.0).rounded() * 10)
+            speak("En \(rounded) metros, \(message.lowercased())")
+        }
+
+        lastAnnouncedInstruction = step.instructions
+        lastSpokenTime = Date()
+    }
+    
+    func distanceToCar() -> Int? {
+        guard let userCoord = userLocation else { return nil }
+        let userLoc = CLLocation(latitude: userCoord.latitude, longitude: userCoord.longitude)
+        let carLoc = CLLocation(latitude: parkingLocation.latitude, longitude: parkingLocation.longitude)
+        let distance = userLoc.distance(from: carLoc)
+        return Int(distance)
+    }
+
+
+    private func announceInitialInstructionIfNeeded() {
+        guard let route = route, !hasSpokenInitialInstruction else { return }
+        if let firstStep = route.steps.dropFirst().first, !firstStep.instructions.isEmpty {
+            let message = "Todo listo. Vamos a por tu coche. " + personalizedInstruction(for: firstStep.instructions)
+            speak(message)
+            hasSpokenInitialInstruction = true
+        }
+    }
+
+    private func personalizedInstruction(for instruction: String) -> String {
+        let lower = instruction.lowercased()
+
+        if lower.contains("gira a la derecha") {
+            return "gira a la derecha para acercarte a tu coche"
+        } else if lower.contains("gira a la izquierda") {
+            return "gira a la izquierda, cada paso te acerca más"
+        } else if lower.contains("continúa") || lower.contains("sigue") {
+            return "sigue recto, tu coche te espera"
+        } else if lower.contains("ha llegado") || lower.contains("su destino") {
+            return "has llegado. Mira bien, tu coche debería estar muy cerca"
+        } else {
+            return instruction
         }
     }
 
@@ -137,7 +158,7 @@ class MapViewModel: NSObject, ObservableObject {
 
     private func announceRecalculatingRouteIfNeeded() {
         if !hasAnnouncedRecalculation {
-            VoiceGuideService.shared.speak(NSLocalizedString("recalculating_route", comment: ""))
+            VoiceGuideService.shared.speak("Ups, parece que tomaste otro camino. Te busco una nueva ruta.")
             hasAnnouncedRecalculation = true
         }
     }
@@ -198,4 +219,3 @@ extension MapViewModel: CLLocationManagerDelegate {
         }
     }
 }
-

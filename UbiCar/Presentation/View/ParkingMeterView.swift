@@ -1,10 +1,3 @@
-//
-//  ParkimeterView.swift
-//  UbiCar
-//
-//  Created by Manuel Cazalla Colmenero on 30/6/25.
-//
-
 import SwiftUI
 
 struct ParkingMeterView: View {
@@ -19,6 +12,7 @@ struct ParkingMeterView: View {
     @State private var showMap = false
     @State private var showNoParkingAlert = false
     @State private var showPreEndAlert = false
+    @State private var showFinalAlert = false
 
     let minuteOptions = [15,20, 30, 45, 60, 90, 120]
     let preEndOptions = [1, 3, 5, 10, 15]
@@ -137,9 +131,17 @@ struct ParkingMeterView: View {
             .onAppear {
                 viewModel.requestNotificationPermission()
                 showAlert = false
+                
+                // Pre-alerta (existente)
                 viewModel.onPreEndAlert = {
                     showPreEndAlert = true
                 }
+                
+                // NUEVA: Alerta final
+                viewModel.onFinalAlert = {
+                    showFinalAlert = true
+                }
+                
                 if openParkingFromNotification {
                     alertType = .notification
                     showAlert = true
@@ -191,6 +193,19 @@ struct ParkingMeterView: View {
                 Button("Seguir la cuenta atrás", role: .cancel) {}
             } message: {
                 Text("¿Quieres volver al coche o seguir la cuenta atrás?")
+            }
+            
+            .alert("⏰ ¡Se acabó el tiempo!", isPresented: $showFinalAlert) {
+                Button("Ir al coche") {
+                    if parking != nil {
+                        showMap = true
+                    } else {
+                        showNoParkingAlert = true
+                    }
+                }
+                Button("Cerrar", role: .cancel) {}
+            } message: {
+                Text("Tu parquímetro ha expirado. Es hora de volver al coche.")
             }
 
             .fullScreenCover(isPresented: $showMap) {

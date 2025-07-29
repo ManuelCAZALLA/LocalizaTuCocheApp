@@ -6,9 +6,9 @@
 */
 
 // MARK: - App General
-"app_name" = "UbiCar";
-"welcome_to_ubicar" = "Bienvenido a UbiCar";
-"find_car_easily" = "Encuentra tu coche fácilmente";
+"app_name" = "Localiza tu Coche";
+"welcome_to_ubicar" = "Bienvenido a Localiza tu Coche";
+"find_car_easily" = "Aparca, guarda y vuelve sin complicaciones";
 
 // MARK: - Location
 "allow_location" = "Permitir ubicación";
@@ -46,14 +46,13 @@
 "close" = "Cerrar"; 
 
 // MARK: - Ajustes
-"settings_tab_title" = "Opciones";
+"settings_tab_title" = "Ajustes";
 "settings_section_about" = "Acerca de";
-"settings_app_name" = "UbicaTuCar";
+"settings_app_name" = "Localiza tu Coche";
 "settings_version" = "Versión";
 "settings_share_whatsapp" = "Compartir por WhatsApp";
 "settings_privacy_policy" = "Política de privacidad";
 "settings_contact" = "Contacto";
-"settings_section_premium" = "Experiencia Premium"; 
 "main_slogan" = "Aparca, guarda y vuelve sin complicaciones.";
 "add_photo" = "Añadir foto";
 "change_photo" = "Cambiar foto";
@@ -77,7 +76,7 @@
 "note" = "Nota";
 "distance_time" = "Distancia: %d m   ·   Tiempo: %d min";
 "distance" = "Distancia: %d m";
-"app_name_full" = "UbicaTuCar";
+"app_name_full" = "Tu Coche Aquí";
 "location_permission_denied" = "Permiso de ubicación denegado";
 "open_settings" = "Abrir Ajustes";
 "parking_meter" = "Parquímetro";

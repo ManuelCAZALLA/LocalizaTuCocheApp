@@ -5,6 +5,7 @@ struct MapView: View {
     @StateObject private var viewModel: MapViewModel
     @State private var cameraPosition: MapCameraPosition
     @State private var shouldAutoFit: Bool = true
+    
     var onClose: (() -> Void)? = nil
     
     init(parkingLocation: ParkingLocation, onClose: (() -> Void)? = nil) {
@@ -22,27 +23,20 @@ struct MapView: View {
                 Annotation("Coche", coordinate: viewModel.parkingLocation) {
                     Image(systemName: "car.fill")
                         .font(.title)
-                        .foregroundColor(Color("AppPrimary"))
+                        .foregroundColor(.appPrimary)
                         .background(Circle().fill(Color.white).frame(width: 36, height: 36).shadow(radius: 4))
                 }
                 if let userCoord = viewModel.userLocation {
                     Annotation("Tú", coordinate: userCoord) {
-                        ZStack {
-                            Circle()
-                                .fill(Color.white)
-                                .frame(width: 36, height: 36)
-                                .shadow(radius: 4)
-                            
-                            Image(systemName: "person.fill")
-                                .font(.title2)
-                                .foregroundColor(Color.blue)
-                        }
-
+                        Image(systemName: "person.fill")
+                            .font(.title)
+                            .foregroundColor(.accentColor)
+                            .background(Circle().fill(Color.white).frame(width: 36, height: 36).shadow(radius: 4))
                     }
                 }
                 if let polyline = viewModel.trimmedPolyline {
                     MapPolyline(polyline)
-                        .stroke(Color("AppPrimary"), lineWidth: 7)
+                        .stroke(Color.appPrimary, lineWidth: 7)
                 }
             }
             .ignoresSafeArea()
@@ -52,6 +46,7 @@ struct MapView: View {
             .gesture(DragGesture().onChanged { _ in
                 shouldAutoFit = false
             })
+            
             // Distancia/tiempo
             VStack() {
                 HStack {

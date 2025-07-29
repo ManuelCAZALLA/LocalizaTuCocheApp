@@ -17,13 +17,13 @@ struct SettingView: View {
         NavigationView {
             ScrollView {
                 VStack(spacing: 32) {
-                    // Sección superior: logo, nombre y versión
+                    // Logo, nombre y versión
                     VStack(spacing: 8) {
                         Image(systemName: "car.fill")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 64, height: 64)
-                            .foregroundColor(Color("AccentColor"))
+                            .foregroundColor(Color("AppPrimary"))
                             .padding(.top, 24)
                         Text("settings_app_name".localized)
                             .font(.title)
@@ -33,7 +33,7 @@ struct SettingView: View {
                             .foregroundColor(.secondary)
                     }
 
-                    // Sección de acciones (Contacto)
+                    // Sección Contacto
                     VStack(spacing: 16) {
                         Text("contact".localized)
                             .font(.headline)
@@ -42,11 +42,7 @@ struct SettingView: View {
                         SettingActionButton(
                             icon: "envelope",
                             title: "Email",
-                            action: {
-                                if let url = URL(string: "mailto:soportecazalla@gmail.com") {
-                                    UIApplication.shared.open(url)
-                                }
-                            }
+                            action: viewModel.contactSupport
                         )
                     }
                     .padding(.horizontal)
@@ -65,11 +61,7 @@ struct SettingView: View {
                         SettingActionButton(
                             icon: "globe",
                             title: "website".localized,
-                            action: {
-                                if let url = URL(string: "https://manuelcazalla.github.io/UbicaTuCar-Web/") {
-                                    UIApplication.shared.open(url)
-                                }
-                            }
+                            action: viewModel.openWebsite
                         )
                         SettingActionButton(
                             icon: "doc.text",
@@ -79,15 +71,7 @@ struct SettingView: View {
                         SettingActionButton(
                             icon: "star.fill",
                             title: "rate_me".localized,
-                            action: {
-                                if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-                                    if #available(iOS 18.0, *) {
-                                        AppStore.requestReview(in: scene)
-                                    } else {
-                                        SKStoreReviewController.requestReview(in: scene)
-                                    }
-                                }
-                            }
+                            action: viewModel.requestReview
                         )
                     }
                     .padding(.horizontal)
@@ -99,7 +83,6 @@ struct SettingView: View {
     }
 }
 
-// Botón reutilizable para acciones
 struct SettingActionButton: View {
     let icon: String
     let title: String
@@ -127,4 +110,3 @@ struct SettingActionButton: View {
 #Preview {
     SettingView(viewModel: SettingsViewModel())
 }
-

@@ -6,9 +6,10 @@
 */
 
 // MARK: - App General
-"app_name" = "UbiCar";
-"welcome_to_ubicar" = "Welcome to UbiCar";
+"app_name" = "Your car here";
+"welcome_to_ubicar" = "Welcome to Your car here";
 "find_car_easily" = "Find your car easily";
+
 
 // MARK: - Location
 "allow_location" = "Allow Location";
@@ -35,7 +36,7 @@
 "ok" = "OK";
 
 // MARK: - Coordinates
-"coordinates_format" = "Lat: %f, Lon: %f"; 
+"coordinates_format" = "Lat: %f, Lon: %f";
 "main_slogan" = "Park, save and return without complications.";
 "add_photo" = "Add photo";
 "change_photo" = "Change photo";
@@ -59,7 +60,7 @@
 "note" = "Note";
 "distance_time" = "Distance: %d m   ·   Time: %d min";
 "distance" = "Distance: %d m";
-"app_name_full" = "UbicaTuCar";
+"app_name_full" = "Tu Coche Aquí";
 "location_permission_denied" = "Location permission denied";
 "open_settings" = "Open Settings";
 "parking_meter" = "Parking meter";
@@ -69,6 +70,6 @@
 "cancel_parking_meter" = "Cancel parking meter";
 "no_saved_parking" = "No saved parking";
 "must_save_parking" = "You must save your car's location first to return to it.";
-"time_remaining" = "Time remaining"; 
+"time_remaining" = "Time remaining";
 "distance_km" = "Distance: %.2f km";
-"distance_time_km" = "Distance: %.2f km   ·   Time: %d min"; 
+"distance_time_km" = "Distance: %.2f km   ·   Time: %d min";

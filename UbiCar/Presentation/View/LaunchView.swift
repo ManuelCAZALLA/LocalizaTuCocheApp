@@ -17,7 +17,7 @@ struct LaunchView: View {
                 } else {
                     VStack(spacing: 28) {
                         
-                        Text("app_name_full".localized)
+                        Text("app_name".localized)
                             .font(.system(size: 44, weight: .bold, design: .rounded))
                             .foregroundColor(.white)
                             .shadow(color: Color.black.opacity(0.18), radius: 8, x: 0, y: 4)

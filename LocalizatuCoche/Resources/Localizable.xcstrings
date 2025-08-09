@@ -1,17 +1,106 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "" : {
-
-    },
     "¡Aparcamiento guardado!" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تم حفظ الموقف!"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parkplatz gespeichert!"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parking saved!"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¡Aparcamiento guardado!"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stationnement enregistré !"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parcheggio salvato!"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estacionamento salvo!"
+          }
+        }
+      }
+    },
+    "%@" : {
 
     },
-    "%@: %@" : {
+    "%@ %@" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "new",
+            "value" : "%1$@ %2$@"
+          }
+        }
+      }
+    },
+    "%@: %@" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@: %2$@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@: %2$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@: %2$@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@: %2$@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ : %2$@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@: %2$@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "%1$@: %2$@"
           }
         }
@@ -52,6 +141,18 @@
             "state" : "translated",
             "value" : "À propos"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Informazioni"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sobre"
+          }
         }
       }
     },
@@ -86,6 +187,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ajouter des détails utiles"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "aggiungi dettagli utili"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "adicionar detalhes úteis"
           }
         }
       }
@@ -122,6 +235,18 @@
             "state" : "translated",
             "value" : "Ajouter une note"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiungi nota"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicionar nota"
+          }
         }
       }
     },
@@ -156,6 +281,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ajouter une photo"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiungi foto"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicionar foto"
           }
         }
       }
@@ -193,6 +330,18 @@
             "state" : "translated",
             "value" : "Attention !"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Attenzione!"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atenção!"
+          }
         }
       }
     },
@@ -227,6 +376,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Le temps du parcmètre a expiré ou va bientôt expirer. Voulez-vous que nous vous guidions vers votre voiture ?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il tempo del parcometro è scaduto o sta per scadere. Vuoi che ti guidiamo alla tua auto?"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O tempo do parquímetro expirou ou está prestes a expirar. Quer que o guiemos até seu carro?"
           }
         }
       }
@@ -264,17 +425,113 @@
             "state" : "translated",
             "value" : "Autoriser la localisation"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Consenti posizione"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permitir localização"
+          }
         }
       }
     },
     "allow_location_button" : {
-      "extractionState" : "manual"
-    },
-    "Aparca, guarda y vuelve fácilmente" : {
-
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "السماح بالموقع"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Standort erlauben"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allow location"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permitir ubicación"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autoriser la localisation"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Consenti posizione"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permitir localização"
+          }
+        }
+      }
     },
     "Aparcado aquí" : {
-
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مركون هنا"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hier geparkt"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parked here"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aparcado aquí"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Garé ici"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parcheggiato qui"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estacionado aqui"
+          }
+        }
+      }
     },
     "app_name" : {
       "comment" : "MARK: - App General",
@@ -308,6 +565,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Localise ta Voiture"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trova la tua auto"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Localize seu carro"
           }
         }
       }
@@ -344,6 +613,18 @@
             "state" : "translated",
             "value" : "Votre Voiture Ici"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La Tua Auto Qui"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seu Carro Aqui"
+          }
         }
       }
     },
@@ -379,11 +660,20 @@
             "state" : "translated",
             "value" : "Vous êtes arrivé à votre voiture."
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sei arrivato alla tua auto."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você chegou ao seu carro."
+          }
         }
       }
-    },
-    "Avisar antes" : {
-
     },
     "back_to_car" : {
       "extractionState" : "manual",
@@ -417,11 +707,20 @@
             "state" : "translated",
             "value" : "Retour à la voiture"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Torna all'auto"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voltar ao carro"
+          }
         }
       }
-    },
-    "Borrar ubicación" : {
-
     },
     "camera_permission_denied" : {
       "extractionState" : "manual",
@@ -454,6 +753,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Autorisation de caméra refusée"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permesso fotocamera negato"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permissão de câmera negada"
           }
         }
       }
@@ -490,6 +801,18 @@
             "state" : "translated",
             "value" : "Veuillez activer l'accès à la caméra dans les Réglages pour ajouter une photo."
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abilita l'accesso alla fotocamera nelle Impostazioni per aggiungere una foto."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ative o acesso à câmera nas Configurações para adicionar uma foto."
+          }
         }
       }
     },
@@ -525,6 +848,18 @@
             "state" : "translated",
             "value" : "Annuler"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annulla"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancelar"
+          }
         }
       }
     },
@@ -559,6 +894,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Annuler le parcmètre"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annulla parcometro"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancelar parquímetro"
           }
         }
       }
@@ -596,6 +943,18 @@
             "state" : "translated",
             "value" : "Votre voiture est à %d mètres."
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La tua auto è a %d metri."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seu carro está a %d metros."
+          }
         }
       }
     },
@@ -630,6 +989,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Changer la photo"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cambia foto"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alterar foto"
           }
         }
       }
@@ -666,6 +1037,18 @@
             "state" : "translated",
             "value" : "Fermer"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chiudi"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fechar"
+          }
         }
       }
     },
@@ -700,6 +1083,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Contact"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contatto"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contato"
           }
         }
       }
@@ -736,6 +1131,18 @@
             "state" : "translated",
             "value" : "Continuer le décompte"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continua countdown"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continuar contagem regressiva"
+          }
         }
       }
     },
@@ -770,6 +1177,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Continuez tout droit."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continua dritto."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue em frente."
           }
         }
       }
@@ -807,6 +1226,18 @@
             "state" : "translated",
             "value" : "Lat : %f, Lon : %f"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lat: %f, Lon: %f"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lat: %f, Lon: %f"
+          }
         }
       }
     },
@@ -841,6 +1272,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Votre position actuelle :"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La tua posizione attuale:"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sua localização atual:"
           }
         }
       }
@@ -877,6 +1320,18 @@
             "state" : "translated",
             "value" : "la rue actuelle"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "la strada corrente"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "a rua atual"
+          }
         }
       }
     },
@@ -911,6 +1366,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Date"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Data"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Data"
           }
         }
       }
@@ -947,6 +1414,18 @@
             "state" : "translated",
             "value" : "Supprimer"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimina"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Excluir"
+          }
         }
       }
     },
@@ -980,6 +1459,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Distance : %d m"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Distanza: %d m"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Distância: %d m"
           }
         }
       }
@@ -1015,6 +1506,18 @@
             "state" : "translated",
             "value" : "Distance : %.2f km"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Distanza: %.2f km"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Distância: %.2f km"
+          }
         }
       }
     },
@@ -1049,6 +1552,18 @@
             "state" : "translated",
             "value" : "Distance : %d m   ·   Temps : %d min"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Distanza: %d m   ·   Tempo: %d min"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Distância: %d m   ·   Tempo: %d min"
+          }
         }
       }
     },
@@ -1082,6 +1597,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Distance : %.2f km   ·   Temps : %d min"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Distanza: %.2f km   ·   Tempo: %d min"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Distância: %.2f km   ·   Tempo: %d min"
           }
         }
       }
@@ -1118,6 +1645,18 @@
             "state" : "translated",
             "value" : "Modifier la note"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modifica nota"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar nota"
+          }
         }
       }
     },
@@ -1152,6 +1691,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Garez-vous, sauvegardez et revenez sans complications"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parcheggia, salva e torna senza complicazioni"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estacione, salve e retorne sem complicações"
           }
         }
       }
@@ -1188,6 +1739,18 @@
             "state" : "translated",
             "value" : "Obtention de la position…"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ottenimento posizione…"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obtendo localização…"
+          }
         }
       }
     },
@@ -1222,6 +1785,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Obtention du nom du lieu…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ottenimento nome luogo…"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obtendo nome do local…"
           }
         }
       }
@@ -1258,6 +1833,18 @@
             "state" : "translated",
             "value" : "Voulez-vous retourner à la voiture ou continuer le décompte ?"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vuoi tornare all'auto o continuare il countdown?"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você quer voltar para o carro ou continuar a contagem regressiva?"
+          }
         }
       }
     },
@@ -1292,6 +1879,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Retourner à la voiture"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Torna all'auto"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voltar para o carro"
           }
         }
       }
@@ -1328,6 +1927,18 @@
             "state" : "translated",
             "value" : "Aller à la voiture"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vai all'auto"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ir para o carro"
+          }
         }
       }
     },
@@ -1362,6 +1973,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Direction votre voiture. Départ de %@."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Andando alla tua auto. Partenza da %@."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indo para seu carro. Começando de %@."
           }
         }
       }
@@ -1398,11 +2021,66 @@
             "state" : "translated",
             "value" : "Dans %d mètres, %@"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tra %d metri, %@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Em %d metros, %@"
+          }
         }
       }
     },
     "Inicio" : {
-
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "البداية"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Home"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inicio"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accueil"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Home"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Início"
+          }
+        }
+      }
     },
     "Key 1" : {
       "extractionState" : "manual"
@@ -1440,6 +2118,18 @@
             "state" : "translated",
             "value" : "Dernier stationnement"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ultimo parcheggio"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Último estacionamento"
+          }
         }
       }
     },
@@ -1474,6 +2164,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peu de temps restant !"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poco tempo rimasto!"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pouco tempo restante!"
           }
         }
       }
@@ -1510,6 +2212,18 @@
             "state" : "translated",
             "value" : "Position non disponible"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Posizione non disponibile"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Localização não disponível"
+          }
         }
       }
     },
@@ -1544,6 +2258,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Autorisation de localisation refusée"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permesso posizione negato"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permissão de localização negada"
           }
         }
       }
@@ -1580,6 +2306,18 @@
             "state" : "translated",
             "value" : "Veuillez activer l'accès à la localisation dans les Réglages pour sauvegarder la position de votre voiture."
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abilita l'accesso alla posizione nelle Impostazioni per salvare la posizione della tua auto."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ative o acesso à localização nas Configurações para salvar a posição do seu carro."
+          }
         }
       }
     },
@@ -1614,6 +2352,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Position sauvegardée"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Posizione salvata"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Localização salva"
           }
         }
       }
@@ -1650,6 +2400,18 @@
             "state" : "translated",
             "value" : "Garez-vous, sauvegardez et revenez sans complications."
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parcheggia, salva e torna senza complicazioni."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estacione, salve e retorne sem complicações."
+          }
         }
       }
     },
@@ -1685,11 +2447,66 @@
             "state" : "translated",
             "value" : "%d min"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d min"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d min"
+          }
         }
       }
     },
     "Minutos" : {
-
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "دقائق"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minuten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minutes"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minutos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minutes"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minuti"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minutos"
+          }
+        }
+      }
     },
     "must_save_parking" : {
       "extractionState" : "manual",
@@ -1722,6 +2539,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vous devez d'abord sauvegarder l'emplacement de votre voiture pour pouvoir y retourner."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Devi prima salvare la posizione della tua auto per poterci tornare."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você deve primeiro salvar a localização do seu carro para poder retornar a ele."
           }
         }
       }
@@ -1758,6 +2587,18 @@
             "state" : "translated",
             "value" : "Vous devez d'abord sauvegarder l'emplacement de votre voiture pour pouvoir y retourner."
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Devi prima salvare la posizione della tua auto per poterci tornare."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você deve primeiro salvar a localização do seu carro para poder retornar a ele."
+          }
         }
       }
     },
@@ -1773,25 +2614,84 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Du hast heute noch nicht geparkt"
+            "value" : "Heute noch nicht geparkt"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You haven't parked today yet"
+            "value" : "No parking today"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aún no aparcaste hoy"
+            "value" : "No has aparcado hoy"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vous n'avez pas encore garé aujourd'hui"
+            "value" : "Pas de stationnement aujourd'hui"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessun parcheggio oggi"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenhum estacionamento hoje"
+          }
+        }
+      }
+    },
+    "no_parking_today_funny" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "احفظ مكان ركن سيارتك لتجدها بسهولة"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speichern Sie Ihren Parkplatz, um Ihr Auto leicht zu finden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save your parking spot to find your car easily"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guarda tu aparcamiento para encontrar tu coche fácilmente"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrez votre stationnement pour retrouver facilement votre voiture"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salva il tuo parcheggio per trovare facilmente la tua auto"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guarde o seu estacionamento para encontrar o seu carro facilmente"
           }
         }
       }
@@ -1808,7 +2708,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kein gespeicherter Parkplatz"
+            "value" : "Kein Parkplatz gespeichert"
           }
         },
         "en" : {
@@ -1826,7 +2726,19 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aucun stationnement sauvegardé"
+            "value" : "Aucun stationnement enregistré"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessun parcheggio salvato"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenhum estacionamento salvo"
           }
         }
       }
@@ -1849,7 +2761,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Not now"
+            "value" : "Not Now"
           }
         },
         "es" : {
@@ -1863,78 +2775,89 @@
             "state" : "translated",
             "value" : "Pas maintenant"
           }
-        }
-      }
-    },
-    "Nota: %@" : {
-
-    },
-    "note" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
+        },
+        "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ملاحظة"
+            "value" : "Non ora"
           }
         },
-        "de" : {
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Notiz"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Note"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nota"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Note"
+            "value" : "Agora não"
           }
         }
       }
     },
     "note_content" : {
+      "extractionState" : "manual"
+    },
+    "note_placeholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerca de… al  lado de…"
+          }
+        }
+      }
+    },
+    "note_prefix" : {
       "extractionState" : "manual",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "أضف تفصيل"
+            "value" : "ملاحظة:"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Detail hinzufügen"
+            "value" : "Notiz:"
           }
         },
         "en" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add detail"
+            "state" : "new",
+            "value" : "Note:"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Añadir detalle"
+            "value" : "Nota:"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ajouter un détail"
+            "value" : "Remarque :"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nota:"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nota:"
+          }
+        }
+      }
+    },
+    "notify_before" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aviso antes de finalizar"
           }
         }
       }
@@ -1945,7 +2868,7 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "موافق"
+            "value" : "حسناً"
           }
         },
         "de" : {
@@ -1963,7 +2886,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "OK"
+            "value" : "Aceptar"
           }
         },
         "fr" : {
@@ -1971,40 +2894,17 @@
             "state" : "translated",
             "value" : "OK"
           }
-        }
-      }
-    },
-    "open_settings" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
+        },
+        "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "فتح الإعدادات"
+            "value" : "OK"
           }
         },
-        "de" : {
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Einstellungen öffnen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open Settings"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Abrir Ajustes"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ouvrir les Réglages"
+            "value" : "OK"
           }
         }
       }
@@ -2015,19 +2915,19 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "مدة عداد الموقف"
+            "value" : "مدة الوقوف"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Parkuhr-Dauer"
+            "value" : "Parkdauer"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Parking meter duration"
+            "value" : "Parking Duration"
           }
         },
         "es" : {
@@ -2039,18 +2939,134 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Durée du parcmètre"
+            "value" : "Durée de stationnement"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durata parcheggio"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duração do estacionamento"
           }
         }
       }
     },
-    "parking_meter" : {
+    "parking_meter_emoji" : {
       "extractionState" : "manual",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "عداد الموقف"
+            "value" : "⏱️"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⏱️"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⏱️"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "🅿 Parquímetro"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⏱️"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⏱️"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⏱️"
+          }
+        }
+      }
+    },
+    "parking_meter_expired" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "انتهى وقت عداد الوقوف الخاص بك."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ihre Parkuhrzeit ist abgelaufen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your parking meter time has expired."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El tiempo de tu parquímetro ha expirado."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre temps de parcmètre a expiré."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il tempo del tuo parcometro è scaduto."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O tempo do seu parquímetro expirou."
+          }
+        }
+      }
+    },
+    "parking_note" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nota para el Aparcamiento"
+          }
+        }
+      }
+    },
+    "Parquímetro" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عداد المواقف"
           }
         },
         "de" : {
@@ -2062,7 +3078,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Parking Meter"
+            "value" : "Parking meter"
           }
         },
         "es" : {
@@ -2076,120 +3092,66 @@
             "state" : "translated",
             "value" : "Parcmètre"
           }
-        }
-      }
-    },
-    "parking_meter_emoji" : {
-      "comment" : "MARK: - Parking Meter",
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
+        },
+        "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "🅿️ عداد الموقف"
+            "value" : "Parcometro"
           }
         },
-        "de" : {
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "🅿️ Parkuhr"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "🅿️ Parking Meter"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "🅿️ Parquímetro"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "🅿️ Parcmètre"
+            "value" : "Parquímetro"
           }
         }
       }
-    },
-    "parking_meter_expired" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "انتهت صلاحية عداد الموقف. حان وقت العودة للسيارة."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deine Parkuhr ist abgelaufen. Zeit, zum Auto zurückzukehren."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your parking meter has expired. Time to go back to the car."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tu parquímetro ha expirado. Es hora de volver al coche."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Votre parcmètre a expiré. Il est temps de retourner à la voiture."
-          }
-        }
-      }
-    },
-    "parking_note" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ملاحظة الموقف"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Parknotiz"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Parking note"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nota para el aparcamiento"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Note de stationnement"
-          }
-        }
-      }
-    },
-    "Parquímetro" : {
-
     },
     "Permitir Ubicación" : {
-
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "السماح بالموقع"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Standort erlauben"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allow location"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permitir ubicación"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autoriser la localisation"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Consenti posizione"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permitir localização"
+          }
+        }
+      }
     },
     "pre_end_alert" : {
       "extractionState" : "manual",
@@ -2203,25 +3165,37 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Warnung vor Ende"
+            "value" : "Vorwarnung"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alert before ending"
+            "value" : "Pre-End Alert"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aviso antes de finalizar"
+            "value" : "Alerta previa"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alerte avant la fin"
+            "value" : "Alerte préalable"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allarme pre-fine"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alerta pré-término"
           }
         }
       }
@@ -2232,7 +3206,7 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "قيّم التطبيق"
+            "value" : "تقييم التطبيق"
           }
         },
         "de" : {
@@ -2244,42 +3218,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rate the app"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Valorar la app"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Évaluer l'application"
-          }
-        }
-      }
-    },
-    "rate_me" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "قيّمني"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bewerte mich"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rate me"
+            "value" : "Rate App"
           }
         },
         "es" : {
@@ -2291,7 +3230,30 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Évaluez-moi"
+            "value" : "Noter l'application"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valuta l'app"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avaliar App"
+          }
+        }
+      }
+    },
+    "rate_me" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valórame"
           }
         }
       }
@@ -2302,66 +3264,43 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "إذا كان مفيداً لك، قيّمنا أو انصحنا لصديق! 🚗✨"
+            "value" : "هل تستمتع باستخدام التطبيق؟ يمكنك تقييمه أو مشاركته مع صديق!"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wenn es dir nützlich ist, bewerte uns oder empfiehl uns einem Freund! 🚗✨"
+            "value" : "Gefällt dir die App? Du kannst sie bewerten oder einem Freund empfehlen!"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "If you find it useful, rate us or recommend us to a friend! 🚗✨"
+            "value" : "Are you enjoying the app? You can rate it or share it with a friend!"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Si te resulta útil, ¡valóranos o recomiéndanos a un amigo! 🚗✨"
+            "value" : "Si te resulta útil,¡valóranos o recomiéndanos a un amigo 🚙✨"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Si cela vous est utile, évaluez-nous ou recommandez-nous à un ami ! 🚗✨"
-          }
-        }
-      }
-    },
-    "recalculating_route" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "إعادة حساب المسار"
+            "value" : "Aimez-vous l'application ? Vous pouvez la noter ou la partager avec un ami !"
           }
         },
-        "de" : {
+        "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Route wird neu berechnet"
+            "value" : "Ti piace l'app? Puoi valutarla o condividerla con un amico!"
           }
         },
-        "en" : {
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recalculating route"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Recalculando ruta"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Recalcul de l'itinéraire"
+            "value" : "Você está gostando do aplicativo? Você pode avaliá-lo ou compartilhar com um amigo!"
           }
         }
       }
@@ -2372,19 +3311,19 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "انصح صديق"
+            "value" : "مشاركة مع صديق"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Einem Freund empfehlen"
+            "value" : "Freund empfehlen"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recommend to a friend"
+            "value" : "Recommend to Friend"
           }
         },
         "es" : {
@@ -2398,76 +3337,17 @@
             "state" : "translated",
             "value" : "Recommander à un ami"
           }
-        }
-      }
-    },
-    "route_calculation_failed" : {
-      "comment" : "MARK: - Navigation Audio",
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
+        },
+        "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "لم يتمكن من حساب المسار."
+            "value" : "Raccomanda a un amico"
           }
         },
-        "de" : {
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Route konnte nicht berechnet werden."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Could not calculate route."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No se pudo calcular la ruta."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Impossible de calculer l'itinéraire."
-          }
-        }
-      }
-    },
-    "route_recalculated" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تم إعادة حساب المسار. نواصل إلى سيارتك."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Route neu berechnet. Weiter zu deinem Auto."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Route recalculated. Continuing to your car."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ruta recalculada. Continuamos hacia tu coche."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Itinéraire recalculé. Nous continuons vers votre voiture."
+            "value" : "Recomendar a amigo"
           }
         }
       }
@@ -2475,168 +3355,34 @@
     "save" : {
       "extractionState" : "manual",
       "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "إضافة"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hinzufügen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add"
-          }
-        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Añadir"
           }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ajouter"
-          }
-        }
-      }
-    },
-    "save_parking_hint" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "احفظ موقفك لتجد سيارتك بسهولة."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Speichere deinen Parkplatz, um dein Auto leicht zu finden."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save your parking to find your car easily."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Guarda tu aparcamiento para encontrar tu coche fácilmente."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sauvegardez votre stationnement pour retrouver votre voiture facilement."
-          }
-        }
-      }
-    },
-    "settings_app_name" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "اعثر على سيارتك"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Finde dein Auto"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Find your Car"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Localiza tu Coche"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Localise ta Voiture"
-          }
-        }
-      }
-    },
-    "settings_contact" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "اتصال"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kontakt"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Contact"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Contacto"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Contact"
-          }
         }
       }
     },
     "settings_privacy_policy" : {
+      "comment" : "Politica de Privacidad",
       "extractionState" : "manual",
       "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "سياسة الخصوصية"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Datenschutz"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Privacy policy"
+            "value" : "Privacy Policy"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Política de privacidad"
+            "value" : "Política de Privacidad"
+          }
+        },
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سياسة الخصوصية"
           }
         },
         "fr" : {
@@ -2644,81 +3390,30 @@
             "state" : "translated",
             "value" : "Politique de confidentialité"
           }
-        }
-      }
-    },
-    "settings_section_about" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "حول"
-          }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Über"
+            "value" : "Datenschutzrichtlinie"
           }
         },
-        "en" : {
+        "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About"
+            "value" : "Informativa sulla privacy"
           }
         },
-        "es" : {
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Acerca de"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "À propos"
+            "value" : "Política de Privacidade"
           }
         }
       }
     },
-    "settings_share_whatsapp" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "مشاركة عبر واتساب"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Auf WhatsApp teilen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Share on WhatsApp"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Compartir por WhatsApp"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Partager sur WhatsApp"
-          }
-        }
-      }
-    },
+
     "settings_tab_title" : {
-      "comment" : "MARK: - Settings",
+      "comment" : "Ajustes",
       "extractionState" : "manual",
       "localizations" : {
         "ar" : {
@@ -2748,11 +3443,24 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Réglages"
+            "value" : "Paramètres"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impostazioni"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configurações"
           }
         }
       }
     },
+
     "settings_version" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2784,6 +3492,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Version"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versione"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versão"
           }
         }
       }
@@ -2819,6 +3539,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Partager"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Condividi"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartilhar"
           }
         }
       }
@@ -2856,6 +3588,18 @@
             "state" : "translated",
             "value" : "Partager"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Condividi"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartilhar"
+          }
         }
       }
     },
@@ -2889,6 +3633,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "J'ai garé ma voiture ici :\nApple Maps : %@\nGoogle Maps : %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ho parcheggiato la mia auto qui:\nApple Maps: %@\nGoogle Maps: %@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estacionei meu carro aqui:\nApple Maps: %@\nGoogle Maps: %@"
           }
         }
       }
@@ -2925,8 +3681,23 @@
             "state" : "translated",
             "value" : "Partager sur WhatsApp"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Condividi su WhatsApp"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartilhar no WhatsApp"
+          }
         }
       }
+    },
+    "Siguiente: %@" : {
+
     },
     "start" : {
       "extractionState" : "manual",
@@ -2959,6 +3730,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Démarrer"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avvia"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Iniciar"
           }
         }
       }
@@ -2995,6 +3778,18 @@
             "state" : "translated",
             "value" : "Temps restant"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tempo rimanente"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tempo restante"
+          }
         }
       }
     },
@@ -3030,14 +3825,113 @@
             "state" : "translated",
             "value" : "⏰ Temps écoulé !"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⏰ Tempo scaduto!"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⏰ Tempo esgotado!"
+          }
         }
       }
     },
     "Tu coche siempre localizado" : {
-
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سيارتك دائماً موضعة"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dein Auto immer lokalisiert"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your car always located"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu coche siempre localizado"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre voiture toujours localisée"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La tua auto sempre localizzata"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seu carro sempre localizado"
+          }
+        }
+      }
     },
     "Tu ubicación ha sido guardada correctamente" : {
-
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تم حفظ موقعك بنجاح"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dein Standort wurde erfolgreich gespeichert"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your location has been saved successfully"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu ubicación ha sido guardada correctamente"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre emplacement a été sauvegardé avec succès"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La tua posizione è stata salvata con successo"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sua localização foi salva com sucesso"
+          }
+        }
+      }
     },
     "turn_left_in_meters" : {
       "extractionState" : "manual",
@@ -3070,6 +3964,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tournez à gauche dans %d mètres."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gira a sinistra tra %d metri."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vire à esquerda em %d metros."
           }
         }
       }
@@ -3106,6 +4012,18 @@
             "state" : "translated",
             "value" : "Tournez à droite dans %d mètres."
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gira a destra tra %d metri."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vire à direita em %d metros."
+          }
         }
       }
     },
@@ -3141,11 +4059,66 @@
             "state" : "translated",
             "value" : "Statut inconnu"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stato sconosciuto"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Status desconhecido"
+          }
         }
       }
     },
     "Volver a mi coche" : {
-
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "العودة إلى سيارتي"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zurück zu meinem Auto"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Return to my car"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volver a mi coche"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retourner à ma voiture"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Torna alla mia auto"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voltar para meu carro"
+          }
+        }
+      }
     },
     "waiting_location_permission" : {
       "extractionState" : "manual",
@@ -3178,6 +4151,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "En attente de l'autorisation de localisation…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In attesa del permesso di localizzazione…"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aguardando permissão de localização…"
           }
         }
       }
@@ -3214,6 +4199,18 @@
             "state" : "translated",
             "value" : "Site web"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sito web"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Site"
+          }
         }
       }
     },
@@ -3224,6 +4221,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Welcome to \nLocate your car"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Benvenuto in \nTrova la tua auto"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bem-vindo ao \nLocalize seu carro"
           }
         }
       }
@@ -3253,6 +4262,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bienvenue dans Localise ta Voiture"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Benvenuto in Trova la tua auto"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bem-vindo ao Localize seu carro"
           }
         }
       }

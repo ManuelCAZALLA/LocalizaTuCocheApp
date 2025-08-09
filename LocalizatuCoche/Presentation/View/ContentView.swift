@@ -37,17 +37,25 @@ struct ContentView: View {
     
     private func checkRatePopupLogic() {
         guard !hasRated else { return }
-        launchCount += 1
+        
+       if !hasCountedLaunch {
+            launchCount += 1
+            UserDefaults.standard.set(launchCount, forKey: "launchCount")
+            hasCountedLaunch = true
+        }
+        
         let now = Date()
         let fiveDays: TimeInterval = 5 * 24 * 60 * 60
         let shouldShowByLaunch = launchCount % 3 == 0
         let shouldShowByDate = now.timeIntervalSince(lastPopupDate) > fiveDays
         
-        if shouldShowByLaunch || shouldShowByDate {
+        if (shouldShowByLaunch || shouldShowByDate) && !ratePopupAlreadyShown {
             showRatePopup = true
-            lastPopupDate = now
+            updateLastPopupDate(now)
+            ratePopupAlreadyShown = true
         }
     }
+
     
     private func checkCameraPermission() {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
@@ -104,7 +112,7 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
-            // Fondo mejorado
+            // Fondo
             LinearGradient(
                 gradient: Gradient(colors: [
                     Color(.systemBackground),
@@ -418,7 +426,7 @@ struct ContentView: View {
         }
     }
     
-    // MARK: - Success Overlay MEJORADO
+    // MARK: - Success Overlay 
     private var successOverlay: some View {
         ZStack {
             Color.black.opacity(0.4)
@@ -487,12 +495,12 @@ struct ContentView: View {
                     .fontWeight(.semibold)
                     .foregroundColor(Color("AppPrimary"))
                     .multilineTextAlignment(.center)
-                
-                Text("save_parking_hint".localized)
-                    .font(.body)
-                    .foregroundColor(.secondary)
-                    .multilineTextAlignment(.center)
-            }
+                }
+            Text("no_parking_today_funny".localized)
+                .font(.body)
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
+
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 40)
@@ -512,7 +520,7 @@ struct ContentView: View {
     }
 }
 
-// MARK: - Improved Note Sheet
+// MARK: - Note Sheet
 struct NoteSheet: View {
     @State private var text: String
     @FocusState private var isTextEditorFocused: Bool
@@ -558,13 +566,10 @@ struct NoteSheet: View {
                 // Text Editor
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
-                        Text("note_content".localized)
-                            .font(.headline)
-                            .foregroundColor(.primary)
-                        Spacer()
                         Text("\(text.count)/200")
                             .font(.caption)
                             .foregroundColor(text.count > 200 ? .red : .secondary)
+
                     }
                     
                     ZStack(alignment: .topLeading) {

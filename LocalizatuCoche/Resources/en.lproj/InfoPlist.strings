@@ -5,5 +5,5 @@
   Created by Manuel Cazalla Colmenero on 22/6/25.
 */
 
-"NSLocationWhenInUseUsageDescription" = "UbiCar needs access to your location to help you find your car.";
-"NSLocationAlwaysAndWhenInUseUsageDescription" = "UbiCar needs access to your location to help you find your car."; 
+"NSLocationWhenInUseUsageDescription" = "Localiza tu Coche needs access to your location to help you find your car.";
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "Localiza tu Coche needs access to your location to help you find your car.";

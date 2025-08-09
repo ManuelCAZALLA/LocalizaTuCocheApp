@@ -33,6 +33,9 @@ struct MapView: View {
             
             // Distancia/tiempo overlay (común para ambas versiones)
             distanceTimeOverlay
+            
+            // NUEVO: Overlay de indicaciones escritas
+            instructionsOverlay
         }
     }
     
@@ -131,6 +134,57 @@ struct MapView: View {
                 }
             }
             Spacer()
+        }
+    }
+    
+    // MARK: - NUEVO: Instructions Overlay
+    private var instructionsOverlay: some View {
+        VStack {
+            Spacer()
+            
+            if viewModel.currentStepInstruction != nil || viewModel.nextStepInstruction != nil {
+                VStack(spacing: 8) {
+                    // Instrucción actual
+                    if let currentInstruction = viewModel.currentStepInstruction {
+                        HStack {
+                            Image(systemName: "location.fill")
+                                .foregroundColor(.blue)
+                                .font(.system(size: 16))
+                            
+                            Text(currentInstruction)
+                                .font(.system(size: 16, weight: .medium))
+                                .foregroundColor(.primary)
+                                .multilineTextAlignment(.leading)
+                            
+                            Spacer()
+                        }
+                    }
+                    
+                    // Próxima instrucción
+                    if let nextInstruction = viewModel.nextStepInstruction {
+                        Divider()
+                        
+                        HStack {
+                            Image(systemName: "arrow.right")
+                                .foregroundColor(.secondary)
+                                .font(.system(size: 14))
+                            
+                            Text("Siguiente: \(nextInstruction)")
+                                .font(.system(size: 14))
+                                .foregroundColor(.secondary)
+                                .multilineTextAlignment(.leading)
+                            
+                            Spacer()
+                        }
+                    }
+                }
+                .padding(16)
+                .background(.regularMaterial)
+                .cornerRadius(12)
+                .shadow(radius: 4)
+                .padding(.horizontal, 16)
+                .padding(.bottom, 20)
+            }
         }
     }
     

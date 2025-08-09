@@ -29,6 +29,7 @@ struct ParkingInfoCard: View {
                         }
                     }
                 }
+                
                 HStack(alignment: .center, spacing: 8) {
                     Spacer()
                     Text("last_parking".localized)
@@ -43,6 +44,7 @@ struct ParkingInfoCard: View {
                             .padding(4)
                     }
                 }
+                
                 HStack(alignment: .top, spacing: 14) {
                     ZStack {
                         Circle()
@@ -52,29 +54,35 @@ struct ParkingInfoCard: View {
                             .foregroundColor(Color("AppPrimary"))
                             .font(.title2)
                     }
+                    
                     VStack(alignment: .leading, spacing: 4) {
                         if let name = parking.placeName {
                             Text(name)
                                 .font(.subheadline)
                                 .foregroundColor(.secondary)
                         } else {
-                            Text("coordinates_format".localized(with: parking.latitude, parking.longitude))
+                            Text(String(format: "coordinates_format".localized, parking.latitude, parking.longitude))
                                 .font(.subheadline)
                                 .foregroundColor(.secondary)
                         }
-                        Text("\("date".localized): \(parking.date.formatted(date: .abbreviated, time: .shortened))")
+                        
+                        // Mostrar fecha y hora formateadas
+                        Text("\(parking.date.formatted(date: .abbreviated, time: .shortened))")
                             .font(.caption)
                             .foregroundColor(.gray)
+                        
                         if let note = note, !note.isEmpty {
                             Divider()
-                            Text("Nota: \(note)")
+                            Text("\("note_prefix".localized) \(note)")
                                 .font(.body)
                                 .foregroundColor(.primary)
                                 .padding(.top, 4)
                         }
                     }
+                    
                     Spacer()
                 }
+                
                 HStack(spacing: 20) {
                     Button(action: onDelete) {
                         Label("delete".localized, systemImage: "trash")
@@ -84,6 +92,7 @@ struct ParkingInfoCard: View {
                             .background(Color("ErrorColor").opacity(0.12))
                             .cornerRadius(10)
                     }
+                    
                     Button(action: onNavigate) {
                         Label("back_to_car".localized, systemImage: "location.fill")
                             .foregroundColor(.white)
@@ -97,14 +106,14 @@ struct ParkingInfoCard: View {
             }
             .padding()
             .background(
-                        RoundedRectangle(cornerRadius: 20)
-                            .fill(Color(.systemGray5))
-                    )
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 20)
-                            .stroke(Color.white.opacity(0.5), lineWidth: 0.5)
-                    )
-                    .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(Color(.systemGray5))
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(Color.white.opacity(0.5), lineWidth: 0.5)
+            )
+            .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
         }
     }
     
@@ -113,6 +122,11 @@ struct ParkingInfoCard: View {
         let lon = parking.longitude
         let appleMaps = "https://maps.apple.com/?ll=\(lat),\(lon)"
         let googleMaps = "https://www.google.com/maps?q=\(lat),\(lon)"
-        return String(format: NSLocalizedString("share_parking_text", comment: ""), appleMaps, googleMaps)
+        return String(
+            format: NSLocalizedString("share_parking_text", comment: ""),
+            appleMaps,
+            googleMaps
+        )
+
     }
-} 
+}

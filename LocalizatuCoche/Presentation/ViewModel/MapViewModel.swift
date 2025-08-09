@@ -5,6 +5,7 @@ import Combine
 import SwiftUI
 
 class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
+    // MARK: - Propiedades Publicas
     @Published var route: MKRoute?
     @Published var userLocation: CLLocationCoordinate2D?
     @Published var parkingLocation: CLLocationCoordinate2D
@@ -12,154 +13,299 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var timeRemaining: TimeInterval = 0
     @Published var distanceRemaining: CLLocationDistance = 0
     @Published var destination: CLLocationCoordinate2D?
-
+    @Published var isRecalculatingRoute = false
+    @Published var currentStepInstruction: String?
+    @Published var nextStepInstruction: String?
+    
+    // MARK: - Propiedades Privadas
     private let locationManager = CLLocationManager()
     private let speechSynthesizer = AVSpeechSynthesizer()
-    private var lastInstructionIndex: Int?
+    private var cancellables = Set<AnyCancellable>()
+    private var lastSpokenTime: Date?
+    private var lastRouteRecalculationTime: Date?
+    private var consecutiveOffRouteCount = 0
+    private var lastKnownGoodLocation: CLLocation?
+    private var routeDeviation = false
+    private var routeCalculationTimer: Timer?
+    private var currentStepIndex = 0
     private var hasSpokenInitialMessage = false
     
-    // PROPIEDADES PARA CONTROLAR RECÁLCULO Y AUDIO
-    private var lastSpokenTime: Date?
-    private var isRecalculating = false
-    private var routeRecalculationCount = 0
-    private var lastRouteRecalculationTime: Date?
-
+    // 🔹 Nuevo: para recordar el último paso anunciado
+    private var lastSpokenStepIndex: Int?
+    
+    // MARK: - Inicialización
     init(parkingLocation: CLLocationCoordinate2D) {
         self.parkingLocation = parkingLocation
         self.destination = parkingLocation
         super.init()
-
-        // CONFIGURAR AUDIO SESSION PARA MODO SILENCIO
+        
+        configureLocationManager()
         configureAudioSession()
-
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
-
+        setupBindings()
+        
+        // Calcula la ruta inicial después de un breve retraso
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.calculateRoute()
         }
     }
     
-    // CONFIGURACIÓN DE AUDIO PARA MODO SILENCIO
+    // MARK: - Configuración
+    private func configureLocationManager() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        locationManager.distanceFilter = 3
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+    }
+    
     private func configureAudioSession() {
         do {
-            let audioSession = AVAudioSession.sharedInstance()
-            
-            // Ignora el modo silencio
-            try audioSession.setCategory(
+            try AVAudioSession.sharedInstance().setCategory(
                 .playback,
                 mode: .spokenAudio,
                 options: [.duckOthers, .interruptSpokenAudioAndMixWithOthers]
             )
-            
-            // Activar la sesión
-            try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
-            
-            print("🔊 Audio session configurada correctamente")
-            
+            try AVAudioSession.sharedInstance().setActive(true)
         } catch {
-            print("❌ Error configurando audio session: \(error)")
-            
+            print("Error configurando audio: \(error)")
             try? AVAudioSession.sharedInstance().setCategory(.playback)
         }
     }
-
+    
+    private func setupBindings() {
+        $route
+            .compactMap { $0 }
+            .sink { [weak self] route in
+                self?.updateRouteSteps(route: route)
+            }
+            .store(in: &cancellables)
+    }
+    
+    // MARK: - Gestión de Ubicación
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.last else { return }
-        userLocation = location.coordinate
-        updateRouteIfNeeded(from: location)
-        updateTimeAndDistance(from: location)
-        speakNextInstructionIfNeeded(from: location)
-    }
-
-   
-    private func updateRouteIfNeeded(from location: CLLocation) {
-        guard let route = route else {
-            calculateRoute()
+        guard let location = locations.last, location.horizontalAccuracy > 0 && location.horizontalAccuracy < 50 else {
             return
         }
         
-        // Evitar recálculos muy frecuentes
-        if isRecalculating {
-            return
-        }
-        
-        let now = Date()
-        if let lastRecalc = lastRouteRecalculationTime,
-           now.timeIntervalSince(lastRecalc) < 5.0 {
-            return
-        }
-
-        let point = MKMapPoint(location.coordinate)
-        let distanceToRoute = route.polyline.distance(to: point)
-        
-        // Aumentamos la tolerancia para evitar recálculos innecesarios
-        if distanceToRoute > 30 {
-            print("📍 Usuario fuera de ruta (\(Int(distanceToRoute))m), recalculando...")
-            lastRouteRecalculationTime = now
-            routeRecalculationCount += 1
-            calculateRoute(isRecalculation: true)
+        DispatchQueue.main.async { [weak self] in
+            self?.userLocation = location.coordinate
+            self?.updateTimeAndDistance(from: location)
+            self?.checkForRouteRecalculation(from: location)
+            self?.updateCurrentStep(from: location)
+            self?.speakNextInstructionIfNeeded(from: location)
+            self?.lastKnownGoodLocation = location
         }
     }
-
-    // FUNCIÓN CALCULATEROUTE CORREGIDA
+    
+    // MARK: - Cálculo de Ruta
     func calculateRoute(isRecalculation: Bool = false) {
         guard let userLocation = userLocation else { return }
         
-        isRecalculating = true
-
+        isRecalculatingRoute = true
+        routeCalculationTimer?.invalidate()
+        
         let request = MKDirections.Request()
         request.source = MKMapItem(placemark: MKPlacemark(coordinate: userLocation))
         request.destination = MKMapItem(placemark: MKPlacemark(coordinate: parkingLocation))
         request.transportType = .walking
-
+        request.requestsAlternateRoutes = false
+        
         MKDirections(request: request).calculate { [weak self] response, error in
-            guard let self = self, let route = response?.routes.first else {
-                self?.speak("route_calculation_failed".localized)
-                self?.isRecalculating = false
-                return
-            }
-
             DispatchQueue.main.async {
+                guard let self = self else { return }
+                
+                self.isRecalculatingRoute = false
+                
+                if let error = error {
+                    print("Error calculando ruta: \(error)")
+                    self.speak("No se pudo calcular la ruta")
+                    return
+                }
+                
+                guard let route = response?.routes.first else {
+                    print("No se encontraron rutas")
+                    self.speak("No se encontró una ruta válida")
+                    return
+                }
+                
+                print("Ruta calculada: \(Int(route.distance))m, \(Int(route.expectedTravelTime/60))min")
                 self.route = route
                 self.trimmedPolyline = route.polyline
                 self.timeRemaining = route.expectedTravelTime
                 self.distanceRemaining = route.distance
-                self.isRecalculating = false
-
+                
                 if isRecalculation {
-                    // CLAVE: En recálculo, resetear índices pero mantener estado de audio
-                    self.lastInstructionIndex = nil // Permitir nuevas instrucciones
-                    
-                    if self.routeRecalculationCount <= 3 {
-                        self.speak("route_recalculated".localized)
-                    }
-                } else {
-                    // Solo en cálculo inicial
-                    if !self.hasSpokenInitialMessage {
-                        let startStreet = self.extractStreetName(from: route.steps.first?.instructions ?? "")
-                        let initialMessage = String(format: "heading_to_car_starting".localized, startStreet)
-                        print("🗣 \(initialMessage)")
-                        self.speak(initialMessage)
-                        self.hasSpokenInitialMessage = true
-                        self.lastInstructionIndex = 0
-                    }
+                    self.currentStepIndex = 0
+                    self.speak("Ruta recalculada")
+                } else if !self.hasSpokenInitialMessage {
+                    let startStreet = self.extractStreetName(from: route.steps.first?.instructions ?? "")
+                    self.speak("Dirígete hacia \(startStreet) para llegar a tu coche")
+                    self.hasSpokenInitialMessage = true
                 }
+                
+                self.lastRouteRecalculationTime = Date()
             }
         }
     }
-
-    private func updateTimeAndDistance(from location: CLLocation) {
+    
+    // MARK: - Gestión de Pasos de Ruta
+    private func updateRouteSteps(route: MKRoute) {
+        let steps = route.steps.filter { !$0.instructions.isEmpty }
+        guard !steps.isEmpty else { return }
+        
+        currentStepIndex = 0
+        currentStepInstruction = steps.first?.instructions
+        nextStepInstruction = steps.count > 1 ? steps[1].instructions : nil
+    }
+    
+    private func updateCurrentStep(from location: CLLocation) {
         guard let route = route else { return }
+        
+        let steps = route.steps.filter { !$0.instructions.isEmpty }
+        guard !steps.isEmpty else { return }
+        
+        for (index, step) in steps.enumerated() {
+            let stepLocation = CLLocation(latitude: step.polyline.coordinate.latitude,
+                                         longitude: step.polyline.coordinate.longitude)
+            let distance = location.distance(from: stepLocation)
+            
+            if distance < 20 { // Umbral de 20 metros para cambiar de paso
+                if index != currentStepIndex {
+                    currentStepIndex = index
+                    currentStepInstruction = step.instructions
+                    nextStepInstruction = index + 1 < steps.count ? steps[index + 1].instructions : nil
+                }
+                break
+            }
+        }
+    }
+    
+    // MARK: - Desviación de Ruta
+    private func checkForRouteRecalculation(from location: CLLocation) {
+        guard let route = route, !isRecalculatingRoute else { return }
+        
+        let now = Date()
+        if let lastRecalc = lastRouteRecalculationTime, now.timeIntervalSince(lastRecalc) < 8.0 {
+            return
+        }
+        
+        let point = MKMapPoint(location.coordinate)
+        let distanceToRoute = route.polyline.distance(to: point)
+        
+        if distanceToRoute > 25 {
+            consecutiveOffRouteCount += 1
+            routeDeviation = true
+            
+            if consecutiveOffRouteCount >= 2 {
+                lastRouteRecalculationTime = now
+                consecutiveOffRouteCount = 0
+                calculateRoute(isRecalculation: true)
+            }
+        } else {
+            if routeDeviation {
+                routeDeviation = false
+            }
+            consecutiveOffRouteCount = 0
+        }
+    }
+    
+    // MARK: - Instrucciones de Voz
+    private func speakNextInstructionIfNeeded(from location: CLLocation) {
+        guard let route = route else { return }
+        
+        let now = Date()
+        // 🔹 Esperar más tiempo antes de permitir otra instrucción
+        if let lastSpokenTime = lastSpokenTime, now.timeIntervalSince(lastSpokenTime) < 10.0 {
+            return
+        }
+        
+        let steps = route.steps.filter { !$0.instructions.isEmpty }
+        
+        for (index, step) in steps.enumerated() {
+            if index <= currentStepIndex { continue }
+            
+            let stepLocation = CLLocation(latitude: step.polyline.coordinate.latitude,
+                                          longitude: step.polyline.coordinate.longitude)
+            let distance = location.distance(from: stepLocation)
+            
+            var triggerDistance: CLLocationDistance = 40
+            if step.instructions.lowercased().contains("llegado") ||
+               step.instructions.lowercased().contains("destino") {
+                triggerDistance = 20
+            }
+            
+            if distance < triggerDistance {
+                // 🔹 Solo hablar si este paso no se ha anunciado aún
+                if lastSpokenStepIndex != index {
+                    speak(step.instructions)
+                    lastSpokenStepIndex = index
+                    lastSpokenTime = now
+                }
+                break
+            }
+        }
+    }
+    
+    private func speak(_ text: String) {
+        guard !text.isEmpty else { return }
 
+        do {
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch {
+            print("Error activando audio: \(error)")
+        }
+
+        if speechSynthesizer.isSpeaking {
+            speechSynthesizer.stopSpeaking(at: .immediate)
+        }
+
+        let localeLanguageCode: String
+        if #available(iOS 16.0, *) {
+            if let languageCode = Locale.current.language.languageCode {
+                localeLanguageCode = languageCode.identifier
+            } else {
+                localeLanguageCode = "es" // default fallback
+            }
+        } else {
+            localeLanguageCode = Locale.current.languageCode ?? "es"
+        }
+
+        let supportedLanguages = [
+            "es": "es-ES",
+            "fr": "fr-FR",
+            "de": "de-DE",
+            "en": "en-US",
+            "ar": "ar-SA",
+            "it": "it-IT",
+            "pt": "pt-PT"
+        ]
+
+        let languageCode = supportedLanguages[localeLanguageCode] ?? "es-ES"
+
+        let utterance = AVSpeechUtterance(string: text)
+        utterance.voice = AVSpeechSynthesisVoice(language: languageCode)
+        utterance.rate = 0.5
+        utterance.volume = 1.0
+
+        speechSynthesizer.speak(utterance)
+    }
+
+    // MARK: - Cálculo de Distancia y Tiempo
+    private func updateTimeAndDistance(from location: CLLocation) {
+        if let route = route {
+            updateTimeAndDistanceWithRoute(from: location, route: route)
+        } else {
+            updateDirectTimeAndDistance(from: location)
+        }
+    }
+    
+    private func updateTimeAndDistanceWithRoute(from location: CLLocation, route: MKRoute) {
         let polyline = route.polyline
         let point = MKMapPoint(location.coordinate)
-
+        
         var closestIndex = 0
         var closestDistance = CLLocationDistance.greatestFiniteMagnitude
-
+        
         for i in 0..<polyline.pointCount {
             let pt = polyline.points()[i]
             let dist = point.distance(to: pt)
@@ -168,153 +314,55 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
                 closestIndex = i
             }
         }
-
+        
         var remainingDistance: CLLocationDistance = 0
+        let points = polyline.points()
+        
         for i in closestIndex..<polyline.pointCount - 1 {
-            let start = polyline.points()[i]
-            let end = polyline.points()[i + 1]
+            let start = points[i]
+            let end = points[i + 1]
             remainingDistance += start.distance(to: end)
         }
-
-        let factor = remainingDistance / route.distance
-        let remainingTime = route.expectedTravelTime * factor
-
-        DispatchQueue.main.async {
-            self.distanceRemaining = remainingDistance
-            self.timeRemaining = remainingTime
-        }
+        
+        let progressFactor = min(1.0, max(0.0, remainingDistance / route.distance))
+        let remainingTime = route.expectedTravelTime * progressFactor
+        
+        distanceRemaining = max(0, remainingDistance)
+        timeRemaining = max(0, remainingTime)
     }
-
+    
+    private func updateDirectTimeAndDistance(from location: CLLocation) {
+        let directDistance = location.distance(from: CLLocation(
+            latitude: parkingLocation.latitude,
+            longitude: parkingLocation.longitude
+        ))
+        
+        distanceRemaining = directDistance
+        timeRemaining = directDistance / 1.4 // Velocidad de caminata ~5 km/h
+    }
+    
+    // MARK: - Helpers
+    func distanceToCar() -> Int? {
+        Int(distanceRemaining)
+    }
+    
+    var expectedTravelTimeMinutes: Int? {
+        guard timeRemaining.isFinite, !timeRemaining.isNaN else { return nil }
+        return Int(timeRemaining / 60)
+    }
+    
     private func extractStreetName(from instruction: String) -> String {
         let words = instruction.split(separator: " ")
         if let index = words.firstIndex(where: { $0.lowercased() == "en" }), index + 1 < words.count {
             return words[(index + 1)...].joined(separator: " ")
         }
-        return "current_street".localized
+        return "la calle actual"
     }
-
-    // FUNCIÓN SPEAKNEXTINSTRUCTION CORREGIDA
-    private func speakNextInstructionIfNeeded(from location: CLLocation) {
-        guard let route = route else { return }
-        
-        // Evitar múltiples instrucciones muy seguidas
-        let now = Date()
-        if let lastSpokenTime = lastSpokenTime,
-           now.timeIntervalSince(lastSpokenTime) < 3.0 {
-            return
-        }
-
-        for (index, step) in route.steps.enumerated() {
-            if step.instructions.isEmpty { continue }
-            if let lastIndex = lastInstructionIndex, index <= lastIndex { continue }
-
-            // Ignorar la primera instrucción si ya se dijo el mensaje inicial
-            if index == 0 && hasSpokenInitialMessage { continue }
-
-            let stepCoord = step.polyline.coordinate
-            let stepLocation = CLLocation(latitude: stepCoord.latitude, longitude: stepCoord.longitude)
-            let distance = location.distance(from: stepLocation)
-
-            // Distancia ajustada según el tipo de instrucción
-            var triggerDistance: CLLocationDistance = 40
-            if step.instructions.lowercased().contains("llegado") ||
-               step.instructions.lowercased().contains("destino") {
-                triggerDistance = 20 // Más cerca para el destino
-            }
-
-            if distance < triggerDistance {
-                var message = ""
-
-                let instruction = step.instructions.lowercased()
-
-                if instruction.contains("gira a la derecha") {
-                    message = String(format: "turn_right_in_meters".localized, Int(distance))
-                } else if instruction.contains("gira a la izquierda") {
-                    message = String(format: "turn_left_in_meters".localized, Int(distance))
-                } else if instruction.contains("continúa recto") || instruction.contains("sigue recto") {
-                    message = "continue_straight".localized
-                } else if instruction.contains("has llegado") || instruction.contains("llega a tu destino") {
-                    message = "arrived_at_car".localized
-                } else {
-                    message = step.instructions
-                }
-
-                print("🗣 Próxima instrucción: \(message)")
-                speak(message)
-                lastInstructionIndex = index
-                lastSpokenTime = now
-                break
-            }
-        }
-    }
-
-    // FUNCIÓN SPEAK CON AUDIO SESSION Y MULTIIDIOMA
-    private func speak(_ text: String) {
-        // Reactivar audio session antes de hablar
-        do {
-            try AVAudioSession.sharedInstance().setActive(true)
-        } catch {
-            print("❌ Error activando audio session: \(error)")
-        }
-        
-        // Parar cualquier audio en curso
-        if speechSynthesizer.isSpeaking {
-            speechSynthesizer.stopSpeaking(at: .immediate)
-        }
-        
-        let utterance = AVSpeechUtterance(string: text)
-        
-        // AUDIO MULTIIDIOMA
-       
-        let currentLanguage: String
-
-        if #available(iOS 16.0, *) {
-            currentLanguage = Locale.current.language.languageCode?.identifier ?? "es"
-        } else {
-            currentLanguage = Locale.current.languageCode ?? "es"
-        }
-
-        var voiceLanguage: String
-
-        switch currentLanguage {
-        case "en":
-            voiceLanguage = "en-US"
-        case "fr":
-            voiceLanguage = "fr-FR"
-        case "de":
-            voiceLanguage = "de-DE"
-        case "ar":
-            voiceLanguage = "ar-SA"
-        default:
-            voiceLanguage = "es-ES"
-        }
-
-        
-        // Intentar obtener voz en el idioma deseado, fallback a español
-        if let voice = AVSpeechSynthesisVoice(language: voiceLanguage) {
-            utterance.voice = voice
-        } else {
-            utterance.voice = AVSpeechSynthesisVoice(language: "es-ES")
-            print("⚠️ Voz no disponible para \(voiceLanguage), usando español")
-        }
-        
-        utterance.rate = 0.5
-        utterance.volume = 1.0
-        speechSynthesizer.speak(utterance)
-        
-        print("🎤 Audio iniciado (\(voiceLanguage)): \(text)")
-    }
-
-    // MARK: - Helpers
-
-    func distanceToCar() -> Int? {
-        Int(distanceRemaining)
-    }
-
-    var expectedTravelTimeMinutes: Int? {
-        guard timeRemaining.isFinite, !timeRemaining.isNaN else {
-            return nil
-        }
-        return Int(timeRemaining / 60)
+    
+    // MARK: - Limpieza
+    deinit {
+        routeCalculationTimer?.invalidate()
+        locationManager.stopUpdatingLocation()
+        cancellables.forEach { $0.cancel() }
     }
 }

@@ -4,7 +4,7 @@ struct MapGuideButton: View {
     let action: () -> Void
     var body: some View {
         Button(action: action) {
-            Text("Volver a mi coche")
+            Text("Volver a mi coche".localized)
                 .padding(.top, 8)
         }
     }

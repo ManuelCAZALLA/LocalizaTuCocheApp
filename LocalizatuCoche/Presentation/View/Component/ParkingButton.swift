@@ -13,7 +13,7 @@ struct ParkingButton: View {
     
     var body: some View {
         Button(action: action) {
-            Text("Aparcado aquí")
+            Text("Aparcado aquí".localized)
                 .font(.title2)
                 .padding()
                 .frame(maxWidth: .infinity)

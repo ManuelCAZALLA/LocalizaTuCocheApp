@@ -43,11 +43,11 @@ struct MapView: View {
     @available(iOS 17.0, *)
     private var ios17MapView: some View {
         Map(position: .constant(.region(region)), interactionModes: .all) {
-            Annotation("Coche", coordinate: viewModel.parkingLocation) {
+            Annotation("Coche".localized, coordinate: viewModel.parkingLocation) {
                 carAnnotationView
             }
             if let userCoord = viewModel.userLocation {
-                Annotation("Tú", coordinate: userCoord) {
+                Annotation("Tú".localized, coordinate: userCoord) {
                     userAnnotationView
                 }
             }
@@ -169,7 +169,7 @@ struct MapView: View {
                                 .foregroundColor(.secondary)
                                 .font(.system(size: 14))
                             
-                            Text("Siguiente: \(nextInstruction)")
+                            Text("Siguiente: ".localized + nextInstruction)
                                 .font(.system(size: 14))
                                 .foregroundColor(.secondary)
                                 .multilineTextAlignment(.leading)

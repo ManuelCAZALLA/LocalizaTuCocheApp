@@ -170,7 +170,7 @@ struct ContentView: View {
                 }
         }
         .alert("camera_permission_denied".localized, isPresented: $showCameraDeniedAlert) {
-            Button("settings".localized) {
+            Button("open_settings".localized) {
                 if let settingsUrl = URL(string: UIApplication.openSettingsURLString) {
                     UIApplication.shared.open(settingsUrl)
                 }

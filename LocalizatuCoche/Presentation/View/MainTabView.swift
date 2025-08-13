@@ -10,7 +10,7 @@ struct MainTabView: View {
         TabView(selection: $selectedTab) {
             ContentView()
                 .tabItem {
-                    Label("Inicio", systemImage: "car.fill")
+                    Label("Inicio".localized, systemImage: "car.fill")
                 }
                 .tag(0)
 
@@ -19,7 +19,7 @@ struct MainTabView: View {
                 openParkingFromNotification: $openParkingFromNotification
             )
             .tabItem {
-                Label("Parquímetro", systemImage: "timer")
+                Label("Parquímetro".localized, systemImage: "timer")
             }
             .tag(1)
 

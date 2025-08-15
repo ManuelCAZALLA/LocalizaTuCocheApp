@@ -5,26 +5,21 @@ struct RateOrRecommendPopup: View {
     @Binding var isPresented: Bool
     let onRatedOrRecommended: () -> Void
     
-    private let appStoreURL = URL(string: "https://apps.apple.com/app/idTU_ID_DE_APP")! // REEMPLAZAR ESTE ENLACE POR EL REAL CUANDO LA APP ESTÉ PUBLICADA
+    private let appStoreURL = URL(string: "https://apps.apple.com/app/id6749463931")!
     
     var body: some View {
         EmptyView()
             .alert("rate_or_recommend_message".localized, isPresented: $isPresented) {
                 Button("rate_app".localized) {
                     if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-                        if #available(iOS 16.0, *) {
-                            AppStore.requestReview(in: scene)
-                        } else {
-                            SKStoreReviewController.requestReview(in: scene)
-                        }
+                        SKStoreReviewController.requestReview(in: scene)
                     }
                     UserDefaults.standard.set(true, forKey: "hasRatedOrRecommended")
                     UserDefaults.standard.set(Date(), forKey: "lastRatePopupDate")
                     onRatedOrRecommended()
                 }
                 Button("recommend_friend".localized) {
-                    let url = appStoreURL
-                    let activityVC = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+                    let activityVC = UIActivityViewController(activityItems: [appStoreURL], applicationActivities: nil)
                     if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                        let rootVC = scene.windows.first?.rootViewController {
                         rootVC.present(activityVC, animated: true, completion: nil)

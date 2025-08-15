@@ -32,3 +32,4 @@ done
 echo "✅ dSYMs de Firebase arreglados"
 
 
+

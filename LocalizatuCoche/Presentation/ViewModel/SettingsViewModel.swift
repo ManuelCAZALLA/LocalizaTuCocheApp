@@ -11,7 +11,7 @@ class SettingsViewModel: ObservableObject {
     
     // MARK: - App Info
     var appVersion: String {
-        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
+        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.1"
     }
     
     // MARK: - URLs y datos de soporte
@@ -61,12 +61,11 @@ class SettingsViewModel: ObservableObject {
         UIApplication.shared.open(websiteURL, options: [:], completionHandler: nil)
     }
     
-    // MARK: - Solicitar valoración en App Store
-    @MainActor
+    // MARK: - Abrir valoración en App Store
     func requestReview() {
-        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-            SKStoreReviewController.requestReview(in: scene)
-        }
+        // URL que lleva directamente a la App Store para valorar
+        let reviewURL = URL(string: "https://apps.apple.com/app/id6749463931?action=write-review")!
+        UIApplication.shared.open(reviewURL, options: [:], completionHandler: nil)
     }
     
     // MARK: - Copiar email al portapapeles

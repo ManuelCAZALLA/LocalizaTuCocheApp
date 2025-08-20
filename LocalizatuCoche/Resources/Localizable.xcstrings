@@ -458,7 +458,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Locate your car"
+            "value" : "Park and Back"
           }
         },
         "es" : {
@@ -3008,43 +3008,43 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "⏱️"
+            "value" : "عداد مواقف السيارات"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "⏱️"
+            "value" : "Parkuhr"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "⏱️"
+            "value" : "Parking meter"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "🅿 Parquímetro"
+            "value" : "Parquímetro"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "⏱️"
+            "value" : "Parcomètre"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "⏱️"
+            "value" : "Parchimetro"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "⏱️"
+            "value" : "Parquímetro"
           }
         }
       }
@@ -3104,10 +3104,40 @@
             "state" : "translated",
             "value" : "Nota para el Aparcamiento"
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parking Note"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parknotiz"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nota di parcheggio"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nota de estacionamento"
+          }
+        },
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ملاحظة مواقف السيارات"
+          }
         }
       }
     },
-    "Parquímetro" : {
+ "Parquímetro" : {
       "extractionState" : "manual",
       "localizations" : {
         "ar" : {
@@ -3251,33 +3281,64 @@
     "rate_me" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rate me"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Valórame"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bewerte mich"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valutami"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avalie-me"
+          }
+        },
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قيمني"
+          }
         }
       }
     },
+
     "rate_or_recommend_message" : {
       "extractionState" : "manual",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "هل تستمتع باستخدام التطبيق؟ يمكنك تقييمه أو مشاركته مع صديق!"
+            "value" : "هل تستمتع باستخدام التطبيق؟ يمكنك تقييمه أو مشاركته مع صديق! 🚙✨"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gefällt dir die App? Du kannst sie bewerten oder einem Freund empfehlen!"
+            "value" : "Gefällt dir die App? Du kannst sie bewerten oder einem Freund empfehlen! 🚙✨"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Are you enjoying the app? You can rate it or share it with a friend!"
+            "value" : "Are you enjoying the app? You can rate it or share it with a friend! 🚙✨"
           }
         },
         "es" : {
@@ -3289,19 +3350,19 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aimez-vous l'application ? Vous pouvez la noter ou la partager avec un ami !"
+            "value" : "Aimez-vous l'application ? Vous pouvez la noter ou la partager avec un ami! 🚙✨"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ti piace l'app? Puoi valutarla o condividerla con un amico!"
+            "value" : "Ti piace l'app? Puoi valutarla o condividerla con un amico! 🚙✨"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Você está gostando do aplicativo? Você pode avaliá-lo ou compartilhar com um amigo!"
+            "value" : "Você está gostando do aplicativo? Você pode avaliá-lo ou compartilhar com um amigo! 🚙✨"
           }
         }
       }
@@ -4337,12 +4398,19 @@
             "value" : "مرحباً بك في اعثر على سيارتك"
           }
         },
+        
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Willkommen bei Finde dein Auto"
           }
         },
+        "en" : {
+              "stringUnit" : {
+                "state" : "translated",
+                "value" : "Welcome to Park and Back"
+              }
+            },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4370,5 +4438,5 @@
       }
     }
   },
-  "version" : "1.0"
+  "version" : "1.0.1"
 }

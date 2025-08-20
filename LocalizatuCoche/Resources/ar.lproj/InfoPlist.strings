@@ -1,0 +1,11 @@
+/* 
+  InfoPlist.strings
+  UbiCar
+  
+  Created by Manuel Cazalla Colmenero on 22/6/25.
+*/
+
+"NSLocationWhenInUseUsageDescription" = "نحن بحاجة إلى موقعك لمساعدتك في العثور على سيارتك.";
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "نحن بحاجة إلى موقعك لمساعدتك في العثور على سيارتك.";
+
+"CFBundleDisplayName" = "اعثر على سيارتك";

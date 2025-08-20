@@ -5,5 +5,7 @@
   Created by Manuel Cazalla Colmenero on 22/6/25.
 */
 
-"NSLocationWhenInUseUsageDescription" = "Localiza tu Coche needs access to your location to help you find your car.";
-"NSLocationAlwaysAndWhenInUseUsageDescription" = "Localiza tu Coche needs access to your location to help you find your car.";
+"NSLocationWhenInUseUsageDescription" = "We need your location to help you find your car..";
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "We need your location to help you find your car.";
+
+"CFBundleDisplayName" = "Park and Back";

@@ -5,5 +5,7 @@
   Created by Manuel Cazalla Colmenero on 22/6/25.
 */
 
-"NSLocationWhenInUseUsageDescription" = "UbiCar a besoin d'accéder à votre position pour vous aider à trouver votre voiture.";
-"NSLocationAlwaysAndWhenInUseUsageDescription" = "UbiCar a besoin d'accéder à votre position pour vous aider à trouver votre voiture."; 
+"NSLocationWhenInUseUsageDescription" = "Nous avons besoin de votre localisation pour vous aider à trouver votre voiture..";
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "Nous avons besoin de votre localisation pour vous aider à trouver votre voiture."; 
+
+"CFBundleDisplayName" = "Localise ta Voiture";

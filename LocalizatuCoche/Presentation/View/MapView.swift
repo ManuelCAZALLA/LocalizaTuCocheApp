@@ -31,11 +31,56 @@ struct MapView: View {
                 ios16MapView
             }
             
-            // Distancia/tiempo overlay (común para ambas versiones)
-            distanceTimeOverlay
+            // Nueva barra superior reorganizada
+            topBar
             
-            // NUEVO: Overlay de indicaciones escritas
+            // Overlay de indicaciones escritas (en la parte inferior)
             instructionsOverlay
+        }
+    }
+    
+    // MARK: - Nueva Barra Superior Reorganizada
+    private var topBar: some View {
+        VStack(spacing: 0) {
+            HStack {
+                // Información de distancia/tiempo con tamaño fijo
+                distanceTimeView
+                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                
+                // Botones de acción agrupados a la derecha
+                HStack(spacing: 12) {
+                    googleMapsButton
+                    
+                    if let onClose = onClose {
+                        closeButton(action: onClose)
+                    }
+                }
+            }
+            .padding(.horizontal, 16)
+            .padding(.top, 16)
+            
+            Spacer()
+        }
+    }
+    
+    // MARK: - Vista de Distancia/Tiempo (Modificada)
+    private var distanceTimeView: some View {
+        Group {
+            if let distance = viewModel.distanceToCar(), let minutes = viewModel.expectedTravelTimeMinutes {
+                distanceTimeText(distance: distance, minutes: minutes)
+            } else if let distance = viewModel.distanceToCar() {
+                distanceOnlyText(distance: distance)
+            } else {
+                // Placeholder para mantener el espacio cuando no hay datos
+                Text("Cargando...")
+                    .font(.subheadline)
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+                    .background(Color.black.opacity(0.7))
+                    .cornerRadius(14)
+                    .hidden() // Oculto pero mantiene el espacio
+            }
         }
     }
     
@@ -116,28 +161,53 @@ struct MapView: View {
             )
     }
     
-    // MARK: - Distance/Time Overlay
-    private var distanceTimeOverlay: some View {
-        VStack {
-            HStack {
-                if let distance = viewModel.distanceToCar(), let minutes = viewModel.expectedTravelTimeMinutes {
-                    distanceTimeText(distance: distance, minutes: minutes)
-                } else if let distance = viewModel.distanceToCar() {
-                    distanceOnlyText(distance: distance)
-                }
-                
-                Spacer()
-                
-                // Botón cerrar
-                if let onClose = onClose {
-                    closeButton(action: onClose)
-                }
-            }
-            Spacer()
+    // MARK: - Botón Google Maps (Modificado para ser más compacto)
+    private var googleMapsButton: some View {
+        Button(action: openInGoogleMaps) {
+            Image(systemName: "map.fill")
+                .font(.system(size: 16, weight: .bold))
+                .foregroundColor(.white)
+                .frame(width: 36, height: 36)
+        }
+        .background(Color("AppPrimary"))
+        .clipShape(Circle())
+        .buttonStyle(.plain)
+    }
+    
+    // MARK: - Botón Cerrar (Modificado para ser consistente)
+    private func closeButton(action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Image(systemName: "xmark")
+                .font(.system(size: 16, weight: .bold))
+                .foregroundColor(.white)
+                .frame(width: 36, height: 36)
+        }
+        .background(Color.black.opacity(0.4))
+        .clipShape(Circle())
+        .buttonStyle(.plain)
+    }
+    
+    // MARK: - NUEVO: Open Google Maps Function
+    private func openInGoogleMaps() {
+        let latitude = viewModel.parkingLocation.latitude
+        let longitude = viewModel.parkingLocation.longitude
+        
+        // URL para Google Maps app
+        let googleMapsURL = "comgooglemaps://?daddr=\(latitude),\(longitude)&directionsmode=walking"
+        
+        // URL para Google Maps web como fallback
+        let googleMapsWebURL = "https://www.google.com/maps/dir/?api=1&destination=\(latitude),\(longitude)&travelmode=walking"
+        
+        if let url = URL(string: googleMapsURL), UIApplication.shared.canOpenURL(url) {
+            // Google Maps app está instalada
+            UIApplication.shared.open(url)
+        } else if let webURL = URL(string: googleMapsWebURL) {
+            // Fallback a Google Maps web
+            UIApplication.shared.open(webURL)
         }
     }
     
-    // MARK: - NUEVO: Instructions Overlay
+    // MARK: - Instructions Overlay
     private var instructionsOverlay: some View {
         VStack {
             Spacer()
@@ -202,8 +272,6 @@ struct MapView: View {
         .padding(.vertical, 8)
         .background(Color.black.opacity(0.7))
         .cornerRadius(14)
-        .padding(.leading, 16)
-        .padding(.top, 16)
     }
     
     private func distanceOnlyText(distance: Int) -> some View {
@@ -220,22 +288,6 @@ struct MapView: View {
         .padding(.vertical, 8)
         .background(Color.black.opacity(0.7))
         .cornerRadius(14)
-        .padding(.leading, 16)
-        .padding(.top, 16)
-    }
-    
-    private func closeButton(action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            Image(systemName: "xmark")
-                .font(.system(size: 18, weight: .bold))
-                .foregroundColor(Color.white.opacity(0.85))
-                .padding(10)
-        }
-        .background(Color.black.opacity(0.4))
-        .clipShape(Circle())
-        .padding(.trailing, 16)
-        .padding(.top, 16)
-        .buttonStyle(.plain)
     }
     
     // MARK: - iOS 16 Support
@@ -252,8 +304,7 @@ struct MapView: View {
     }
     
     private var polylineOverlay: some View {
-        // Para iOS 16, podrías implementar un overlay personalizado para la polyline
-        // o usar una librería externa. Por simplicidad, lo dejamos vacío aquí.
+        
         EmptyView()
     }
     

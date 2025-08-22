@@ -392,7 +392,7 @@
         }
       }
     },
-   "Aparcado aquí" : {
+    "Aparcado aquí" : {
       "extractionState" : "manual",
       "localizations" : {
         "ar" : {
@@ -863,6 +863,9 @@
           }
         }
       }
+    },
+    "Cargando..." : {
+
     },
     "change_photo" : {
       "extractionState" : "manual",
@@ -2083,54 +2086,6 @@
         }
       }
     },
-    "open_settings" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "افتح الإعدادات"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Einstellungen öffnen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open Settings"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Abrir ajustes"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ouvrir les paramètres"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apri impostazioni"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Abrir configurações"
-          }
-        }
-      }
-    },
-
     "last_parking" : {
       "comment" : "MARK: - Parking",
       "extractionState" : "manual",
@@ -2955,6 +2910,53 @@
         }
       }
     },
+    "open_settings" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "افتح الإعدادات"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einstellungen öffnen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Settings"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir ajustes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir les paramètres"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri impostazioni"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir configurações"
+          }
+        }
+      }
+    },
     "parking_duration" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3099,10 +3101,16 @@
     "parking_note" : {
       "extractionState" : "manual",
       "localizations" : {
-        "es" : {
+        "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nota para el Aparcamiento"
+            "value" : "ملاحظة مواقف السيارات"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parknotiz"
           }
         },
         "en" : {
@@ -3111,10 +3119,10 @@
             "value" : "Parking Note"
           }
         },
-        "de" : {
+        "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Parknotiz"
+            "value" : "Nota para el Aparcamiento"
           }
         },
         "it" : {
@@ -3128,16 +3136,10 @@
             "state" : "translated",
             "value" : "Nota de estacionamento"
           }
-        },
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ملاحظة مواقف السيارات"
-          }
         }
       }
     },
- "Parquímetro" : {
+    "Parquímetro" : {
       "extractionState" : "manual",
       "localizations" : {
         "ar" : {
@@ -3281,6 +3283,18 @@
     "rate_me" : {
       "extractionState" : "manual",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قيمني"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bewerte mich"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3291,12 +3305,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Valórame"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bewerte mich"
           }
         },
         "it" : {
@@ -3310,16 +3318,9 @@
             "state" : "translated",
             "value" : "Avalie-me"
           }
-        },
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "قيمني"
-          }
         }
       }
     },
-
     "rate_or_recommend_message" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4398,7 +4399,6 @@
             "value" : "مرحباً بك في اعثر على سيارتك"
           }
         },
-        
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4406,11 +4406,11 @@
           }
         },
         "en" : {
-              "stringUnit" : {
-                "state" : "translated",
-                "value" : "Welcome to Park and Back"
-              }
-            },
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welcome to Park and Back"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",

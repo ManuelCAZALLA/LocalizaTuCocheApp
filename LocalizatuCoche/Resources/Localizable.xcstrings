@@ -156,6 +156,9 @@
         }
       }
     },
+    "Activo" : {
+
+    },
     "add_helpful_details" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1710,6 +1713,9 @@
         }
       }
     },
+    "Foto opcional" : {
+
+    },
     "getting_location" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2790,6 +2796,9 @@
           }
         }
       }
+    },
+    "Notas personalizadas" : {
+
     },
     "note_content" : {
       "extractionState" : "manual"
@@ -4178,6 +4187,9 @@
           }
         }
       }
+    },
+    "Ubicación automática" : {
+
     },
     "unknown_status" : {
       "extractionState" : "manual",

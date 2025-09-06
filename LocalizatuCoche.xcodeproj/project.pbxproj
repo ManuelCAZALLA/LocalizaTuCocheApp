@@ -7,11 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3CAAB7CB2E3D2E97007E6B33 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 3CAAB7CA2E3D2E97007E6B33 /* FirebaseAnalytics */; };
-		3CAAB7CD2E3D2E97007E6B33 /* FirebaseAnalyticsCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3CAAB7CC2E3D2E97007E6B33 /* FirebaseAnalyticsCore */; };
-		3CAAB7CF2E3D2E97007E6B33 /* FirebaseAnalyticsIdentitySupport in Frameworks */ = {isa = PBXBuildFile; productRef = 3CAAB7CE2E3D2E97007E6B33 /* FirebaseAnalyticsIdentitySupport */; };
-		3CAAB7D12E3D2E97007E6B33 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3CAAB7D02E3D2E97007E6B33 /* FirebaseCore */; };
-		3CAAB7D32E3D2E97007E6B33 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 3CAAB7D22E3D2E97007E6B33 /* FirebaseCrashlytics */; };
+		3C034EDB2E6C9CA20000D6C9 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 3C034EDA2E6C9CA20000D6C9 /* FirebaseAnalytics */; };
+		3C034EDD2E6C9CA20000D6C9 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 3C034EDC2E6C9CA20000D6C9 /* FirebaseCrashlytics */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,11 +83,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3CAAB7CB2E3D2E97007E6B33 /* FirebaseAnalytics in Frameworks */,
-				3CAAB7CD2E3D2E97007E6B33 /* FirebaseAnalyticsCore in Frameworks */,
-				3CAAB7D32E3D2E97007E6B33 /* FirebaseCrashlytics in Frameworks */,
-				3CAAB7D12E3D2E97007E6B33 /* FirebaseCore in Frameworks */,
-				3CAAB7CF2E3D2E97007E6B33 /* FirebaseAnalyticsIdentitySupport in Frameworks */,
+				3C034EDB2E6C9CA20000D6C9 /* FirebaseAnalytics in Frameworks */,
+				3C034EDD2E6C9CA20000D6C9 /* FirebaseCrashlytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,11 +144,8 @@
 			);
 			name = LocalizatuCoche;
 			packageProductDependencies = (
-				3CAAB7CA2E3D2E97007E6B33 /* FirebaseAnalytics */,
-				3CAAB7CC2E3D2E97007E6B33 /* FirebaseAnalyticsCore */,
-				3CAAB7CE2E3D2E97007E6B33 /* FirebaseAnalyticsIdentitySupport */,
-				3CAAB7D02E3D2E97007E6B33 /* FirebaseCore */,
-				3CAAB7D22E3D2E97007E6B33 /* FirebaseCrashlytics */,
+				3C034EDA2E6C9CA20000D6C9 /* FirebaseAnalytics */,
+				3C034EDC2E6C9CA20000D6C9 /* FirebaseCrashlytics */,
 			);
 			productName = UbiCar;
 			productReference = 3CFC1D362E0803990072BC1C /* Localiza tu Coche.app */;
@@ -240,7 +231,7 @@
 			mainGroup = 3CFC1D2D2E0803990072BC1C;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				3CAAB7C92E3D2E97007E6B33 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				3C034ED92E6C9CA20000D6C9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3CFC1D372E0803990072BC1C /* Products */;
@@ -446,7 +437,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"LocalizatuCoche/Assets.xcassets\"";
 				DEVELOPMENT_TEAM = YNAD5X38LN;
@@ -469,7 +460,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ManuelCazalla.LocalizatuCoche;
 				PRODUCT_NAME = "Localiza tu Coche";
 				STRIP_INSTALLED_PRODUCT = NO;
@@ -479,7 +470,7 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -489,7 +480,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"LocalizatuCoche/Assets.xcassets\"";
 				DEVELOPMENT_TEAM = YNAD5X38LN;
@@ -512,7 +503,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ManuelCazalla.LocalizatuCoche;
 				PRODUCT_NAME = "Localiza tu Coche";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -521,7 +512,7 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -637,40 +628,25 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		3CAAB7C92E3D2E97007E6B33 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+		3C034ED92E6C9CA20000D6C9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 12.0.0;
+				minimumVersion = 12.2.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		3CAAB7CA2E3D2E97007E6B33 /* FirebaseAnalytics */ = {
+		3C034EDA2E6C9CA20000D6C9 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3CAAB7C92E3D2E97007E6B33 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 3C034ED92E6C9CA20000D6C9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAnalytics;
 		};
-		3CAAB7CC2E3D2E97007E6B33 /* FirebaseAnalyticsCore */ = {
+		3C034EDC2E6C9CA20000D6C9 /* FirebaseCrashlytics */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3CAAB7C92E3D2E97007E6B33 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalyticsCore;
-		};
-		3CAAB7CE2E3D2E97007E6B33 /* FirebaseAnalyticsIdentitySupport */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3CAAB7C92E3D2E97007E6B33 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalyticsIdentitySupport;
-		};
-		3CAAB7D02E3D2E97007E6B33 /* FirebaseCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3CAAB7C92E3D2E97007E6B33 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseCore;
-		};
-		3CAAB7D22E3D2E97007E6B33 /* FirebaseCrashlytics */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3CAAB7C92E3D2E97007E6B33 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 3C034ED92E6C9CA20000D6C9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseCrashlytics;
 		};
 /* End XCSwiftPackageProductDependency section */

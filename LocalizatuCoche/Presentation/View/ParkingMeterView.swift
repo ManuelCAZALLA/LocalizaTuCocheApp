@@ -19,7 +19,6 @@ struct ParkingMeterView: View {
     
     enum ActiveAlert: Identifiable {
         case preEnd, final, noParking, notification
-        
         var id: Int { hashValue }
     }
     
@@ -144,47 +143,26 @@ struct ParkingMeterView: View {
     private var setupTimerView: some View {
         VStack {
             Spacer()
-            VStack(spacing: 32) {
-                // Duración
-                VStack(spacing: 16) {
-                    Text("parking_duration".localized)
-                        .font(.system(size: 22, weight: .bold))
-                        .foregroundColor(Color("AppPrimary"))
-                    Picker("Minutos", selection: $selectedMinutes) {
-                        ForEach(minuteOptions, id: \.self) { minute in
-                            Text(String(format: "minutes_format".localized, minute)).tag(minute)
-                        }
+            
+            GeometryReader { geo in
+                if geo.size.width > 600 {
+                    // iPad: dos columnas con rueda vertical
+                    HStack(alignment: .top, spacing: 32) {
+                        durationBlock
+                        preEndBlockForiPad
                     }
-                    .pickerStyle(WheelPickerStyle())
-                    .frame(height: 180)
-                    .clipped()
-                }
-                .frame(maxWidth: .infinity)
-                .background(Color.white)
-                .cornerRadius(20)
-                .shadow(color: Color("AppPrimary").opacity(0.08), radius: 10, x: 0, y: 4)
-                .padding(.horizontal)
-                
-                // Aviso antes de finalizar
-                VStack(spacing: 16) {
-                    Text("pre_end_alert".localized)
-                        .font(.system(size: 20, weight: .bold))
-                        .foregroundColor(Color("AppPrimary"))
-                    
-                    Picker("notify_before".localized, selection: $preEndAlertMinutes) {
-                        ForEach(preEndOptions, id: \.self) { min in
-                            Text(String(format: "minutes_format".localized, min)).tag(min)
-                        }
+                    .padding(.horizontal)
+                } else {
+                    // iPhone: vertical, alerta previa como estaba
+                    VStack(spacing: 32) {
+                        durationBlock
+                        preEndBlockForiPhone
                     }
-                    .pickerStyle(SegmentedPickerStyle())
                     .padding(.horizontal)
                 }
-                .frame(maxWidth: .infinity)
-                .background(Color.white)
-                .cornerRadius(20)
-                .shadow(color: Color("AppPrimary").opacity(0.08), radius: 10, x: 0, y: 4)
-                .padding(.horizontal)
             }
+            .frame(height: 300)
+            
             Spacer()
             
             Button {
@@ -205,6 +183,71 @@ struct ParkingMeterView: View {
         .ignoresSafeArea(.keyboard)
     }
     
+    // MARK: - Subviews reutilizables
+    
+    private var durationBlock: some View {
+        VStack(spacing: 16) {
+            Text("parking_duration".localized)
+                .font(.system(size: 22, weight: .bold))
+                .foregroundColor(Color("AppPrimary"))
+            Picker("Minutos", selection: $selectedMinutes) {
+                ForEach(minuteOptions, id: \.self) { minute in
+                    Text(String(format: "minutes_format".localized, minute)).tag(minute)
+                }
+            }
+            .pickerStyle(WheelPickerStyle())
+            .frame(height: 180)
+            .clipped()
+        }
+        .frame(maxWidth: .infinity)
+        .background(Color.white)
+        .cornerRadius(20)
+        .shadow(color: Color("AppPrimary").opacity(0.08), radius: 10, x: 0, y: 4)
+    }
+    
+    // Para iPad: rueda vertical
+    private var preEndBlockForiPad: some View {
+        VStack(spacing: 16) {
+            Text("pre_end_alert".localized)
+                .font(.system(size: 20, weight: .bold))
+                .foregroundColor(Color("AppPrimary"))
+            
+            Picker("notify_before".localized, selection: $preEndAlertMinutes) {
+                ForEach(preEndOptions, id: \.self) { min in
+                    Text(String(format: "minutes_format".localized, min)).tag(min)
+                }
+            }
+            .pickerStyle(WheelPickerStyle())
+            .frame(height: 180)
+            .clipped()
+        }
+        .frame(maxWidth: .infinity)
+        .background(Color.white)
+        .cornerRadius(20)
+        .shadow(color: Color("AppPrimary").opacity(0.08), radius: 10, x: 0, y: 4)
+    }
+    
+    // Para iPhone: mantiene el SegmentedPickerStyle
+    private var preEndBlockForiPhone: some View {
+        VStack(spacing: 16) {
+            Text("pre_end_alert".localized)
+                .font(.system(size: 20, weight: .bold))
+                .foregroundColor(Color("AppPrimary"))
+            
+            Picker("notify_before".localized, selection: $preEndAlertMinutes) {
+                ForEach(preEndOptions, id: \.self) { min in
+                    Text(String(format: "minutes_format".localized, min)).tag(min)
+                }
+            }
+            .pickerStyle(SegmentedPickerStyle())
+            .padding(.horizontal)
+        }
+        .frame(maxWidth: .infinity)
+        .background(Color.white)
+        .cornerRadius(20)
+        .shadow(color: Color("AppPrimary").opacity(0.08), radius: 10, x: 0, y: 4)
+    }
+    
     private func setupCallbacks() {
         viewModel.onPreEndAlert = {
             DispatchQueue.main.async {
@@ -217,7 +260,6 @@ struct ParkingMeterView: View {
             }
         }
     }
-
     
     private func goToCar() {
         if parkingViewModel.lastParking != nil {

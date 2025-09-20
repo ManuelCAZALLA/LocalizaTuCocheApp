@@ -19,6 +19,8 @@ struct ContentView: View {
     @State private var editingPhotoForSavedParking = false
     @State private var showCameraDeniedAlert = false
     @State private var hasCountedLaunch = false
+    @State private var ratePopupAlreadyShown = false
+    
     
     // Estados de animación y feedback
     @State private var isSaving = false
@@ -33,8 +35,6 @@ struct ContentView: View {
         UserDefaults.standard.set(date, forKey: "lastRatePopupDate")
     }
 
-    @State private var ratePopupAlreadyShown = false
-    
     private func checkRatePopupLogic() {
         guard !hasRated else { return }
         
@@ -56,7 +56,6 @@ struct ContentView: View {
         }
     }
 
-    
     private func checkCameraPermission() {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .authorized:

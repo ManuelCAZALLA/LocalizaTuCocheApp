@@ -13,7 +13,6 @@ struct PhotoPreviewView: View {
                         Image(systemName: "photo.circle.fill")
                             .font(isIPad ? .title2 : .headline)
                             .foregroundColor(Color("AccentColor"))
-                        Text("photo_preview".localized)
                             .font(isIPad ? .system(size: 20, weight: .semibold) : .headline)
                             .fontWeight(isIPad ? .semibold : .medium)
                             .foregroundColor(Color("AppPrimary"))

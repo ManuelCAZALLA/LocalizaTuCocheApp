@@ -1,6 +1,5 @@
 import SwiftUI
 import CoreLocation
-import StoreKit
 import AVFoundation
 
 @available(iOS 16.0, *)
@@ -11,52 +10,29 @@ struct ContentView: View {
     @State private var showMap = false
     @State private var parkingNote: String = ""
     @State private var showNoteSheet = false
-    @State private var showRatePopup = false
     
     // Estados para la foto
     @State private var showImagePicker = false
     @State private var parkingPhoto: UIImage? = nil
     @State private var editingPhotoForSavedParking = false
     @State private var showCameraDeniedAlert = false
-    @State private var hasCountedLaunch = false
+    // @State private var hasCountedLaunch = false
     
     // Estados de animación y feedback
     @State private var isSaving = false
     @State private var showSuccessAnimation = false
     
-    @AppStorage("hasRatedOrRecommended") private var hasRated = false
-    @AppStorage("launchCount") private var launchCount = 0
-    @State private var lastPopupDate = UserDefaults.standard.object(forKey: "lastRatePopupDate") as? Date ?? Date.distantPast
-
-    func updateLastPopupDate(_ date: Date) {
-        lastPopupDate = date
-        UserDefaults.standard.set(date, forKey: "lastRatePopupDate")
-    }
-
-    @State private var ratePopupAlreadyShown = false
     
-    private func checkRatePopupLogic() {
-        guard !hasRated else { return }
-        
-       if !hasCountedLaunch {
-            launchCount += 1
-            UserDefaults.standard.set(launchCount, forKey: "launchCount")
-            hasCountedLaunch = true
-        }
-        
-        let now = Date()
-        let fiveDays: TimeInterval = 5 * 24 * 60 * 60
-        let shouldShowByLaunch = launchCount % 3 == 0
-        let shouldShowByDate = now.timeIntervalSince(lastPopupDate) > fiveDays
-        
-        if (shouldShowByLaunch || shouldShowByDate) && !ratePopupAlreadyShown {
-            showRatePopup = true
-            updateLastPopupDate(now)
-            ratePopupAlreadyShown = true
-        }
-    }
-
+    @AppStorage("isPro") private var isPro = false
+    @AppStorage("hasSeenProPromoV1") private var hasSeenProPromo = false
     
+    @AppStorage("hasShownOnboardingV1") private var hasShownOnboarding = false
+    @State private var showCoachMarks = false
+    @State private var coachSteps: [CoachMark] = []
+    @State private var currentCoachIndex: Int = 0
+    @State private var coachTargets: [String: Anchor<CGRect>] = [:]
+    
+   
     private func checkCameraPermission() {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .authorized:
@@ -150,15 +126,22 @@ struct ContentView: View {
             if showSuccessAnimation {
                 successOverlay
             }
+            // Pro promo ahora se muestra desde RootView
+            // Overlay de coach marks
+            if showCoachMarks, currentCoachIndex < coachSteps.count {
+                CoachMarksOverlay(
+                    step: coachSteps[currentCoachIndex],
+                    targets: coachTargets,
+                    onNext: advanceCoachStep,
+                    onSkip: finishCoach
+                )
+                .allowsHitTesting(true)
+                .transition(.opacity)
+            }
         }
         .onAppear {
-            checkRatePopupLogic()
+            prepareCoachMarksIfNeeded()
         }
-        .overlay(
-            RateOrRecommendPopup(isPresented: $showRatePopup) {
-                showRatePopup = false
-            }
-        )
         .sheet(isPresented: $showImagePicker) {
             ImagePicker(sourceType: .camera, selectedImage: $parkingPhoto)
                 .onDisappear {
@@ -195,6 +178,19 @@ struct ContentView: View {
                     showNoteSheet = false
                 }
             )
+        }
+        // Captura de anchors para coach marks
+        .overlayPreferenceValue(CoachMarkTargetsKey.self) { value in
+            GeometryReader { _ in
+                Color.clear
+                    .onAppear { coachTargets = value }
+                    .onChange(of: value) { newValue in
+                        coachTargets = newValue
+                        if showCoachMarks, let first = coachSteps.first, newValue[first.id] != nil {
+                            // ...
+                        }
+                    }
+            }
         }
     }
     
@@ -281,6 +277,7 @@ struct ContentView: View {
             ParkingButton(enabled: locationManager.userLocation != nil && !isSaving) {
                 saveParkingWithAnimation()
             }
+            .coachMarkTarget(id: "saveButton")
         }
         .padding(.horizontal)
     }
@@ -363,6 +360,7 @@ struct ContentView: View {
                 .shadow(color: Color("AccentColor").opacity(0.3), radius: 4, x: 0, y: 2)
             }
             .buttonStyle(PlainButtonStyle())
+            .coachMarkTarget(id: "photoButton")
             
             // Botón de nota
             Button(action: { showNoteSheet = true }) {
@@ -381,6 +379,7 @@ struct ContentView: View {
                 .shadow(color: Color.orange.opacity(0.3), radius: 4, x: 0, y: 2)
             }
             .buttonStyle(PlainButtonStyle())
+            .coachMarkTarget(id: "noteButton")
         }
     }
     
@@ -426,7 +425,7 @@ struct ContentView: View {
         }
     }
     
-    // MARK: - Success Overlay 
+    // MARK: - Success Overlay
     private var successOverlay: some View {
         ZStack {
             Color.black.opacity(0.4)
@@ -495,12 +494,12 @@ struct ContentView: View {
                     .fontWeight(.semibold)
                     .foregroundColor(Color("AppPrimary"))
                     .multilineTextAlignment(.center)
-                }
+            }
             Text("no_parking_today_funny".localized)
                 .font(.body)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
-
+            
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 40)
@@ -509,6 +508,40 @@ struct ContentView: View {
         .cornerRadius(20)
         .shadow(color: Color.black.opacity(0.05), radius: 12, x: 0, y: 6)
         .padding(.horizontal)
+    }
+}
+
+// MARK: - Coach Marks Logic
+extension ContentView {
+    private func prepareCoachMarksIfNeeded() {
+        guard !hasShownOnboarding else { return }
+        coachSteps = [
+            CoachMark(id: "photoButton", textKey: "coach_photo"),
+            CoachMark(id: "noteButton", textKey: "coach_note"),
+            CoachMark(id: "saveButton", textKey: "coach_save")
+        ]
+        currentCoachIndex = 0
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+            withAnimation(.easeInOut(duration: 0.25)) {
+                showCoachMarks = true
+            }
+        }
+    }
+    private func advanceCoachStep() {
+        let next = currentCoachIndex + 1
+        if next < coachSteps.count {
+            withAnimation(.easeInOut(duration: 0.25)) {
+                currentCoachIndex = next
+            }
+        } else {
+            finishCoach()
+        }
+    }
+    private func finishCoach() {
+        withAnimation(.easeInOut(duration: 0.25)) {
+            showCoachMarks = false
+        }
+        hasShownOnboarding = true
     }
 }
 
@@ -569,7 +602,7 @@ struct NoteSheet: View {
                         Text("\(text.count)/200")
                             .font(.caption)
                             .foregroundColor(text.count > 200 ? .red : .secondary)
-
+                        
                     }
                     
                     ZStack(alignment: .topLeading) {
@@ -636,3 +669,4 @@ struct NoteSheet: View {
         }
     }
 }
+

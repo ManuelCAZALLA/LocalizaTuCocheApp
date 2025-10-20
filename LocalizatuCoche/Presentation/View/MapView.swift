@@ -4,6 +4,12 @@ import MapKit
 struct MapView: View {
     @StateObject private var viewModel: MapViewModel
     @State private var shouldAutoFit: Bool = true
+    // Coach marks
+    @AppStorage("hasShownMapOnboardingV1") private var hasShownMapOnboarding = false
+    @State private var mapCoachTargets: [String: Anchor<CGRect>] = [:]
+    @State private var mapCoachSteps: [CoachMark] = []
+    @State private var mapCoachIndex: Int = 0
+    @State private var showMapCoach: Bool = false
     
     // Para iOS 16
     @State private var region: MKCoordinateRegion
@@ -36,7 +42,30 @@ struct MapView: View {
             
             // Overlay de indicaciones escritas (en la parte inferior)
             instructionsOverlay
+            
+            // Coach marks overlay
+            if showMapCoach, mapCoachIndex < mapCoachSteps.count {
+                CoachMarksOverlay(
+                    step: mapCoachSteps[mapCoachIndex],
+                    targets: mapCoachTargets,
+                    onNext: advanceMapCoach,
+                    onSkip: finishMapCoach
+                )
+            }
         }
+        .overlayPreferenceValue(CoachMarkTargetsKey.self) { value in
+            GeometryReader { _ in
+                Color.clear
+                    .onAppear { mapCoachTargets = value }
+                    .onChange(of: value) { newVal in
+                        mapCoachTargets = newVal
+                        if !showMapCoach, let first = mapCoachSteps.first, newVal[first.id] != nil {
+                            withAnimation(.easeInOut(duration: 0.25)) { showMapCoach = true }
+                        }
+                    }
+            }
+        }
+        .onAppear { prepareMapCoachIfNeeded() }
     }
     
     // MARK: - Nueva Barra Superior Reorganizada
@@ -172,6 +201,7 @@ struct MapView: View {
         .background(Color("AppPrimary"))
         .clipShape(Circle())
         .buttonStyle(.plain)
+        .coachMarkTarget(id: "googleMapsButton")
     }
     
     // MARK: - Botón Cerrar (Modificado para ser consistente)
@@ -344,6 +374,34 @@ struct MapView: View {
         )
         
         return MKCoordinateRegion(center: center, span: span)
+    }
+}
+
+// MARK: - Coach marks (Map)
+extension MapView {
+    private func prepareMapCoachIfNeeded() {
+        guard !hasShownMapOnboarding else { return }
+        mapCoachSteps = [
+            CoachMark(id: "googleMapsButton", textKey: "coach_google_maps"),
+        ]
+        mapCoachIndex = 0
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+            withAnimation(.easeInOut(duration: 0.25)) {
+                showMapCoach = true
+            }
+        }
+    }
+    private func advanceMapCoach() {
+        let next = mapCoachIndex + 1
+        if next < mapCoachSteps.count {
+            withAnimation(.easeInOut(duration: 0.25)) { mapCoachIndex = next }
+        } else {
+            finishMapCoach()
+        }
+    }
+    private func finishMapCoach() {
+        withAnimation(.easeInOut(duration: 0.25)) { showMapCoach = false }
+        hasShownMapOnboarding = true
     }
 }
 

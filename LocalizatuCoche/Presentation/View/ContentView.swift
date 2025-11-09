@@ -1,6 +1,8 @@
 import SwiftUI
 import CoreLocation
 import AVFoundation
+import GoogleMobileAds
+
 
 @available(iOS 16.0, *)
 struct ContentView: View {
@@ -16,7 +18,6 @@ struct ContentView: View {
     @State private var parkingPhoto: UIImage? = nil
     @State private var editingPhotoForSavedParking = false
     @State private var showCameraDeniedAlert = false
-    // @State private var hasCountedLaunch = false
     
     // Estados de animación y feedback
     @State private var isSaving = false
@@ -32,7 +33,7 @@ struct ContentView: View {
     @State private var currentCoachIndex: Int = 0
     @State private var coachTargets: [String: Anchor<CGRect>] = [:]
     
-   
+    
     private func checkCameraPermission() {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .authorized:
@@ -56,11 +57,11 @@ struct ContentView: View {
     
     private func saveParkingWithAnimation() {
         guard let _ = locationManager.userLocation else { return }
-        
+            
         withAnimation(.easeInOut(duration: 0.3)) {
             isSaving = true
         }
-        
+            
         // Simular un pequeño delay para mostrar el loading
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             viewModel.saveParkingLocation(
@@ -126,7 +127,6 @@ struct ContentView: View {
             if showSuccessAnimation {
                 successOverlay
             }
-            // Pro promo ahora se muestra desde RootView
             // Overlay de coach marks
             if showCoachMarks, currentCoachIndex < coachSteps.count {
                 CoachMarksOverlay(
@@ -141,6 +141,7 @@ struct ContentView: View {
         }
         .onAppear {
             prepareCoachMarksIfNeeded()
+            AdsService.shared.start()
         }
         .sheet(isPresented: $showImagePicker) {
             ImagePicker(sourceType: .camera, selectedImage: $parkingPhoto)
@@ -162,7 +163,7 @@ struct ContentView: View {
         } message: {
             Text("camera_permission_message".localized)
         }
-        
+            
         .sheet(isPresented: $showNoteSheet) {
             NoteSheet(
                 initialText: viewModel.lastParking?.note ?? parkingNote,
@@ -202,7 +203,7 @@ struct ContentView: View {
                     .foregroundColor(Color("AccentColor"))
                     .font(.title2)
                     .scaleEffect(1.2)
-                
+                    
                 Text("main_slogan".localized)
                     .font(.title3)
                     .fontWeight(.medium)
@@ -231,7 +232,7 @@ struct ContentView: View {
                         Text("current_location".localized)
                             .font(.caption)
                             .foregroundColor(.secondary)
-                        
+                            
                         if let placeName = viewModel.placeName {
                             Text(placeName)
                                 .font(.headline)
@@ -294,7 +295,21 @@ struct ContentView: View {
                         }
                     },
                     onNavigate: {
-                        showMap = true
+                        // Obtener la vista raíz
+                        if let root = UIApplication.shared.connectedScenes
+                            .compactMap({ ($0 as? UIWindowScene)?.keyWindow })
+                            .first?
+                            .rootViewController
+                        {
+                            AdsService.shared.showInterstitial(from: root) {
+                                // 🌟 Corrección Clave: Asegurar la transición en el hilo principal
+                                DispatchQueue.main.async {
+                                    showMap = true
+                                }
+                            }
+                        } else {
+                            showMap = true
+                        }
                     },
                     note: last.note
                 )
@@ -444,7 +459,7 @@ struct ContentView: View {
                         .frame(width: 100, height: 100)
                         .scaleEffect(showSuccessAnimation ? 1.0 : 0.5)
                         .animation(.spring(response: 0.6, dampingFraction: 0.8), value: showSuccessAnimation)
-                    
+                        
                     Image(systemName: "checkmark.circle.fill")
                         .font(.system(size: 50))
                         .foregroundColor(.green)
@@ -457,7 +472,7 @@ struct ContentView: View {
                         .font(.title2)
                         .fontWeight(.bold)
                         .foregroundColor(.primary)
-                    
+                        
                     Text("Tu ubicación ha sido guardada correctamente")
                         .font(.body)
                         .foregroundColor(.secondary)
@@ -487,7 +502,7 @@ struct ContentView: View {
                 .frame(width: 80, height: 80)
                 .foregroundColor(Color("AppPrimary"))
                 .opacity(0.7)
-            
+                
             VStack(spacing: 8) {
                 Text("no_parking_today".localized)
                     .font(.title2)
@@ -499,7 +514,7 @@ struct ContentView: View {
                 .font(.body)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
-            
+                
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 40)
@@ -616,7 +631,7 @@ struct NoteSheet: View {
                                 RoundedRectangle(cornerRadius: 12)
                                     .stroke(isTextEditorFocused ? Color("AccentColor") : Color.clear, lineWidth: 2)
                             )
-                        
+                            
                         if text.isEmpty {
                             Text("note_placeholder".localized)
                                 .foregroundColor(.secondary)
@@ -669,4 +684,3 @@ struct NoteSheet: View {
         }
     }
 }
-

@@ -1,6 +1,6 @@
 import SwiftUI
 
-// Modelo para un paso del tutorial. Ahora usa una clave de localización.
+// Modelo para un paso del tutorial.
 struct CoachMark: Identifiable, Equatable {
     let id: String
     let textKey: String // Clave para buscar en Localizable
@@ -41,7 +41,7 @@ struct CoachMarksOverlay: View {
             if let anchor = targets[step.id] {
                 let frame = proxy[anchor]
                 
-                // Asegurarse de que el frame tenga un tamaño válido antes de mostrar el overlay
+                // Asegurarse de que el frame tenga un tamaño válido
                 if frame.width > 1 && frame.height > 1 {
                     ZStack {
                         // Fondo oscurecido
@@ -50,7 +50,7 @@ struct CoachMarksOverlay: View {
                             .ignoresSafeArea()
                             .transition(.opacity)
                             .animation(.easeInOut(duration: 0.25), value: step)
-                        
+                          
                         // Resaltado del elemento
                         Circle()
                             .fill(Color.accentColor.opacity(0.2))
@@ -79,16 +79,18 @@ struct CoachMarksOverlay: View {
     
     private var tooltipView: some View {
         VStack(alignment: .leading, spacing: 12) {
-            // Usa la clave de localización directamente
+            
+            // El texto del coach mark ya usa LocalizedStringKey y debería estar traducido.
             Text(LocalizedStringKey(step.textKey))
                 .font(.body)
                 .foregroundColor(.primary)
 
             HStack(spacing: 12) {
-                // Las claves "skip" y "next" deben estar en tu archivo de localizables
-                Button(String(localized: "skip", defaultValue: "Omitir")) { onSkip() }
+                
+               Button(LocalizedStringKey("skip")) { onSkip() }
                     .buttonStyle(.bordered)
-                Button(String(localized: "next", defaultValue: "Siguiente")) { onNext() }
+                
+                Button(LocalizedStringKey("next")) { onNext() }
                     .buttonStyle(.borderedProminent)
             }
         }
@@ -96,9 +98,13 @@ struct CoachMarksOverlay: View {
         .background(.regularMaterial)
         .cornerRadius(12)
         .shadow(radius: 6)
+        .padding(14)
+        .background(.regularMaterial)
+        .cornerRadius(12)
+        .shadow(radius: 6)
     }
 
-    /// Calcula la posición horizontal del tooltip para que no se salga de la pantalla.
+    /// Calcula la posición horizontal del tooltip.
     private func tooltipX(in container: CGSize, frame: CGRect) -> CGFloat {
         // Centra el tooltip con el objetivo y lo ajusta para que no se salga de los bordes.
         let centerX = frame.midX

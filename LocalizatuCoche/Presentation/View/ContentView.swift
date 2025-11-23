@@ -1,7 +1,8 @@
 import SwiftUI
 import CoreLocation
-import StoreKit
 import AVFoundation
+import GoogleMobileAds
+
 
 @available(iOS 16.0, *)
 struct ContentView: View {
@@ -11,51 +12,27 @@ struct ContentView: View {
     @State private var showMap = false
     @State private var parkingNote: String = ""
     @State private var showNoteSheet = false
-    @State private var showRatePopup = false
     
     // Estados para la foto
     @State private var showImagePicker = false
     @State private var parkingPhoto: UIImage? = nil
     @State private var editingPhotoForSavedParking = false
     @State private var showCameraDeniedAlert = false
-    @State private var hasCountedLaunch = false
     
     // Estados de animación y feedback
     @State private var isSaving = false
     @State private var showSuccessAnimation = false
     
-    @AppStorage("hasRatedOrRecommended") private var hasRated = false
-    @AppStorage("launchCount") private var launchCount = 0
-    @State private var lastPopupDate = UserDefaults.standard.object(forKey: "lastRatePopupDate") as? Date ?? Date.distantPast
-
-    func updateLastPopupDate(_ date: Date) {
-        lastPopupDate = date
-        UserDefaults.standard.set(date, forKey: "lastRatePopupDate")
-    }
-
-    @State private var ratePopupAlreadyShown = false
     
-    private func checkRatePopupLogic() {
-        guard !hasRated else { return }
-        
-       if !hasCountedLaunch {
-            launchCount += 1
-            UserDefaults.standard.set(launchCount, forKey: "launchCount")
-            hasCountedLaunch = true
-        }
-        
-        let now = Date()
-        let fiveDays: TimeInterval = 5 * 24 * 60 * 60
-        let shouldShowByLaunch = launchCount % 3 == 0
-        let shouldShowByDate = now.timeIntervalSince(lastPopupDate) > fiveDays
-        
-        if (shouldShowByLaunch || shouldShowByDate) && !ratePopupAlreadyShown {
-            showRatePopup = true
-            updateLastPopupDate(now)
-            ratePopupAlreadyShown = true
-        }
-    }
-
+    @AppStorage("isPro") private var isPro = false
+    @AppStorage("hasSeenProPromoV1") private var hasSeenProPromo = false
+    
+    @AppStorage("hasShownOnboardingV1") private var hasShownOnboarding = false
+    @State private var showCoachMarks = false
+    @State private var coachSteps: [CoachMark] = []
+    @State private var currentCoachIndex: Int = 0
+    @State private var coachTargets: [String: Anchor<CGRect>] = [:]
+    
     
     private func checkCameraPermission() {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
@@ -80,11 +57,11 @@ struct ContentView: View {
     
     private func saveParkingWithAnimation() {
         guard let _ = locationManager.userLocation else { return }
-        
+            
         withAnimation(.easeInOut(duration: 0.3)) {
             isSaving = true
         }
-        
+            
         // Simular un pequeño delay para mostrar el loading
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             viewModel.saveParkingLocation(
@@ -150,15 +127,22 @@ struct ContentView: View {
             if showSuccessAnimation {
                 successOverlay
             }
+            // Overlay de coach marks
+            if showCoachMarks, currentCoachIndex < coachSteps.count {
+                CoachMarksOverlay(
+                    step: coachSteps[currentCoachIndex],
+                    targets: coachTargets,
+                    onNext: advanceCoachStep,
+                    onSkip: finishCoach
+                )
+                .allowsHitTesting(true)
+                .transition(.opacity)
+            }
         }
         .onAppear {
-            checkRatePopupLogic()
+            prepareCoachMarksIfNeeded()
+            AdsService.shared.start()
         }
-        .overlay(
-            RateOrRecommendPopup(isPresented: $showRatePopup) {
-                showRatePopup = false
-            }
-        )
         .sheet(isPresented: $showImagePicker) {
             ImagePicker(sourceType: .camera, selectedImage: $parkingPhoto)
                 .onDisappear {
@@ -179,7 +163,7 @@ struct ContentView: View {
         } message: {
             Text("camera_permission_message".localized)
         }
-        
+            
         .sheet(isPresented: $showNoteSheet) {
             NoteSheet(
                 initialText: viewModel.lastParking?.note ?? parkingNote,
@@ -196,6 +180,19 @@ struct ContentView: View {
                 }
             )
         }
+        // Captura de anchors para coach marks
+        .overlayPreferenceValue(CoachMarkTargetsKey.self) { value in
+            GeometryReader { _ in
+                Color.clear
+                    .onAppear { coachTargets = value }
+                    .onChange(of: value) { newValue in
+                        coachTargets = newValue
+                        if showCoachMarks, let first = coachSteps.first, newValue[first.id] != nil {
+                            // ...
+                        }
+                    }
+            }
+        }
     }
     
     // MARK: - Header Section
@@ -206,7 +203,7 @@ struct ContentView: View {
                     .foregroundColor(Color("AccentColor"))
                     .font(.title2)
                     .scaleEffect(1.2)
-                
+                    
                 Text("main_slogan".localized)
                     .font(.title3)
                     .fontWeight(.medium)
@@ -235,7 +232,7 @@ struct ContentView: View {
                         Text("current_location".localized)
                             .font(.caption)
                             .foregroundColor(.secondary)
-                        
+                            
                         if let placeName = viewModel.placeName {
                             Text(placeName)
                                 .font(.headline)
@@ -281,6 +278,7 @@ struct ContentView: View {
             ParkingButton(enabled: locationManager.userLocation != nil && !isSaving) {
                 saveParkingWithAnimation()
             }
+            .coachMarkTarget(id: "saveButton")
         }
         .padding(.horizontal)
     }
@@ -297,7 +295,21 @@ struct ContentView: View {
                         }
                     },
                     onNavigate: {
-                        showMap = true
+                        // Obtener la vista raíz
+                        if let root = UIApplication.shared.connectedScenes
+                            .compactMap({ ($0 as? UIWindowScene)?.keyWindow })
+                            .first?
+                            .rootViewController
+                        {
+                            AdsService.shared.showInterstitial(from: root) {
+                                // 🌟 Corrección Clave: Asegurar la transición en el hilo principal
+                                DispatchQueue.main.async {
+                                    showMap = true
+                                }
+                            }
+                        } else {
+                            showMap = true
+                        }
                     },
                     note: last.note
                 )
@@ -363,6 +375,7 @@ struct ContentView: View {
                 .shadow(color: Color("AccentColor").opacity(0.3), radius: 4, x: 0, y: 2)
             }
             .buttonStyle(PlainButtonStyle())
+            .coachMarkTarget(id: "photoButton")
             
             // Botón de nota
             Button(action: { showNoteSheet = true }) {
@@ -381,6 +394,7 @@ struct ContentView: View {
                 .shadow(color: Color.orange.opacity(0.3), radius: 4, x: 0, y: 2)
             }
             .buttonStyle(PlainButtonStyle())
+            .coachMarkTarget(id: "noteButton")
         }
     }
     
@@ -426,7 +440,7 @@ struct ContentView: View {
         }
     }
     
-    // MARK: - Success Overlay 
+    // MARK: - Success Overlay
     private var successOverlay: some View {
         ZStack {
             Color.black.opacity(0.4)
@@ -445,7 +459,7 @@ struct ContentView: View {
                         .frame(width: 100, height: 100)
                         .scaleEffect(showSuccessAnimation ? 1.0 : 0.5)
                         .animation(.spring(response: 0.6, dampingFraction: 0.8), value: showSuccessAnimation)
-                    
+                        
                     Image(systemName: "checkmark.circle.fill")
                         .font(.system(size: 50))
                         .foregroundColor(.green)
@@ -458,7 +472,7 @@ struct ContentView: View {
                         .font(.title2)
                         .fontWeight(.bold)
                         .foregroundColor(.primary)
-                    
+                        
                     Text("Tu ubicación ha sido guardada correctamente")
                         .font(.body)
                         .foregroundColor(.secondary)
@@ -488,19 +502,19 @@ struct ContentView: View {
                 .frame(width: 80, height: 80)
                 .foregroundColor(Color("AppPrimary"))
                 .opacity(0.7)
-            
+                
             VStack(spacing: 8) {
                 Text("no_parking_today".localized)
                     .font(.title2)
                     .fontWeight(.semibold)
                     .foregroundColor(Color("AppPrimary"))
                     .multilineTextAlignment(.center)
-                }
+            }
             Text("no_parking_today_funny".localized)
                 .font(.body)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
-
+                
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 40)
@@ -509,6 +523,40 @@ struct ContentView: View {
         .cornerRadius(20)
         .shadow(color: Color.black.opacity(0.05), radius: 12, x: 0, y: 6)
         .padding(.horizontal)
+    }
+}
+
+// MARK: - Coach Marks Logic
+extension ContentView {
+    private func prepareCoachMarksIfNeeded() {
+        guard !hasShownOnboarding else { return }
+        coachSteps = [
+            CoachMark(id: "photoButton", textKey: "coach_photo"),
+            CoachMark(id: "noteButton", textKey: "coach_note"),
+            CoachMark(id: "saveButton", textKey: "coach_save")
+        ]
+        currentCoachIndex = 0
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+            withAnimation(.easeInOut(duration: 0.25)) {
+                showCoachMarks = true
+            }
+        }
+    }
+    private func advanceCoachStep() {
+        let next = currentCoachIndex + 1
+        if next < coachSteps.count {
+            withAnimation(.easeInOut(duration: 0.25)) {
+                currentCoachIndex = next
+            }
+        } else {
+            finishCoach()
+        }
+    }
+    private func finishCoach() {
+        withAnimation(.easeInOut(duration: 0.25)) {
+            showCoachMarks = false
+        }
+        hasShownOnboarding = true
     }
 }
 
@@ -569,7 +617,7 @@ struct NoteSheet: View {
                         Text("\(text.count)/200")
                             .font(.caption)
                             .foregroundColor(text.count > 200 ? .red : .secondary)
-
+                        
                     }
                     
                     ZStack(alignment: .topLeading) {
@@ -583,7 +631,7 @@ struct NoteSheet: View {
                                 RoundedRectangle(cornerRadius: 12)
                                     .stroke(isTextEditorFocused ? Color("AccentColor") : Color.clear, lineWidth: 2)
                             )
-                        
+                            
                         if text.isEmpty {
                             Text("note_placeholder".localized)
                                 .foregroundColor(.secondary)

@@ -12,6 +12,7 @@
 		3CAAB7CF2E3D2E97007E6B33 /* FirebaseAnalyticsIdentitySupport in Frameworks */ = {isa = PBXBuildFile; productRef = 3CAAB7CE2E3D2E97007E6B33 /* FirebaseAnalyticsIdentitySupport */; };
 		3CAAB7D12E3D2E97007E6B33 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3CAAB7D02E3D2E97007E6B33 /* FirebaseCore */; };
 		3CAAB7D32E3D2E97007E6B33 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 3CAAB7D22E3D2E97007E6B33 /* FirebaseCrashlytics */; };
+		3CB283C22F1826160085DFBD /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 3CB283C12F1826160085DFBD /* RevenueCat */; };
 		3CE9CA362EC0B258000B9257 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 3CE9CA352EC0B258000B9257 /* GoogleMobileAds */; };
 /* End PBXBuildFile section */
 
@@ -89,6 +90,7 @@
 			files = (
 				3CE9CA362EC0B258000B9257 /* GoogleMobileAds in Frameworks */,
 				3CAAB7CB2E3D2E97007E6B33 /* FirebaseAnalytics in Frameworks */,
+				3CB283C22F1826160085DFBD /* RevenueCat in Frameworks */,
 				3CAAB7CD2E3D2E97007E6B33 /* FirebaseAnalyticsCore in Frameworks */,
 				3CAAB7D32E3D2E97007E6B33 /* FirebaseCrashlytics in Frameworks */,
 				3CAAB7D12E3D2E97007E6B33 /* FirebaseCore in Frameworks */,
@@ -158,6 +160,7 @@
 				3CAAB7D02E3D2E97007E6B33 /* FirebaseCore */,
 				3CAAB7D22E3D2E97007E6B33 /* FirebaseCrashlytics */,
 				3CE9CA352EC0B258000B9257 /* GoogleMobileAds */,
+				3CB283C12F1826160085DFBD /* RevenueCat */,
 			);
 			productName = UbiCar;
 			productReference = 3CFC1D362E0803990072BC1C /* Localiza tu Coche.app */;
@@ -245,6 +248,7 @@
 			packageReferences = (
 				3CAAB7C92E3D2E97007E6B33 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				3CE9CA342EC0B258000B9257 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+				3CB283C02F1826160085DFBD /* XCRemoteSwiftPackageReference "purchases-ios-spm" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3CFC1D372E0803990072BC1C /* Products */;
@@ -650,6 +654,14 @@
 				minimumVersion = 12.0.0;
 			};
 		};
+		3CB283C02F1826160085DFBD /* XCRemoteSwiftPackageReference "purchases-ios-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios-spm.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.54.1;
+			};
+		};
 		3CE9CA342EC0B258000B9257 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
@@ -685,6 +697,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3CAAB7C92E3D2E97007E6B33 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseCrashlytics;
+		};
+		3CB283C12F1826160085DFBD /* RevenueCat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3CB283C02F1826160085DFBD /* XCRemoteSwiftPackageReference "purchases-ios-spm" */;
+			productName = RevenueCat;
 		};
 		3CE9CA352EC0B258000B9257 /* GoogleMobileAds */ = {
 			isa = XCSwiftPackageProductDependency;

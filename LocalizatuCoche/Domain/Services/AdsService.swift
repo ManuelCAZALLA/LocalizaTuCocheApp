@@ -2,10 +2,8 @@ import Foundation
 import SwiftUI
 import AppTrackingTransparency
 import AdSupport
-
-#if canImport(GoogleMobileAds)
 import GoogleMobileAds
-#endif
+
 
 final class AdsService {
     static let shared = AdsService()
@@ -13,24 +11,26 @@ final class AdsService {
     
     @AppStorage("isPro") private var isPro: Bool = false
     
-    #if canImport(GoogleMobileAds)
     private var interstitial: InterstitialAd?
     private var interstitialDelegate: InterstitialDelegate?
-    #endif
     
     func start() {
         guard !isPro else { return }
-#if canImport(GoogleMobileAds)
+
         MobileAds.shared.start(completionHandler: nil)
         loadInterstitialAd()
-#endif
+
         requestTrackingAuthorizationIfNeeded()
     }
     
-    #if canImport(GoogleMobileAds)
+    
     func loadInterstitialAd() {
         let request = Request()
-        InterstitialAd.load(with: "ca-app-pub-3940256099942544/4411468910", request: request) { [weak self] ad, error in
+        guard let unitID = Bundle.main.infoDictionary?["GOOGLE_ADS_UNIT_ID"] as? String else {
+            print("No se encontró GOOGLE_ADS_UNIT_ID en Info.plist")
+            return
+        }
+        InterstitialAd.load(with: unitID, request: request) { [weak self] ad, error in
             if let ad = ad {
                 self?.interstitial = ad
             } else {
@@ -56,7 +56,7 @@ final class AdsService {
         self.interstitialDelegate = delegate
         ad.fullScreenContentDelegate = delegate
     }
-    #endif
+
     
     private func requestTrackingAuthorizationIfNeeded() {
         if #available(iOS 14, *) {
@@ -65,11 +65,12 @@ final class AdsService {
     }
 }
 
-#if canImport(GoogleMobileAds)
+
 private class InterstitialDelegate: NSObject, FullScreenContentDelegate {
     private let onDismiss: () -> Void
     init(onDismiss: @escaping () -> Void) { self.onDismiss = onDismiss }
     func adDidDismissFullScreenContent(_ ad: FullScreenPresentingAd) { onDismiss() }
     func ad(_ ad: FullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) { onDismiss() }
 }
-#endif
+
+

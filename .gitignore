@@ -24,4 +24,3 @@ fastlane/test_output
 # Secrets
 *.xcconfig
 Secrets.plist
-LocalizatuCoche.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved

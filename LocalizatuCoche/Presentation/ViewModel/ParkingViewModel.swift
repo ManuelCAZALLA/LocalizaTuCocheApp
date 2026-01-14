@@ -39,21 +39,16 @@ final class ParkingViewModel: NSObject, ObservableObject {
             note: note,
             photoData: photoData
         )
-        if let data = try? JSONEncoder().encode(parking) {
-            UserDefaults.standard.set(data, forKey: parkingKey)
-            lastParking = parking
-        }
+        ParkingStorage.shared.save(parking)
+        lastParking = parking
     }
     
     func loadParkingLocation() {
-        if let data = UserDefaults.standard.data(forKey: parkingKey),
-           let parking = try? JSONDecoder().decode(ParkingLocation.self, from: data) {
-            lastParking = parking
-        }
+        lastParking = ParkingStorage.shared.load()
     }
     
     func clearParkingLocation() {
-        UserDefaults.standard.removeObject(forKey: parkingKey)
+        ParkingStorage.shared.clear()
         lastParking = nil
     }
     
@@ -90,10 +85,8 @@ final class ParkingViewModel: NSObject, ObservableObject {
             note: note,
             id: parking.id
         )
-        if let data = try? JSONEncoder().encode(parking) {
-            UserDefaults.standard.set(data, forKey: parkingKey)
-            lastParking = parking
-        }
+        ParkingStorage.shared.save(parking)
+        lastParking = parking
     }
 
     func updateParkingPhoto(photoData: Data?) {
@@ -107,10 +100,8 @@ final class ParkingViewModel: NSObject, ObservableObject {
             photoData: photoData,
             id: parking.id
         )
-        if let data = try? JSONEncoder().encode(parking) {
-            UserDefaults.standard.set(data, forKey: parkingKey)
-            lastParking = parking
-        }
+        ParkingStorage.shared.save(parking)
+        lastParking = parking
     }
 }
 

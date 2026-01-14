@@ -24,4 +24,11 @@ extension String {
     func localized(with arguments: [CVarArg]) -> String {
         return String(format: self.localized, arguments: arguments)
     }
+    
+    /// Returns localized or a provided fallback if missing
+    func localizedOr(_ fallback: String) -> String {
+        let value = NSLocalizedString(self, comment: "")
+        if value == self { return fallback }
+        return value
+    }
 } 

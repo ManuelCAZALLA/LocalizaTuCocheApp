@@ -28,6 +28,12 @@ struct MainTabView: View {
                     Label("settings_tab_title".localized, systemImage: "gearshape.fill")
                 }
                 .tag(2)
+            
+            RecentParkingsView()
+                .tabItem {
+                    Label("recent_parkings".localized, systemImage: "clock.arrow.circlepath")
+                }
+                .tag(3)
         }
         .onChange(of: openParkingFromNotification) { newValue in
             if newValue {

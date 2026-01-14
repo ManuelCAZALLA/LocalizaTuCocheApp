@@ -7,8 +7,6 @@
 
 import SwiftUI
 import StoreKit
-import FirebaseCore
-import FirebaseCrashlytics
 
 struct SettingView: View {
     @ObservedObject var viewModel: SettingsViewModel
@@ -25,9 +23,7 @@ struct SettingView: View {
                             .frame(width: 64, height: 64)
                             .foregroundColor(Color("AppPrimary"))
                             .padding(.top, 24)
-                        Text("settings_tab_title".localized)
-                            .font(.title)
-                            .fontWeight(.bold)
+                        
                         Text("\("settings_version".localized): \(viewModel.appVersion)")
                             .font(.subheadline)
                             .foregroundColor(.secondary)

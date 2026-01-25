@@ -1,8 +1,6 @@
 import SwiftUI
 import CoreLocation
 import AVFoundation
-import GoogleMobileAds
-
 
 @available(iOS 16.0, *)
 struct ContentView: View {
@@ -26,8 +24,8 @@ struct ContentView: View {
     
     @AppStorage("isPro") private var isPro = false
     @AppStorage("hasSeenProPromoV1") private var hasSeenProPromo = false
-    
     @AppStorage("hasShownOnboardingV1") private var hasShownOnboarding = false
+    
     @State private var showCoachMarks = false
     @State private var coachSteps: [CoachMark] = []
     @State private var currentCoachIndex: Int = 0
@@ -141,7 +139,6 @@ struct ContentView: View {
         }
         .onAppear {
             prepareCoachMarksIfNeeded()
-            AdsService.shared.start()
         }
         .sheet(isPresented: $showImagePicker) {
             ImagePicker(sourceType: .camera, selectedImage: $parkingPhoto)
@@ -295,21 +292,7 @@ struct ContentView: View {
                         }
                     },
                     onNavigate: {
-                        // Obtener la vista raíz
-                        if let root = UIApplication.shared.connectedScenes
-                            .compactMap({ ($0 as? UIWindowScene)?.keyWindow })
-                            .first?
-                            .rootViewController
-                        {
-                            AdsService.shared.showInterstitial(from: root) {
-                                // 🌟 Corrección Clave: Asegurar la transición en el hilo principal
-                                DispatchQueue.main.async {
-                                    showMap = true
-                                }
-                            }
-                        } else {
-                            showMap = true
-                        }
+                        showMap = true
                     },
                     note: last.note
                 )
@@ -684,3 +667,4 @@ struct NoteSheet: View {
         }
     }
 }
+

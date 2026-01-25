@@ -23,15 +23,15 @@ struct MainTabView: View {
             }
             .tag(1)
 
-            SettingView(viewModel: settingsViewModel)
+           RecentParkingsView()
                 .tabItem {
-                    Label("settings_tab_title".localized, systemImage: "gearshape.fill")
+                    Label("recent_parkings".localized, systemImage: "clock.arrow.circlepath")
                 }
                 .tag(2)
             
-            RecentParkingsView()
+            SettingView(viewModel: settingsViewModel)
                 .tabItem {
-                    Label("recent_parkings".localized, systemImage: "clock.arrow.circlepath")
+                    Label("settings_tab_title".localized, systemImage: "gearshape.fill")
                 }
                 .tag(3)
         }

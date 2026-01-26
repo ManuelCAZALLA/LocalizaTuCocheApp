@@ -58,6 +58,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
+				Secret.xcconfig,
 			);
 			target = 3CFC1D352E0803990072BC1C /* LocalizatuCoche */;
 		};
@@ -144,6 +145,7 @@
 				3CFC1D322E0803990072BC1C /* Sources */,
 				3CFC1D332E0803990072BC1C /* Frameworks */,
 				3CFC1D342E0803990072BC1C /* Resources */,
+				3CFIREBASEDSYM2E0803990072BC1C /* Copy Firebase dSYMs */,
 			);
 			buildRules = (
 			);
@@ -217,7 +219,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1620;
-				LastUpgradeCheck = 2600;
+				LastUpgradeCheck = 2610;
 				TargetAttributes = {
 					3CFC1D352E0803990072BC1C = {
 						CreatedOnToolsVersion = 16.2;
@@ -309,6 +311,30 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3CFIREBASEDSYM2E0803990072BC1C /* Copy Firebase dSYMs */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/LocalizatuCoche/scripts/copy_firebase_dsyms.sh",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF",
+			);
+			name = "Copy Firebase dSYMs";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "SCRIPT_PATH=\"${SRCROOT}/LocalizatuCoche/scripts/copy_firebase_dsyms.sh\"\nif [ -f \"$SCRIPT_PATH\" ]; then\n    chmod +x \"$SCRIPT_PATH\" 2>/dev/null || true\n    \"$SCRIPT_PATH\"\nelse\n    echo \"⚠️ Script no encontrado: $SCRIPT_PATH\"\n    exit 0\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXTargetDependency section */
 		3CFC1D482E0803A00072BC1C /* PBXTargetDependency */ = {

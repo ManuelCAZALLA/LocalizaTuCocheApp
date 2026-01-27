@@ -167,3 +167,7 @@ struct ParkingRow: View {
         return formatter.string(from: parking.date)
     }
 }
+
+#Preview {
+    RecentParkingsView()
+}

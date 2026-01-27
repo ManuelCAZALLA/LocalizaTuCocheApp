@@ -14,7 +14,7 @@ struct ParkingMeterView: View {
     // Alerta activa centralizada
     @State private var activeAlert: ActiveAlert?
     
-    let minuteOptions = [15, 20, 30, 45, 60, 90, 120]
+    let minuteOptions = [15, 20, 30, 45, 60, 90, 120,150,180]
     let preEndOptions = [1, 3, 5, 10, 15]
     
     enum ActiveAlert: Identifiable {

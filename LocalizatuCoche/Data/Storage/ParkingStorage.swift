@@ -7,7 +7,7 @@ final class ParkingStorage {
     private let historyKey = "saved_parking_history"
     private let historyLimit = 20
 
-    // MARK: - Last parking (backward compatibility)
+    // MARK: - Last parking 
     func save(_ parking: ParkingLocation) {
         do {
             let data = try JSONEncoder().encode(parking)

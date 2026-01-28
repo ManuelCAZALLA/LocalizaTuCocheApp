@@ -75,4 +75,3 @@ else
     echo "❌ Faltan algunos dSYM. Revisa la configuración del script de build phase."
     exit 1
 fi
-

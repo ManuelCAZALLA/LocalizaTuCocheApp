@@ -49,6 +49,10 @@ struct ParkingMeterView: View {
             .padding(.top, 8)
         }
         .onAppear {
+            // Evitar prompts/side-effects en Xcode Previews
+            if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" {
+                return
+            }
             viewModel.requestNotificationPermission()
             setupCallbacks()
             

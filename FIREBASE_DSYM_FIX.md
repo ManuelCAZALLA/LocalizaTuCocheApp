@@ -107,4 +107,3 @@ Si el script no encuentra los dSYM, puede ser que los frameworks estén en una u
 - Este es un problema conocido con Firebase y Google frameworks cuando se usa Swift Package Manager
 - El script está diseñado para no fallar el build si no encuentra algunos dSYM (puede ser normal en algunos casos)
 - Los dSYM pueden generarse durante el proceso de archiving, por lo que el script verifica múltiples ubicaciones
-

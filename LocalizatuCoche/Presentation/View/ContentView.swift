@@ -659,7 +659,7 @@ struct NoteSheet: View {
             .padding()
             .navigationBarHidden(true)
         }
-        // Reemplazar presentationDetents con sheet en iOS 16
+        
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 isTextEditorFocused = true
@@ -668,3 +668,6 @@ struct NoteSheet: View {
     }
 }
 
+#Preview {
+    ContentView()
+}

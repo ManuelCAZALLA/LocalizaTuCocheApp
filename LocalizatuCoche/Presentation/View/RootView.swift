@@ -28,4 +28,5 @@ struct RootView: View {
 
 #Preview {
     RootView()
+        .environmentObject(AppState())
 }

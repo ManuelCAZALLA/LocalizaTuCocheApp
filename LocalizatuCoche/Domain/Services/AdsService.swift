@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
-// import AppTrackingTransparency  // Comentado: no se usa tracking en esta versión
-// import AdSupport  // Comentado: no se usa tracking en esta versión
+import AppTrackingTransparency
+import AdSupport
 import GoogleMobileAds
 
 
@@ -20,7 +20,7 @@ final class AdsService {
         MobileAds.shared.start(completionHandler: nil)
         loadInterstitialAd()
 
-        // requestTrackingAuthorizationIfNeeded()  // Comentado: no se usa tracking en esta versión
+        requestTrackingAuthorizationIfNeeded()
     }
     
     
@@ -58,12 +58,11 @@ final class AdsService {
     }
 
     
-    // Comentado: no se usa tracking en esta versión
-    // private func requestTrackingAuthorizationIfNeeded() {
-    //     if #available(iOS 14, *) {
-    //         ATTrackingManager.requestTrackingAuthorization { _ in }
-    //     }
-    // }
+    private func requestTrackingAuthorizationIfNeeded() {
+        if #available(iOS 14, *) {
+            ATTrackingManager.requestTrackingAuthorization { _ in }
+        }
+    }
 }
 
 

@@ -288,30 +288,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXSourcesBuildPhase section */
-		3CFC1D322E0803990072BC1C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3CFC1D422E0803A00072BC1C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3CFC1D4C2E0803A00072BC1C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXSourcesBuildPhase section */
-
 /* Begin PBXShellScriptBuildPhase section */
 		3CFIREBASEDSYM2E0803990072BC1C /* Copy Firebase dSYMs */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -335,6 +311,30 @@
 			shellScript = "SCRIPT_PATH=\"${SRCROOT}/LocalizatuCoche/scripts/copy_firebase_dsyms.sh\"\nif [ -f \"$SCRIPT_PATH\" ]; then\n    chmod +x \"$SCRIPT_PATH\" 2>/dev/null || true\n    \"$SCRIPT_PATH\"\nelse\n    echo \"⚠️ Script no encontrado: $SCRIPT_PATH\"\n    exit 0\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3CFC1D322E0803990072BC1C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3CFC1D422E0803A00072BC1C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3CFC1D4C2E0803A00072BC1C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
 		3CFC1D482E0803A00072BC1C /* PBXTargetDependency */ = {

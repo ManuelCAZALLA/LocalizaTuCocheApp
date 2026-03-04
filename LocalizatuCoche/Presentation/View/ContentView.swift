@@ -108,13 +108,36 @@ struct ContentView: View {
                     
                     // Contenido principal
                     if viewModel.lastParking == nil {
-                        // Estado vacío cuando no hay aparcamiento
                         emptyStateView
-                        
-                        // Sección para nuevo aparcamiento
-                        newParkingSection
-                    } else {
-                        savedParkingSection
+                        NewParkingSectionView(
+                            parkingPhoto: parkingPhoto,
+                            parkingNote: parkingNote,
+                            isSaving: isSaving,
+                            isLocationAvailable: locationManager.userLocation != nil,
+                            onTapPhoto: { checkCameraPermission() },
+                            onTapNote: { showNoteSheet = true },
+                            onSave: { saveParkingWithAnimation() },
+                            onRemovePhoto: { parkingPhoto = nil }
+                        )
+                    } else if let last = viewModel.lastParking {
+                        SavedParkingSectionView(
+                            parking: last,
+                            note: last.note,
+                            hasPhoto: last.photoData != nil,
+                            onDelete: {
+                                withAnimation(.easeOut(duration: 0.3)) {
+                                    viewModel.clearParkingLocation()
+                                }
+                            },
+                            onEditPhoto: {
+                                editingPhotoForSavedParking = true
+                                checkCameraPermission()
+                            },
+                            onEditNote: {
+                                showNoteSheet = true
+                            },
+                            showMap: $showMap
+                        )
                     }
                 }
                 .padding(.top, 20)
@@ -123,7 +146,7 @@ struct ContentView: View {
             
             // Overlay de éxito con animación
             if showSuccessAnimation {
-                successOverlay
+                ParkingSavedSuccessOverlay(isVisible: $showSuccessAnimation)
             }
             // Overlay de coach marks
             if showCoachMarks, currentCoachIndex < coachSteps.count {
@@ -258,222 +281,6 @@ struct ContentView: View {
                     .padding(.horizontal)
             }
         }
-    }
-    
-    // MARK: - New Parking Section
-    private var newParkingSection: some View {
-        VStack(spacing: 20) {
-            // Preview de foto si existe
-            if let image = parkingPhoto {
-                photoPreview(image: image)
-            }
-            
-            // Botones de acción mejorados
-            actionButtonsRow
-            
-            // Botón principal de guardar usando ParkingButton
-            ParkingButton(enabled: locationManager.userLocation != nil && !isSaving) {
-                saveParkingWithAnimation()
-            }
-            .coachMarkTarget(id: "saveButton")
-        }
-        .padding(.horizontal)
-    }
-    
-    // MARK: - Saved Parking Section
-    private var savedParkingSection: some View {
-        VStack(spacing: 16) {
-            if let last = viewModel.lastParking {
-                ParkingInfoCard(
-                    parking: last,
-                    onDelete: {
-                        withAnimation(.easeOut(duration: 0.3)) {
-                            viewModel.clearParkingLocation()
-                        }
-                    },
-                    onNavigate: {
-                        showMap = true
-                    },
-                    note: last.note
-                )
-                .transition(.asymmetric(
-                    insertion: .scale.combined(with: .opacity),
-                    removal: .scale.combined(with: .opacity)
-                ))
-                
-                // Botones de edición
-                editButtonsRow(for: last)
-            }
-        }
-        .padding(.horizontal)
-        .fullScreenCover(isPresented: $showMap) {
-            if let last = viewModel.lastParking {
-                MapFullScreenView(parkingLocation: last, onClose: { showMap = false })
-            }
-        }
-    }
-    
-    // MARK: - Photo Preview
-    private func photoPreview(image: UIImage) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack {
-                Text("photo_preview".localized)
-                    .font(.headline)
-                    .foregroundColor(Color("AppPrimary"))
-                Spacer()
-                Button(action: { parkingPhoto = nil }) {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(.secondary)
-                        .font(.title3)
-                }
-            }
-            
-            Image(uiImage: image)
-                .resizable()
-                .scaledToFill()
-                .frame(height: 200)
-                .clipped()
-                .cornerRadius(16)
-                .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
-        }
-    }
-    
-    // MARK: - Action Buttons Row
-    private var actionButtonsRow: some View {
-        HStack(spacing: 16) {
-            // Botón de foto
-            Button(action: checkCameraPermission) {
-                HStack(spacing: 8) {
-                    Image(systemName: parkingPhoto == nil ? "camera" : "camera.fill")
-                        .font(.title3)
-                    Text(parkingPhoto == nil ? "add_photo".localized : "change_photo".localized)
-                        .font(.body)
-                        .fontWeight(.medium)
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 14)
-                .background(Color("AccentColor"))
-                .foregroundColor(.white)
-                .cornerRadius(12)
-                .shadow(color: Color("AccentColor").opacity(0.3), radius: 4, x: 0, y: 2)
-            }
-            .buttonStyle(PlainButtonStyle())
-            .coachMarkTarget(id: "photoButton")
-            
-            // Botón de nota
-            Button(action: { showNoteSheet = true }) {
-                HStack(spacing: 8) {
-                    Image(systemName: parkingNote.isEmpty ? "pencil" : "pencil.circle.fill")
-                        .font(.title3)
-                    Text(parkingNote.isEmpty ? "add_note".localized : "edit_note".localized)
-                        .font(.body)
-                        .fontWeight(.medium)
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 14)
-                .background(Color.orange)
-                .foregroundColor(.white)
-                .cornerRadius(12)
-                .shadow(color: Color.orange.opacity(0.3), radius: 4, x: 0, y: 2)
-            }
-            .buttonStyle(PlainButtonStyle())
-            .coachMarkTarget(id: "noteButton")
-        }
-    }
-    
-    // MARK: - Edit Buttons Row
-    private func editButtonsRow(for parking: ParkingLocation) -> some View {
-        HStack(spacing: 16) {
-            Button(action: {
-                editingPhotoForSavedParking = true
-                checkCameraPermission()
-            }) {
-                HStack(spacing: 8) {
-                    Image(systemName: parking.photoData == nil ? "camera" : "camera.fill")
-                        .font(.body)
-                    Text(parking.photoData == nil ? "add_photo".localized : "change_photo".localized)
-                        .font(.body)
-                        .fontWeight(.medium)
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 12)
-                .background(Color("AccentColor"))
-                .foregroundColor(.white)
-                .cornerRadius(12)
-                .shadow(color: Color("AccentColor").opacity(0.3), radius: 4, x: 0, y: 2)
-            }
-            .buttonStyle(PlainButtonStyle())
-            
-            Button(action: { showNoteSheet = true }) {
-                HStack(spacing: 8) {
-                    Image(systemName: (parking.note?.isEmpty ?? true) ? "pencil" : "pencil.circle.fill")
-                        .font(.body)
-                    Text((parking.note?.isEmpty ?? true) ? "add_note".localized : "edit_note".localized)
-                        .font(.body)
-                        .fontWeight(.medium)
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 12)
-                .background(Color.orange)
-                .foregroundColor(.white)
-                .cornerRadius(12)
-                .shadow(color: Color.orange.opacity(0.3), radius: 4, x: 0, y: 2)
-            }
-            .buttonStyle(PlainButtonStyle())
-        }
-    }
-    
-    // MARK: - Success Overlay
-    private var successOverlay: some View {
-        ZStack {
-            Color.black.opacity(0.4)
-                .ignoresSafeArea()
-                .onTapGesture {
-                    withAnimation(.easeOut(duration: 0.3)) {
-                        showSuccessAnimation = false
-                    }
-                }
-            
-            VStack(spacing: 20) {
-                // Ícono animado
-                ZStack {
-                    Circle()
-                        .fill(Color.green.opacity(0.2))
-                        .frame(width: 100, height: 100)
-                        .scaleEffect(showSuccessAnimation ? 1.0 : 0.5)
-                        .animation(.spring(response: 0.6, dampingFraction: 0.8), value: showSuccessAnimation)
-                        
-                    Image(systemName: "checkmark.circle.fill")
-                        .font(.system(size: 50))
-                        .foregroundColor(.green)
-                        .scaleEffect(showSuccessAnimation ? 1.0 : 0.3)
-                        .animation(.spring(response: 0.5, dampingFraction: 0.7).delay(0.1), value: showSuccessAnimation)
-                }
-                
-                VStack(spacing: 8) {
-                    Text("¡Aparcamiento guardado!")
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .foregroundColor(.primary)
-                        
-                    Text("Tu ubicación ha sido guardada correctamente")
-                        .font(.body)
-                        .foregroundColor(.secondary)
-                        .multilineTextAlignment(.center)
-                }
-                .opacity(showSuccessAnimation ? 1.0 : 0.0)
-                .animation(.easeInOut.delay(0.3), value: showSuccessAnimation)
-            }
-            .padding(32)
-            .background(
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(Color(.systemBackground))
-                    .shadow(color: Color.black.opacity(0.2), radius: 20, x: 0, y: 10)
-            )
-            .scaleEffect(showSuccessAnimation ? 1.0 : 0.8)
-            .animation(.spring(response: 0.5, dampingFraction: 0.8), value: showSuccessAnimation)
-        }
-        .transition(.opacity)
     }
     
     // MARK: - Empty State View

@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUI
+import UIKit
 import AppTrackingTransparency
 import AdSupport
 import GoogleMobileAds
@@ -55,6 +56,24 @@ final class AdsService {
         })
         self.interstitialDelegate = delegate
         ad.fullScreenContentDelegate = delegate
+    }
+
+    /// Versión de conveniencia para SwiftUI: busca el topViewController automáticamente.
+    func showInterstitial(completion: @escaping () -> Void) {
+        // No mostrar en previews de Xcode
+        if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" {
+            completion()
+            return
+        }
+        guard let rootVC = UIApplication.shared.connectedScenes
+            .compactMap({ $0 as? UIWindowScene })
+            .flatMap({ $0.windows })
+            .first(where: { $0.isKeyWindow })?
+            .rootViewController else {
+            completion()
+            return
+        }
+        showInterstitial(from: rootVC, completion: completion)
     }
 
     

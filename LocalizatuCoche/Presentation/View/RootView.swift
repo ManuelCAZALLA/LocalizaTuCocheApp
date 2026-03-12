@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import GoogleMobileAds
 
 struct RootView: View {
     @StateObject private var launchVM = LaunchViewModel()
@@ -21,6 +22,10 @@ struct RootView: View {
         }
         .animation(.easeInOut, value: launchVM.isAuthorized)
         .onAppear {
+            // Inicializar Google Mobile Ads una vez al inicio
+            if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] != "1" {
+                AdsService.shared.start()
+            }
         }
     }
 }

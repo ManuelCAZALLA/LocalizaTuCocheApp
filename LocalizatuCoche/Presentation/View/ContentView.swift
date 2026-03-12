@@ -292,7 +292,10 @@ struct ContentView: View {
                         }
                     },
                     onNavigate: {
-                        showMap = true
+                        // Mostrar anuncio intersticial antes de ir al mapa
+                        AdsService.shared.showInterstitial {
+                            showMap = true
+                        }
                     },
                     note: last.note
                 )

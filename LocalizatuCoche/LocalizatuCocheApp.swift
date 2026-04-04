@@ -1,5 +1,5 @@
 //
-//  UbicarApp.swift
+//  LocalizatuCocheApp.swift
 //  Ubicar
 //
 //  Created by Manuel Cazalla Colmenero on 22/6/25.
@@ -32,7 +32,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 // MARK: - Main App
 @main
-struct UbiCarApp: App {
+struct LocalizatuCocheApp: App {
     
     // Registro el AppDelegate para Firebase
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate

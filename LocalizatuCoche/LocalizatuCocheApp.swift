@@ -9,23 +9,19 @@ import SwiftUI
 import FirebaseCore
 import FirebaseCrashlytics
 import UserNotifications
+import FirebaseAnalytics
 
 
 // MARK: - AppDelegate para Firebase
 class AppDelegate: NSObject, UIApplicationDelegate {
+    
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         
-        
         FirebaseApp.configure()
+        Analytics.setAnalyticsCollectionEnabled(true)
         Crashlytics.crashlytics().setCrashlyticsCollectionEnabled(true)
-
-
-         //Crash de prueba
-         /*DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-             fatalError("Crash de prueba para Firebase Crashlytics")
-         }*/
-
+        
         return true
     }
 }
@@ -69,4 +65,3 @@ class NotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
         completionHandler()
     }
 }
-

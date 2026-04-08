@@ -185,5 +185,20 @@ struct ParkingRow: View {
 }
 
 #Preview {
-    RecentParkingsView()
+    RecentParkingsView(items: [
+        ParkingLocation(
+            latitude: 40.4168,
+            longitude: -3.7038,
+            date: Date(),
+            placeName: "Gran Vía, Madrid",
+            note: "Frente al teatro"
+        ),
+        ParkingLocation(
+            latitude: 40.4146,
+            longitude: -3.7006,
+            date: Date().addingTimeInterval(-3600),
+            placeName: "Plaza Mayor",
+            note: "Cerca del mercado"
+        )
+    ])
 }

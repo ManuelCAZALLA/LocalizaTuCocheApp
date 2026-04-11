@@ -264,7 +264,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
             if let languageCode = Locale.current.language.languageCode {
                 localeLanguageCode = languageCode.identifier
             } else {
-                localeLanguageCode = "es" // default fallback
+                localeLanguageCode = "es" 
             }
         } else {
             localeLanguageCode = Locale.current.languageCode ?? "es"

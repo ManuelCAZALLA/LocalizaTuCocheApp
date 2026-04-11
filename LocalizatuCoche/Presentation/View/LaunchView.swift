@@ -4,8 +4,6 @@ import CoreLocation
 struct LaunchView: View {
     @ObservedObject var viewModel: LaunchViewModel
     @State private var showLocationDeniedAlert = false
-    @AppStorage("isPro") private var isPro = false
-    @State private var showProPromo = false
     
     var body: some View {
         ZStack {
@@ -15,10 +13,6 @@ struct LaunchView: View {
             Group {
                 if viewModel.isAuthorized {
                     ContentView()
-                        .onAppear {
-                            // Show promo on every launch for non-Pro users
-                            showProPromo = !isPro
-                        }
                 } else {
                     VStack(spacing: 28) {
                         
@@ -72,14 +66,6 @@ struct LaunchView: View {
                     }
                     .padding(.horizontal, 24)
                 }
-            }
-            .fullScreenCover(isPresented: $showProPromo, onDismiss: {
-               
-                showProPromo = false
-            }) {
-                ProPromoView(onDismiss: {
-                    showProPromo = false
-                })
             }
             .animation(.easeInOut, value: viewModel.isAuthorized)
         }

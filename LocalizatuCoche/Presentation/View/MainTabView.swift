@@ -23,17 +23,26 @@ struct MainTabView: View {
             }
             .tag(1)
 
+           RecentParkingsView()
+                .tabItem {
+                    Label("recent_parkings".localized, systemImage: "clock.arrow.circlepath")
+                }
+                .tag(2)
+            
             SettingView(viewModel: settingsViewModel)
                 .tabItem {
                     Label("settings_tab_title".localized, systemImage: "gearshape.fill")
                 }
-                .tag(2)
-            
-            RecentParkingsView()
-                .tabItem {
-                    Label("recent_parkings".localized, systemImage: "clock.arrow.circlepath")
-                }
                 .tag(3)
+        }
+        // Mostrar anuncio cuando se cambia a la pestaña de "últimos aparcamientos"
+        .onChange(of: selectedTab) { newValue in
+            if newValue == 2 {
+                AdsService.shared.showInterstitial {
+                    // No hace falta hacer nada especial al cerrar el anuncio:
+                    // la pestaña ya está seleccionada y la vista se muestra.
+                }
+            }
         }
         .onChange(of: openParkingFromNotification) { newValue in
             if newValue {

@@ -7,12 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3CAAB7CB2E3D2E97007E6B33 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 3CAAB7CA2E3D2E97007E6B33 /* FirebaseAnalytics */; };
-		3CAAB7CD2E3D2E97007E6B33 /* FirebaseAnalyticsCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3CAAB7CC2E3D2E97007E6B33 /* FirebaseAnalyticsCore */; };
-		3CAAB7CF2E3D2E97007E6B33 /* FirebaseAnalyticsIdentitySupport in Frameworks */ = {isa = PBXBuildFile; productRef = 3CAAB7CE2E3D2E97007E6B33 /* FirebaseAnalyticsIdentitySupport */; };
-		3CAAB7D12E3D2E97007E6B33 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3CAAB7D02E3D2E97007E6B33 /* FirebaseCore */; };
-		3CAAB7D32E3D2E97007E6B33 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 3CAAB7D22E3D2E97007E6B33 /* FirebaseCrashlytics */; };
-		3CE9CA362EC0B258000B9257 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 3CE9CA352EC0B258000B9257 /* GoogleMobileAds */; };
+		3C7EB5A02F60AD0F00730D4B /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 3C7EB59F2F60AD0F00730D4B /* GoogleMobileAds */; };
+		3C7EB5A32F60AD5D00730D4B /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 3C7EB5A22F60AD5D00730D4B /* FirebaseAnalytics */; };
+		3C7EB5A52F60AD5D00730D4B /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 3C7EB5A42F60AD5D00730D4B /* FirebaseCrashlytics */; };
+		3C7EB5A82F60AD7B00730D4B /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 3C7EB5A72F60AD7B00730D4B /* RevenueCat */; };
+		3C7EB5AA2F60AD7B00730D4B /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = 3C7EB5A92F60AD7B00730D4B /* RevenueCatUI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +35,7 @@
 		3CFC1D362E0803990072BC1C /* Localiza tu Coche.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Localiza tu Coche.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CFC1D462E0803A00072BC1C /* LocalizatuCocheTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LocalizatuCocheTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CFC1D502E0803A00072BC1C /* LocalizatuCocheUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LocalizatuCocheUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D1111112F70000000AAA111 /* LocalizatuCoche/Secret.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = LocalizatuCoche/Secret.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -57,6 +57,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
+				Secret.xcconfig,
 			);
 			target = 3CFC1D352E0803990072BC1C /* LocalizatuCoche */;
 		};
@@ -87,12 +88,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3CE9CA362EC0B258000B9257 /* GoogleMobileAds in Frameworks */,
-				3CAAB7CB2E3D2E97007E6B33 /* FirebaseAnalytics in Frameworks */,
-				3CAAB7CD2E3D2E97007E6B33 /* FirebaseAnalyticsCore in Frameworks */,
-				3CAAB7D32E3D2E97007E6B33 /* FirebaseCrashlytics in Frameworks */,
-				3CAAB7D12E3D2E97007E6B33 /* FirebaseCore in Frameworks */,
-				3CAAB7CF2E3D2E97007E6B33 /* FirebaseAnalyticsIdentitySupport in Frameworks */,
+				3C7EB5A82F60AD7B00730D4B /* RevenueCat in Frameworks */,
+				3C7EB5A52F60AD5D00730D4B /* FirebaseCrashlytics in Frameworks */,
+				3C7EB5A32F60AD5D00730D4B /* FirebaseAnalytics in Frameworks */,
+				3C7EB5AA2F60AD7B00730D4B /* RevenueCatUI in Frameworks */,
+				3C7EB5A02F60AD0F00730D4B /* GoogleMobileAds in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,6 +118,7 @@
 			children = (
 				3C3DE1442E22C7D800AEDE1C /* LocalizatuCoche */,
 				3CFC1D532E0803A00072BC1C /* LocalizatuCocheUITests */,
+				3D1111112F70000000AAA111 /* LocalizatuCoche/Secret.xcconfig */,
 				3CFC1D372E0803990072BC1C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -142,6 +143,7 @@
 				3CFC1D322E0803990072BC1C /* Sources */,
 				3CFC1D332E0803990072BC1C /* Frameworks */,
 				3CFC1D342E0803990072BC1C /* Resources */,
+				3CFIREBASEDSYM2E0803990072BC1C /* Copy Firebase dSYMs */,
 			);
 			buildRules = (
 			);
@@ -152,12 +154,11 @@
 			);
 			name = LocalizatuCoche;
 			packageProductDependencies = (
-				3CAAB7CA2E3D2E97007E6B33 /* FirebaseAnalytics */,
-				3CAAB7CC2E3D2E97007E6B33 /* FirebaseAnalyticsCore */,
-				3CAAB7CE2E3D2E97007E6B33 /* FirebaseAnalyticsIdentitySupport */,
-				3CAAB7D02E3D2E97007E6B33 /* FirebaseCore */,
-				3CAAB7D22E3D2E97007E6B33 /* FirebaseCrashlytics */,
-				3CE9CA352EC0B258000B9257 /* GoogleMobileAds */,
+				3C7EB59F2F60AD0F00730D4B /* GoogleMobileAds */,
+				3C7EB5A22F60AD5D00730D4B /* FirebaseAnalytics */,
+				3C7EB5A42F60AD5D00730D4B /* FirebaseCrashlytics */,
+				3C7EB5A72F60AD7B00730D4B /* RevenueCat */,
+				3C7EB5A92F60AD7B00730D4B /* RevenueCatUI */,
 			);
 			productName = UbiCar;
 			productReference = 3CFC1D362E0803990072BC1C /* Localiza tu Coche.app */;
@@ -214,7 +215,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1620;
-				LastUpgradeCheck = 2600;
+				LastUpgradeCheck = 2610;
 				TargetAttributes = {
 					3CFC1D352E0803990072BC1C = {
 						CreatedOnToolsVersion = 16.2;
@@ -243,8 +244,9 @@
 			mainGroup = 3CFC1D2D2E0803990072BC1C;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				3CAAB7C92E3D2E97007E6B33 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				3CE9CA342EC0B258000B9257 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+				3C7EB59E2F60AD0F00730D4B /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+				3C7EB5A12F60AD5D00730D4B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				3C7EB5A62F60AD7B00730D4B /* XCRemoteSwiftPackageReference "purchases-ios-spm" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3CFC1D372E0803990072BC1C /* Products */;
@@ -281,6 +283,30 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3CFIREBASEDSYM2E0803990072BC1C /* Copy Firebase dSYMs */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/LocalizatuCoche/scripts/copy_firebase_dsyms.sh",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF",
+			);
+			name = "Copy Firebase dSYMs";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "SCRIPT_PATH=\"${SRCROOT}/LocalizatuCoche/scripts/copy_firebase_dsyms.sh\"\nif [ -f \"$SCRIPT_PATH\" ]; then\n    chmod +x \"$SCRIPT_PATH\" 2>/dev/null || true\n    \"$SCRIPT_PATH\"\nelse\n    echo \"⚠️ Script no encontrado: $SCRIPT_PATH\"\n    exit 0\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3CFC1D322E0803990072BC1C /* Sources */ = {
@@ -447,6 +473,7 @@
 		};
 		3CFC1D5B2E0803A00072BC1C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3D1111112F70000000AAA111 /* LocalizatuCoche/Secret.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -475,7 +502,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ManuelCazalla.LocalizatuCoche;
 				PRODUCT_NAME = "Localiza tu Coche";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -490,6 +517,7 @@
 		};
 		3CFC1D5C2E0803A00072BC1C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3D1111112F70000000AAA111 /* LocalizatuCoche/Secret.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -517,7 +545,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ManuelCazalla.LocalizatuCoche;
 				PRODUCT_NAME = "Localiza tu Coche";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -642,54 +670,57 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		3CAAB7C92E3D2E97007E6B33 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 12.0.0;
-			};
-		};
-		3CE9CA342EC0B258000B9257 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+		3C7EB59E2F60AD0F00730D4B /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 12.13.0;
+				minimumVersion = 13.1.0;
+			};
+		};
+		3C7EB5A12F60AD5D00730D4B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.10.0;
+			};
+		};
+		3C7EB5A62F60AD7B00730D4B /* XCRemoteSwiftPackageReference "purchases-ios-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios-spm.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.61.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		3CAAB7CA2E3D2E97007E6B33 /* FirebaseAnalytics */ = {
+		3C7EB59F2F60AD0F00730D4B /* GoogleMobileAds */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3CAAB7C92E3D2E97007E6B33 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 3C7EB59E2F60AD0F00730D4B /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+		3C7EB5A22F60AD5D00730D4B /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3C7EB5A12F60AD5D00730D4B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAnalytics;
 		};
-		3CAAB7CC2E3D2E97007E6B33 /* FirebaseAnalyticsCore */ = {
+		3C7EB5A42F60AD5D00730D4B /* FirebaseCrashlytics */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3CAAB7C92E3D2E97007E6B33 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalyticsCore;
-		};
-		3CAAB7CE2E3D2E97007E6B33 /* FirebaseAnalyticsIdentitySupport */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3CAAB7C92E3D2E97007E6B33 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalyticsIdentitySupport;
-		};
-		3CAAB7D02E3D2E97007E6B33 /* FirebaseCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3CAAB7C92E3D2E97007E6B33 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseCore;
-		};
-		3CAAB7D22E3D2E97007E6B33 /* FirebaseCrashlytics */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3CAAB7C92E3D2E97007E6B33 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 3C7EB5A12F60AD5D00730D4B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseCrashlytics;
 		};
-		3CE9CA352EC0B258000B9257 /* GoogleMobileAds */ = {
+		3C7EB5A72F60AD7B00730D4B /* RevenueCat */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3CE9CA342EC0B258000B9257 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
-			productName = GoogleMobileAds;
+			package = 3C7EB5A62F60AD7B00730D4B /* XCRemoteSwiftPackageReference "purchases-ios-spm" */;
+			productName = RevenueCat;
+		};
+		3C7EB5A92F60AD7B00730D4B /* RevenueCatUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3C7EB5A62F60AD7B00730D4B /* XCRemoteSwiftPackageReference "purchases-ios-spm" */;
+			productName = RevenueCatUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

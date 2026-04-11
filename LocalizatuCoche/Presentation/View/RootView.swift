@@ -6,13 +6,14 @@
 //
 
 import SwiftUI
+import GoogleMobileAds
+import RevenueCat
 
 struct RootView: View {
     @StateObject private var launchVM = LaunchViewModel()
     @EnvironmentObject var appState: AppState
-    @AppStorage("isPro") private var isPro = false
-    @AppStorage("hasSeenProPromoV1") private var hasSeenProPromo = false
-    @State private var showProPromo = false
+    @AppStorage("isPro") private var isPro: Bool = false
+    @AppStorage("isDarkModeEnabled") private var isDarkModeEnabled: Bool = false
     
     var body: some View {
         Group {
@@ -23,16 +24,40 @@ struct RootView: View {
             }
         }
         .animation(.easeInOut, value: launchVM.isAuthorized)
-        .onAppear {
-            if !isPro && !hasSeenProPromo {
-                showProPromo = true
+        .preferredColorScheme(appColorScheme)
+        .task {
+            guard ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] != "1" else { return }
+            await refreshProStatus()
+            // Tras conocer el estado real de Pro (RevenueCat), cargar anuncios si el usuario es gratis.
+            await MainActor.run {
+                AdsService.shared.start()
             }
         }
-        .fullScreenCover(isPresented: $showProPromo) {
-            ProPromoView {
-                hasSeenProPromo = true
-                showProPromo = false
+        .onChange(of: isPro) { isProNow in
+            guard ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] != "1" else { return }
+            if !isProNow {
+                AdsService.shared.start()
             }
+        }
+    }
+
+    private var appColorScheme: ColorScheme {
+        guard isPro, isDarkModeEnabled else { return .light }
+        return .dark
+    }
+
+    private func refreshProStatus() async {
+        do {
+            let info = try await Purchases.shared.customerInfo()
+            let hasPremium = info.entitlements["Premium"]?.isActive == true
+            await MainActor.run {
+                isPro = hasPremium
+                if !hasPremium {
+                    isDarkModeEnabled = false
+                }
+            }
+        } catch {
+            // Si falla RevenueCat, mantenemos el estado persistido.
         }
     }
 }
@@ -40,4 +65,5 @@ struct RootView: View {
 
 #Preview {
     RootView()
+        .environmentObject(AppState())
 }

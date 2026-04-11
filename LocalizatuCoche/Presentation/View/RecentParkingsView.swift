@@ -4,6 +4,11 @@ import CoreLocation
 struct RecentParkingsView: View {
     @State private var items: [ParkingLocation] = []
     @State private var selected: ParkingLocation?
+    private let loadOnAppear: Bool
+
+    init(loadOnAppear: Bool = true) {
+        self.loadOnAppear = loadOnAppear
+    }
 
     var body: some View {
         NavigationView {
@@ -44,7 +49,7 @@ struct RecentParkingsView: View {
                                         delete(at: IndexSet(integer: index))
                                     }
                                 } label: {
-                                    Label("Eliminar", systemImage: "trash")
+                                    Label("delete".localized, systemImage: "trash")
                                 }
                             }
                         }
@@ -53,7 +58,10 @@ struct RecentParkingsView: View {
                 }
             }
             .navigationTitle("recent_parkings".localized)
-            .onAppear(perform: load)
+            .onAppear {
+                guard loadOnAppear else { return }
+                load()
+            }
             .fullScreenCover(item: $selected) { p in
                 MapFullScreenView(parkingLocation: p, onClose: {
                     selected = nil
@@ -112,6 +120,14 @@ struct RecentParkingsView: View {
         let format = NSLocalizedString("share_parking_message", comment: "Share message format")
         return String(format: format, titlePart, datePart, parking.latitude, parking.longitude) + notePart
     }
+
+    #if DEBUG
+    init(items: [ParkingLocation]) {
+        _items = State(initialValue: items)
+        _selected = State(initialValue: nil)
+        self.loadOnAppear = false
+    }
+    #endif
 }
 
 struct ParkingRow: View {
@@ -166,4 +182,23 @@ struct ParkingRow: View {
         formatter.timeStyle = .short
         return formatter.string(from: parking.date)
     }
+}
+
+#Preview {
+    RecentParkingsView(items: [
+        ParkingLocation(
+            latitude: 40.4168,
+            longitude: -3.7038,
+            date: Date(),
+            placeName: "Gran Vía, Madrid",
+            note: "Frente al teatro"
+        ),
+        ParkingLocation(
+            latitude: 40.4146,
+            longitude: -3.7006,
+            date: Date().addingTimeInterval(-3600),
+            placeName: "Plaza Mayor",
+            note: "Cerca del mercado"
+        )
+    ])
 }

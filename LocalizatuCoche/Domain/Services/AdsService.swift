@@ -1,5 +1,4 @@
 import Foundation
-import SwiftUI
 import UIKit
 import AppTrackingTransparency
 import AdSupport
@@ -9,14 +8,17 @@ import GoogleMobileAds
 final class AdsService {
     static let shared = AdsService()
     private init() {}
-    
-    @AppStorage("isPro") private var isPro: Bool = false
-    
+
+    /// Mismo key que `@AppStorage("isPro")` en SwiftUI. Leer siempre desde UserDefaults (no usar `@AppStorage` en esta clase: el orden con RevenueCat y el singleton pueden dejar anuncios sin cargar).
+    private var isProSubscriber: Bool {
+        UserDefaults.standard.bool(forKey: "isPro")
+    }
+
     private var interstitial: InterstitialAd?
     private var interstitialDelegate: InterstitialDelegate?
     
     func start() {
-        guard !isPro else { return }
+        guard !isProSubscriber else { return }
 
         MobileAds.shared.start(completionHandler: nil)
         loadInterstitialAd()
@@ -42,6 +44,10 @@ final class AdsService {
     }
     
     func showInterstitial(from root: UIViewController, completion: @escaping () -> Void) {
+        guard !isProSubscriber else {
+            completion()
+            return
+        }
         guard let ad = interstitial else {
             completion()
             loadInterstitialAd()
@@ -60,6 +66,10 @@ final class AdsService {
 
     /// Versión de conveniencia para SwiftUI: busca el topViewController automáticamente.
     func showInterstitial(completion: @escaping () -> Void) {
+        guard !isProSubscriber else {
+            completion()
+            return
+        }
         // No mostrar en previews de Xcode
         if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" {
             completion()

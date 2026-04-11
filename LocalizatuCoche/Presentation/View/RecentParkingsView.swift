@@ -49,7 +49,7 @@ struct RecentParkingsView: View {
                                         delete(at: IndexSet(integer: index))
                                     }
                                 } label: {
-                                    Label("Eliminar", systemImage: "trash")
+                                    Label("delete".localized, systemImage: "trash")
                                 }
                             }
                         }

@@ -41,7 +41,7 @@ struct LocalizatuCocheApp: App {
     let appState = AppState()
     
     init() {
-        UIView.appearance().overrideUserInterfaceStyle = .light
+        UIView.appearance().overrideUserInterfaceStyle = .unspecified
         NotificationDelegate.shared.appState = appState
         UNUserNotificationCenter.current().delegate = NotificationDelegate.shared
     }

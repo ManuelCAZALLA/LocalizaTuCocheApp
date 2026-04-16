@@ -1,9 +1,0 @@
-/* 
-  InfoPlist.strings
-  UbiCar
-  
-  Created by Manuel Cazalla Colmenero on 22/6/25.
-*/
-
-"NSLocationWhenInUseUsageDescription" = "UbiCar needs access to your location to help you find your car.";
-"NSLocationAlwaysAndWhenInUseUsageDescription" = "UbiCar needs access to your location to help you find your car."; 

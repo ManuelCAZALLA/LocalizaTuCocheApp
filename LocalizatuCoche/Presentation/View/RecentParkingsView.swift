@@ -1,204 +1,316 @@
 import SwiftUI
 import CoreLocation
+import MapKit
 
 struct RecentParkingsView: View {
+    
     @State private var items: [ParkingLocation] = []
     @State private var selected: ParkingLocation?
+    @State private var searchText: String = ""
+    
+    @AppStorage("favoriteParkings") private var favoriteIDsData: Data = Data()
+    
     private let loadOnAppear: Bool
-
+    
     init(loadOnAppear: Bool = true) {
         self.loadOnAppear = loadOnAppear
     }
-
+    
     var body: some View {
         NavigationView {
-            Group {
-                if items.isEmpty {
-                    VStack(spacing: 16) {
-                        Image(systemName: "mappin.and.ellipse")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 64, height: 64)
-                            .foregroundColor(Color("AppPrimary"))
-                            .opacity(0.8)
-
-                        Text("no_recent_parkings".localized)
-                            .font(.headline)
-                            .foregroundColor(.secondary)
-                            .multilineTextAlignment(.center)
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(Color(.systemGroupedBackground))
+            ZStack {
+                
+                // Fondo
+                LinearGradient(
+                    colors: [
+                        Color(.systemBackground),
+                        Color("AppPrimary").opacity(0.04)
+                    ],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .ignoresSafeArea()
+                
+                if filteredItems.isEmpty {
+                    emptyState
                 } else {
-                    List {
-                        ForEach(items) { parking in
-                            Button {
-                                selected = parking
-                            } label: {
-                                ParkingRow(
-                                    parking: parking,
-                                    onShare: {
-                                        share(parking)
-                                    }
+                    ScrollView {
+                        LazyVStack(spacing: 20) {
+                            
+                            // ⭐ Favoritos
+                            if !favoriteItems.isEmpty {
+                                section(title: "⭐ Favoritos", items: favoriteItems)
+                            }
+                            
+                            // 📅 Resto agrupado
+                            ForEach(groupedItems.keys.sorted(by: >), id: \.self) { date in
+                                section(
+                                    title: sectionTitle(for: date),
+                                    items: groupedItems[date] ?? []
                                 )
                             }
-                            .buttonStyle(.plain)
-                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                Button(role: .destructive) {
-                                    if let index = items.firstIndex(where: { $0.id == parking.id }) {
-                                        delete(at: IndexSet(integer: index))
-                                    }
-                                } label: {
-                                    Label("delete".localized, systemImage: "trash")
-                                }
-                            }
                         }
+                        .padding()
                     }
-                    .listStyle(.insetGrouped)
                 }
             }
             .navigationTitle("recent_parkings".localized)
+            .searchable(text: $searchText, prompt: "Buscar aparcamiento")
             .onAppear {
                 guard loadOnAppear else { return }
                 load()
             }
             .fullScreenCover(item: $selected) { p in
-                MapFullScreenView(parkingLocation: p, onClose: {
+                MapFullScreenView(parkingLocation: p) {
                     selected = nil
-                })
+                }
             }
         }
     }
-
+    
+    // MARK: - Sections
+    
+    private func section(title: String, items: [ParkingLocation]) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text(title)
+                .font(.subheadline)
+                .fontWeight(.semibold)
+                .foregroundColor(.secondary)
+                .padding(.horizontal, 4)
+            
+            ForEach(items) { parking in
+                ParkingHistoryCard(
+                    parking: parking,
+                    isFavorite: isFavorite(parking),
+                    onTap: { selected = parking },
+                    onShare: { share(parking) },
+                    onDelete: { deleteParking(parking) },
+                    onFavorite: { toggleFavorite(parking) }
+                )
+            }
+        }
+    }
+    
     // MARK: - Data
+    
     private func load() {
         items = ParkingStorage.shared.loadHistory()
     }
-
-    private func delete(at offsets: IndexSet) {
-        let ids = offsets.map { items[$0].id }
-        for id in ids { ParkingStorage.shared.removeFromHistory(id: id) }
-        items.remove(atOffsets: offsets)
-    }
-
-    // MARK: - Sharing
-    private func share(_ parking: ParkingLocation) {
-        guard let item = shareItem(for: parking) else { return }
-
-        let activityVC = UIActivityViewController(activityItems: [item], applicationActivities: nil)
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-           let rootVC = windowScene.windows.first?.rootViewController {
-            rootVC.present(activityVC, animated: true, completion: nil)
+    
+    private func deleteParking(_ parking: ParkingLocation) {
+        if let index = items.firstIndex(where: { $0.id == parking.id }) {
+            ParkingStorage.shared.removeFromHistory(id: parking.id)
+            items.remove(at: index)
         }
     }
-
-    private func shareItem(for parking: ParkingLocation) -> Any? {
-        if let url = mapsURL(for: parking) {
-            return url
+    
+    // MARK: - Filtering
+    
+    private var filteredItems: [ParkingLocation] {
+        if searchText.isEmpty { return items }
+        
+        return items.filter {
+            ($0.placeName?.localizedCaseInsensitiveContains(searchText) ?? false)
+            || ($0.note?.localizedCaseInsensitiveContains(searchText) ?? false)
         }
-        return shareText(for: parking)
     }
-
-    private func mapsURL(for parking: ParkingLocation) -> URL? {
-        let queryName = (parking.placeName ?? "").addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-        let urlString = "http://maps.apple.com/?ll=\(parking.latitude),\(parking.longitude)\(queryName.isEmpty ? "" : "&q=\(queryName)")"
-        return URL(string: urlString)
+    
+    private var favoriteItems: [ParkingLocation] {
+        filteredItems.filter { isFavorite($0) }
     }
-
-    private func shareText(for parking: ParkingLocation) -> String {
-        let titlePart: String
-        if let name = parking.placeName, !name.isEmpty {
-            titlePart = name
+    
+    private var groupedItems: [Date: [ParkingLocation]] {
+        let nonFavorites = filteredItems.filter { !isFavorite($0) }
+        
+        return Dictionary(grouping: nonFavorites) {
+            Calendar.current.startOfDay(for: $0.date)
+        }
+    }
+    
+    // MARK: - Favorites
+    
+    private var favoriteIDs: Set<String> {
+        (try? JSONDecoder().decode(Set<String>.self, from: favoriteIDsData)) ?? []
+    }
+    
+    private func isFavorite(_ parking: ParkingLocation) -> Bool {
+        favoriteIDs.contains(parking.id.uuidString)
+    }
+    
+    private func toggleFavorite(_ parking: ParkingLocation) {
+        var ids = favoriteIDs
+        let key = parking.id.uuidString
+        
+        if ids.contains(key) {
+            ids.remove(key)
         } else {
-            titlePart = String(format: NSLocalizedString("coordinates_format", comment: "Coordinates fallback title"), parking.latitude, parking.longitude)
+            ids.insert(key)
         }
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .short
-        let datePart = dateFormatter.string(from: parking.date)
-        let notePart = (parking.note?.isEmpty == false) ? "\n\(parking.note!)" : ""
-        let format = NSLocalizedString("share_parking_message", comment: "Share message format")
-        return String(format: format, titlePart, datePart, parking.latitude, parking.longitude) + notePart
+        
+        favoriteIDsData = (try? JSONEncoder().encode(ids)) ?? Data()
     }
-
-    #if DEBUG
-    init(items: [ParkingLocation]) {
-        _items = State(initialValue: items)
-        _selected = State(initialValue: nil)
-        self.loadOnAppear = false
+    
+    // MARK: - Section Title
+    
+    private func sectionTitle(for date: Date) -> String {
+        let cal = Calendar.current
+        
+        if cal.isDateInToday(date) { return "Hoy" }
+        if cal.isDateInYesterday(date) { return "Ayer" }
+        
+        let f = DateFormatter()
+        f.dateFormat = "E d MMM"
+        return f.string(from: date)
     }
-    #endif
-}
-
-struct ParkingRow: View {
-    let parking: ParkingLocation
-    var onShare: (() -> Void)? = nil
-
-    var body: some View {
-        HStack(alignment: .top, spacing: 12) {
-            Image(systemName: "mappin.and.ellipse")
+    
+    // MARK: - Empty
+    
+    private var emptyState: some View {
+        VStack(spacing: 20) {
+            Image(systemName: "car.fill")
+                .font(.system(size: 42))
                 .foregroundColor(Color("AppPrimary"))
-                .frame(width: 28)
-
-            VStack(alignment: .leading, spacing: 4) {
-                Text(title)
-                    .font(.headline)
-                Text(dateString)
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-                if let note = parking.note, !note.isEmpty {
-                    Text(note)
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                        .lineLimit(2)
-                }
-            }
-
-            Spacer()
-
-            // 👇 Botón visible dentro de la tarjeta
-            if let onShare = onShare {
-                Button(action: onShare) {
-                    Image(systemName: "square.and.arrow.up")
-                        .foregroundColor(Color("AppPrimary"))
-                }
-                .buttonStyle(.plain)
-            }
+            
+            Text("no_recent_parkings".localized)
+                .font(.headline)
         }
-        .padding(.vertical, 6)
+        .padding()
     }
-
-    private var title: String {
-        if let name = parking.placeName, !name.isEmpty {
-            return name
-        } else {
-            return String(format: NSLocalizedString("coordinates_format", comment: ""), parking.latitude, parking.longitude)
+    
+    // MARK: - Share
+    
+    private func share(_ parking: ParkingLocation) {
+        let url = URL(string: "http://maps.apple.com/?ll=\(parking.latitude),\(parking.longitude)")!
+        
+        let vc = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+        
+        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let root = scene.windows.first?.rootViewController {
+            root.present(vc, animated: true)
         }
-    }
-
-    private var dateString: String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .short
-        return formatter.string(from: parking.date)
     }
 }
 
-#Preview {
-    RecentParkingsView(items: [
-        ParkingLocation(
-            latitude: 40.4168,
-            longitude: -3.7038,
-            date: Date(),
-            placeName: "Gran Vía, Madrid",
-            note: "Frente al teatro"
-        ),
-        ParkingLocation(
-            latitude: 40.4146,
-            longitude: -3.7006,
-            date: Date().addingTimeInterval(-3600),
-            placeName: "Plaza Mayor",
-            note: "Cerca del mercado"
-        )
-    ])
+struct ParkingHistoryCard: View {
+    
+    let parking: ParkingLocation
+    let isFavorite: Bool
+    
+    var onTap: () -> Void
+    var onShare: () -> Void
+    var onDelete: () -> Void
+    var onFavorite: () -> Void
+    
+    @State private var region: MKCoordinateRegion
+    
+    init(
+        parking: ParkingLocation,
+        isFavorite: Bool,
+        onTap: @escaping () -> Void,
+        onShare: @escaping () -> Void,
+        onDelete: @escaping () -> Void,
+        onFavorite: @escaping () -> Void
+    ) {
+        self.parking = parking
+        self.isFavorite = isFavorite
+        self.onTap = onTap
+        self.onShare = onShare
+        self.onDelete = onDelete
+        self.onFavorite = onFavorite
+        
+        _region = State(initialValue: MKCoordinateRegion(
+            center: CLLocationCoordinate2D(
+                latitude: parking.latitude,
+                longitude: parking.longitude
+            ),
+            span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
+        ))
+    }
+    
+    var body: some View {
+        Button(action: onTap) {
+            VStack(alignment: .leading, spacing: 12) {
+                
+                // Imagen o mapa
+                ZStack(alignment: .topTrailing) {
+                    
+                    if let data = parking.photoData,
+                       let image = UIImage(data: data) {
+                        
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(height: 160)
+                            .clipped()
+                        
+                    } else {
+                        Map(coordinateRegion: $region, annotationItems: [parking]) { item in
+                            MapMarker(coordinate: CLLocationCoordinate2D(
+                                latitude: item.latitude,
+                                longitude: item.longitude
+                            ))
+                        }
+                    }
+                    
+                    // ⭐ Favorito
+                    Button(action: onFavorite) {
+                        Image(systemName: isFavorite ? "star.fill" : "star")
+                            .padding(8)
+                            .background(.ultraThinMaterial)
+                            .clipShape(Circle())
+                    }
+                    .padding(8)
+                }
+                .frame(height: 160)
+                .clipShape(RoundedRectangle(cornerRadius: 16))
+                
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(title)
+                        .font(.headline)
+                    
+                    Text(dateString)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    
+                    if let note = parking.note, !note.isEmpty {
+                        Text(note)
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                            .lineLimit(2)
+                    }
+                }
+                
+                HStack {
+                    Spacer()
+                    
+                    Button(action: onShare) {
+                        Image(systemName: "square.and.arrow.up")
+                    }
+                    
+                    Button(role: .destructive, action: onDelete) {
+                        Image(systemName: "trash")
+                    }
+                }
+                .foregroundColor(.secondary)
+            }
+            .padding()
+            .background(Color(.systemBackground))
+            .clipShape(RoundedRectangle(cornerRadius: 20))
+            .shadow(color: .black.opacity(0.06), radius: 10, x: 0, y: 4)
+        }
+        .buttonStyle(.plain)
+    }
+    
+    private var title: String {
+        parking.placeName?.isEmpty == false
+        ? parking.placeName!
+        : "\(parking.latitude), \(parking.longitude)"
+    }
+    
+    private var dateString: String {
+        let f = DateFormatter()
+        f.dateStyle = .medium
+        f.timeStyle = .short
+        return f.string(from: parking.date)
+    }
 }

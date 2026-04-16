@@ -179,7 +179,7 @@ struct ContentView: View {
                 HStack(spacing: 4) {
                     Image(systemName: "crown.fill")
                         .font(.caption)
-                    Text("PRO")
+                    Text("PREMIUM")
                         .font(.caption)
                         .fontWeight(.bold)
                 }

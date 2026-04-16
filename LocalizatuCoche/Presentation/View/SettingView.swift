@@ -1,6 +1,6 @@
 //
 //  SettingView.swift
-//  UbiCar
+//  LocalizatuCoche
 //
 //  Created by Manuel Cazalla Colmenero on 9/7/25.
 //
@@ -9,6 +9,11 @@ import SwiftUI
 import StoreKit
 import RevenueCat
 import RevenueCatUI
+
+// MARK: - Entitlements centralizados
+enum Entitlement {
+    static let premium = "premium"
+}
 
 struct SettingView: View {
     @ObservedObject var viewModel: SettingsViewModel
@@ -20,6 +25,7 @@ struct SettingView: View {
         NavigationView {
             ScrollView {
                 VStack(spacing: 32) {
+                    
                     // Logo, nombre y versión
                     VStack(spacing: 8) {
                         Image(systemName: "car.fill")
@@ -42,15 +48,19 @@ struct SettingView: View {
                             HStack(spacing: 12) {
                                 Image(systemName: isPro ? "checkmark.seal.fill" : "crown.fill")
                                     .font(.title2)
+                                
                                 VStack(alignment: .leading, spacing: 2) {
                                     Text(isPro ? "settings_pro_active_title".localized : "settings_pro_upgrade_title".localized)
                                         .font(.headline)
                                         .fontWeight(.bold)
+                                    
                                     Text(isPro ? "settings_pro_active_subtitle".localized : "settings_pro_upgrade_subtitle".localized)
                                         .font(.subheadline)
                                         .opacity(0.9)
                                 }
+                                
                                 Spacer()
+                                
                                 Image(systemName: "chevron.right")
                                     .font(.headline)
                             }
@@ -113,10 +123,12 @@ struct SettingView: View {
                                     Image(systemName: "mic.fill")
                                         .foregroundColor(Color("AccentColor"))
                                         .frame(width: 28)
+                                    
                                     VStack(alignment: .leading, spacing: 4) {
                                         Text("Controla tu app con Siri")
                                             .font(.subheadline)
                                             .fontWeight(.semibold)
+                                        
                                         Text("Guarda tu aparcamiento o navega a tu coche con un simple comando de voz.")
                                             .font(.caption)
                                             .foregroundColor(.secondary)
@@ -143,9 +155,12 @@ struct SettingView: View {
                                         Image(systemName: "arrow.up.right.square")
                                             .foregroundColor(Color("AccentColor"))
                                             .frame(width: 28)
+                                        
                                         Text("Abrir app Atajos")
                                             .foregroundColor(.primary)
+                                        
                                         Spacer()
+                                        
                                         Image(systemName: "chevron.right")
                                             .foregroundColor(.gray)
                                     }
@@ -158,12 +173,13 @@ struct SettingView: View {
                         .padding(.horizontal)
                     }
                     
-                    // Sección Contacto
+                    // Contacto
                     VStack(spacing: 16) {
                         Text("contact".localized)
                             .font(.headline)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.horizontal)
+                        
                         SettingActionButton(
                             icon: "envelope",
                             title: "Email",
@@ -172,27 +188,31 @@ struct SettingView: View {
                     }
                     .padding(.horizontal)
                     
-                    // Sección Acerca de
+                    // Acerca de
                     VStack(spacing: 16) {
                         Text("about".localized)
                             .font(.headline)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.horizontal)
+                        
                         SettingActionButton(
                             icon: "square.and.arrow.up",
                             title: "share_whatsapp".localized,
                             action: viewModel.shareOnWhatsApp
                         )
+                        
                         SettingActionButton(
                             icon: "globe",
                             title: "website".localized,
                             action: viewModel.openWebsite
                         )
+                        
                         SettingActionButton(
                             icon: "doc.text",
                             title: "settings_privacy_policy".localized,
                             action: viewModel.openPrivacyPolicy
                         )
+                        
                         SettingActionButton(
                             icon: "star.fill",
                             title: "rate_me".localized,
@@ -201,7 +221,6 @@ struct SettingView: View {
                     }
                     .padding(.horizontal)
                     
-                    // Botón debug para activar Pro (solo en Debug)
 #if DEBUG
                     Button("🔧 Toggle Pro (Debug)") {
                         isPro.toggle()
@@ -225,20 +244,24 @@ struct SettingView: View {
         }
     }
     
+    // MARK: - FIX IMPORTANTE AQUÍ
     private func refreshProStatus() async {
         do {
             let info = try await Purchases.shared.customerInfo()
-            let hasPremium = info.entitlements["Premium"]?.isActive == true
+            
+            let hasPremium = info.entitlements[Entitlement.premium]?.isActive == true
+            
             await MainActor.run {
                 isPro = hasPremium
             }
+            
         } catch {
-            // Si falla la consulta mantenemos el estado actual sin bloquear la UI.
+            print("❌ Error fetching customer info: \(error)")
         }
     }
 }
 
-// MARK: - Paso de Shortcut
+// MARK: - ShortcutStep
 struct ShortcutStep: View {
     let number: String
     let text: String
@@ -252,6 +275,7 @@ struct ShortcutStep: View {
                 .frame(width: 20, height: 20)
                 .background(Color("AccentColor"))
                 .clipShape(Circle())
+            
             Text(text)
                 .font(.caption)
                 .foregroundColor(.secondary)
@@ -259,7 +283,7 @@ struct ShortcutStep: View {
     }
 }
 
-// MARK: - Botón de acción
+// MARK: - SettingActionButton
 struct SettingActionButton: View {
     let icon: String
     let title: String
@@ -271,9 +295,12 @@ struct SettingActionButton: View {
                 Image(systemName: icon)
                     .foregroundColor(Color("AccentColor"))
                     .frame(width: 28)
+                
                 Text(title)
                     .foregroundColor(.primary)
+                
                 Spacer()
+                
                 Image(systemName: "chevron.right")
                     .foregroundColor(.gray)
             }

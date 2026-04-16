@@ -5,7 +5,7 @@ final class ParkingStorage {
     static let shared = ParkingStorage()
     private let lastKey = "saved_parking_location"
     private let historyKey = "saved_parking_history"
-    private let historyLimit = 20
+    private let freeHistoryLimit = 3
 
     // MARK: - Last parking 
     func save(_ parking: ParkingLocation) {
@@ -46,7 +46,9 @@ final class ParkingStorage {
     func appendToHistory(_ parking: ParkingLocation) {
         var items = loadHistory()
         items.insert(parking, at: 0)
-        if items.count > historyLimit { items = Array(items.prefix(historyLimit)) }
+        if !isProUser, items.count > freeHistoryLimit {
+            items = Array(items.prefix(freeHistoryLimit))
+        }
         saveHistory(items)
     }
 
@@ -67,5 +69,9 @@ final class ParkingStorage {
         } catch {
             print("❌ Error guardando historial: \(error)")
         }
+    }
+
+    private var isProUser: Bool {
+        UserDefaults.standard.bool(forKey: "isPro")
     }
 }

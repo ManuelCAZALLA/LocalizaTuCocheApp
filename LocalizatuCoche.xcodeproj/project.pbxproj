@@ -35,6 +35,7 @@
 		3CFC1D362E0803990072BC1C /* Localiza tu Coche.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Localiza tu Coche.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CFC1D462E0803A00072BC1C /* LocalizatuCocheTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LocalizatuCocheTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CFC1D502E0803A00072BC1C /* LocalizatuCocheUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LocalizatuCocheUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D1111112F70000000AAA111 /* LocalizatuCoche/Secret.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = LocalizatuCoche/Secret.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -117,6 +118,7 @@
 			children = (
 				3C3DE1442E22C7D800AEDE1C /* LocalizatuCoche */,
 				3CFC1D532E0803A00072BC1C /* LocalizatuCocheUITests */,
+				3D1111112F70000000AAA111 /* LocalizatuCoche/Secret.xcconfig */,
 				3CFC1D372E0803990072BC1C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -471,6 +473,7 @@
 		};
 		3CFC1D5B2E0803A00072BC1C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3D1111112F70000000AAA111 /* LocalizatuCoche/Secret.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -514,6 +517,7 @@
 		};
 		3CFC1D5C2E0803A00072BC1C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3D1111112F70000000AAA111 /* LocalizatuCoche/Secret.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

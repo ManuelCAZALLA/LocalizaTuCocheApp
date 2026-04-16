@@ -10,9 +10,10 @@ import FirebaseCore
 import FirebaseCrashlytics
 import UserNotifications
 import FirebaseAnalytics
+import RevenueCat
 
+// MARK: - AppDelegate para Firebase y RevenueCat
 
-// MARK: - AppDelegate para Firebase
 class AppDelegate: NSObject, UIApplicationDelegate {
     
     func application(_ application: UIApplication,
@@ -21,6 +22,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         FirebaseApp.configure()
         Analytics.setAnalyticsCollectionEnabled(true)
         Crashlytics.crashlytics().setCrashlyticsCollectionEnabled(true)
+        
+        // RevenueCat
+        Purchases.logLevel = .debug
+        Purchases.configure(withAPIKey: Secret.revenueCatAPIKey)
         
         return true
     }
@@ -36,7 +41,7 @@ struct LocalizatuCocheApp: App {
     let appState = AppState()
     
     init() {
-        UIView.appearance().overrideUserInterfaceStyle = .light
+        UIView.appearance().overrideUserInterfaceStyle = .unspecified
         NotificationDelegate.shared.appState = appState
         UNUserNotificationCenter.current().delegate = NotificationDelegate.shared
     }

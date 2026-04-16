@@ -7,11 +7,6 @@ struct ProPromoView: View {
     @State private var isVisible: Bool = false
     @State private var secondsLeft: Int = 5
     
-    // Función para localización con fallback
-    private func localizedString(key: String, fallback: String) -> String {
-        return NSLocalizedString(key, value: fallback, comment: "")
-    }
-    
     var body: some View {
         ZStack {
             // Fondo semitransparente o color base
@@ -26,11 +21,8 @@ struct ProPromoView: View {
                     Button(action: dismiss) {
                         Text(
                             secondsLeft > 0
-                            ? String.localizedStringWithFormat(
-                                NSLocalizedString("close_countdown", value: "Cerrar (%d)", comment: "Countdown close label"),
-                                secondsLeft
-                              )
-                            : NSLocalizedString("pro_close_button", value: "No, gracias", comment: "Secondary close button")
+                            ? "close_countdown".localized(with: secondsLeft)
+                            : "pro_close_button".localized
                         )
                         .font(.caption)
                         .foregroundColor(.secondary)
@@ -48,12 +40,12 @@ struct ProPromoView: View {
                                 .foregroundColor(Color.yellow)
                                 .font(.system(size: 40))
                             
-                            Text(localizedString(key: "pro_promo_title", fallback: "Versión Pro"))
+                            Text("pro_promo_title".localized)
                                 .font(.largeTitle)
                                 .fontWeight(.black)
                                 .textCase(.uppercase)
                             
-                            Text(localizedString(key: "pro_promo_subtitle", fallback: "Desbloquea todas las funciones y elimina la publicidad."))
+                            Text("pro_promo_subtitle".localized)
                                 .font(.headline)
                                 .foregroundColor(.secondary)
                                 .multilineTextAlignment(.center)
@@ -62,10 +54,10 @@ struct ProPromoView: View {
                         
                         // MARK: - Lista de Beneficios
                         VStack(alignment: .leading, spacing: 20) {
-                            benefitRow(icon: "clock.fill", key: "pro_benefit_history", fallback: "Historial de aparcamientos")
-                            benefitRow(icon: "mic.fill", key: "pro_benefit_voice", fallback: "Guardar y volver con Siri")
-                            benefitRow(icon: "nosign", key: "pro_benefit_no_ads", fallback: "Sin anuncios")
-                            benefitRow(icon: "applewatch.watchface", key: "pro_benefit_watch", fallback: "Soporte Apple Watch")
+                            benefitRow(icon: "nosign", key: "pro_benefit_no_ads")
+                            benefitRow(icon: "clock.badge.checkmark", key: "pro_benefit_unlimited_parkings")
+                            benefitRow(icon: "moon.fill", key: "pro_benefit_dark_mode")
+                            benefitRow(icon: "waveform.and.mic", key: "pro_benefit_siri")
                         }
                         .padding(.horizontal, 30)
                         
@@ -76,7 +68,7 @@ struct ProPromoView: View {
                 
                 // MARK: - CTA Principal (Fijo en la parte inferior)
                 Button(action: { isPro = true; dismiss() }) {
-                    Text(localizedString(key: "pro_cta_button", fallback: "Mejorar a Pro"))
+                    Text("pro_cta_button".localized)
                         .font(.headline)
                         .fontWeight(.heavy)
                         .frame(maxWidth: .infinity)
@@ -105,14 +97,14 @@ struct ProPromoView: View {
     }
     
     // MARK: - Fila de Beneficio con Estilo
-    private func benefitRow(icon: String, key: String, fallback: String) -> some View {
+    private func benefitRow(icon: String, key: String) -> some View {
         HStack(spacing: 15) {
             Image(systemName: icon)
                 .foregroundColor(Color.orange) // Color destacado
                 .font(.title2)
                 .frame(width: 30)
             
-            Text(localizedString(key: key, fallback: fallback))
+            Text(key.localized)
                 .foregroundColor(.primary)
                 .font(.body)
             

@@ -180,9 +180,19 @@ struct ParkingMeterView: View {
             
             // Info pills
             HStack(spacing: 20) {
-                timerInfoPill(icon: "timer", label: "Alerta previa", value: "\(preEndAlertMinutes) min")
+                timerInfoPill(
+                    icon: "timer",
+                    label: "timer_pre_alert_label".localized,
+                    value: "\(preEndAlertMinutes) min"
+                )
+                
                 Divider().frame(height: 30)
-                timerInfoPill(icon: "bell.fill", label: "Notificación", value: "Activada")
+                
+                timerInfoPill(
+                    icon: "bell.fill",
+                    label: "timer_notification_label".localized,
+                    value: "timer_notification_active".localized
+                )
             }
             .padding(.horizontal, 24)
             .padding(.vertical, 16)

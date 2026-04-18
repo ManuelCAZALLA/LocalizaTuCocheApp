@@ -32,9 +32,9 @@ struct ContentView: View {
     private var greeting: String {
         let hour = Calendar.current.component(.hour, from: Date())
         switch hour {
-        case 6..<12: return "Buenos días 🌤️"
-        case 12..<18: return "Buenas tardes ☀️"
-        default: return "Buenas noches 🌙"
+        case 6..<12: return "greeting_morning".localized
+        case 12..<18: return "greeting_afternoon".localized
+        default: return "greeting_night".localized
         }
     }
     

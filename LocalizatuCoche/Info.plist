@@ -19,14 +19,13 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.4</string>
+	<string>1.0.5</string>
 	<key>CFBundleVersion</key>
-	<string>2</string>
+	<string>3</string>
 	<key>FirebaseCrashlyticsCollectionEnabled</key>
 	<true/>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-3496376881163066~1964634302</string>
-	<!-- ID del bloque de anuncio intersticial -->
 	<key>GOOGLE_ADS_UNIT_ID</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>LSApplicationQueriesSchemes</key>

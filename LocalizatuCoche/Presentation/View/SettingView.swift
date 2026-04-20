@@ -138,10 +138,10 @@ struct SettingView: View {
                                 Divider()
                                 
                                 VStack(alignment: .leading, spacing: 8) {
-                                    ShortcutStep(number: "1", text: "Abre la app Atajos de iPhone")
-                                    ShortcutStep(number: "2", text: "Pulsa + para crear un nuevo atajo")
-                                    ShortcutStep(number: "3", text: "Busca \"Localiza tu Coche\" y elige la acción")
-                                    ShortcutStep(number: "4", text: "Asígnale una frase de Siri y guárdalo")
+                                    ShortcutStep(number: "1", text: "shortcut_step_1".localized)
+                                    ShortcutStep(number: "2", text: "shortcut_step_2".localized)
+                                    ShortcutStep(number: "3", text: "shortcut_step_3".localized)
+                                    ShortcutStep(number: "4", text: "shortcut_step_4".localized)
                                 }
                                 
                                 Divider()

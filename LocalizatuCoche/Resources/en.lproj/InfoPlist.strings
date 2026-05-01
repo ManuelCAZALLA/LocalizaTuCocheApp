@@ -8,4 +8,4 @@
 "NSLocationWhenInUseUsageDescription" = "We need your location to help you find your car..";
 "NSLocationAlwaysAndWhenInUseUsageDescription" = "We need your location to help you find your car.";
 
-"CFBundleDisplayName" = "Park and Back";
+"CFBundleDisplayName" = "Park and Back: GPS Car Locator";

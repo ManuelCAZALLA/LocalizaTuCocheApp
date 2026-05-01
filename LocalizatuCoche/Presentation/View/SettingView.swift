@@ -155,12 +155,9 @@ struct SettingView: View {
                                         Image(systemName: "arrow.up.right.square")
                                             .foregroundColor(Color("AccentColor"))
                                             .frame(width: 28)
-                                        
                                         Text("Abrir app Atajos")
                                             .foregroundColor(.primary)
-                                        
                                         Spacer()
-                                        
                                         Image(systemName: "chevron.right")
                                             .foregroundColor(.gray)
                                     }
@@ -214,6 +211,16 @@ struct SettingView: View {
                         )
                         
                         SettingActionButton(
+                            icon: "doc.plaintext",
+                            title: "settings_terms_of_use".localized,
+                            action: {
+                                if let url = URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/") {
+                                    UIApplication.shared.open(url)
+                                }
+                            }
+                        )
+                        
+                        SettingActionButton(
                             icon: "star.fill",
                             title: "rate_me".localized,
                             action: viewModel.requestReview
@@ -244,17 +251,13 @@ struct SettingView: View {
         }
     }
     
-    // MARK: - FIX IMPORTANTE AQUÍ
     private func refreshProStatus() async {
         do {
             let info = try await Purchases.shared.customerInfo()
-            
             let hasPremium = info.entitlements[Entitlement.premium]?.isActive == true
-            
             await MainActor.run {
                 isPro = hasPremium
             }
-            
         } catch {
             print("❌ Error fetching customer info: \(error)")
         }

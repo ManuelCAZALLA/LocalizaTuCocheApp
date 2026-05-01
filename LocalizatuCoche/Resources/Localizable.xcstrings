@@ -40,6 +40,12 @@
             "value" : "%1$@: %2$@"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "%1$@: %2$@"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -95,6 +101,12 @@
             "value" : "Acerca de"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Acerca de"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -139,6 +151,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Abrir app Atajos"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Abrir app Atajos"
           }
         },
@@ -191,6 +209,12 @@
             "value" : "Activo"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Activo"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -235,6 +259,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "agregar detalles útiles"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "agregar detalles útiles"
           }
         },
@@ -285,6 +315,12 @@
             "value" : "Añadir nota"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Añadir nota"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -329,6 +365,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Añadir foto"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Añadir foto"
           }
         },
@@ -380,6 +422,12 @@
             "value" : "¡Atención!"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "¡Atención!"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -427,6 +475,12 @@
             "value" : "El tiempo del parquímetro ha expirado o está a punto de hacerlo. ¿Quieres que te guiemos hasta tu coche?"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "El tiempo del parquímetro ha expirado o está a punto de hacerlo. ¿Quieres que te guiemos hasta tu coche?"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -471,6 +525,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Aparcado aquí"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Aparcado aquí"
           }
         },
@@ -522,6 +582,12 @@
             "value" : "Localiza tu Coche"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Localiza tu Coche"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -566,6 +632,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Tu Coche Aquí"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Tu Coche Aquí"
           }
         },
@@ -616,6 +688,12 @@
             "value" : "Has llegado a tu coche."
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Has llegado a tu coche."
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -663,6 +741,12 @@
             "value" : "Volver al coche"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Volver al coche"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -679,476 +763,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Voltar ao carro"
-          }
-        }
-      }
-    },
-    "greeting_morning" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "صباح الخير 🌤️"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Guten Morgen 🌤️"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Good morning 🌤️"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Buenos días 🌤️"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bonjour 🌤️"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Buongiorno 🌤️"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bom dia 🌤️"
-          }
-        }
-      }
-    },
-    "greeting_afternoon" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "مساء الخير ☀️"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Guten Tag ☀️"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Good afternoon ☀️"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Buenas tardes ☀️"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bon après-midi ☀️"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Buon pomeriggio ☀️"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Boa tarde ☀️"
-          }
-        }
-      }
-    },
-    "greeting_night" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "مساء الخير 🌙"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Guten Abend 🌙"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Good evening 🌙"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Buenas noches 🌙"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bonsoir 🌙"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Buonasera 🌙"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Boa noite 🌙"
-          }
-        }
-      }
-    },
-    "timer_pre_alert_label" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تنبيه مسبق"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Voralarm"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pre-alert"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alerta previa"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alerte préalable"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Avviso anticipato"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alerta prévia"
-          }
-        }
-      }
-    },
-    "timer_notification_active" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "مفعلة"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aktiviert"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enabled"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Activada"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Activée"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Attivata"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ativada"
-          }
-        }
-      }
-    },
-    "timer_notification_label" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "الإشعار"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Benachrichtigung"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Notification"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Notificación"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Notification"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Notifica"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Notificação"
-          }
-        }
-      }
-    },
-    "shortcut_step_1" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "افتح تطبيق الاختصارات على iPhone"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Öffne die Kurzbefehle-App auf dem iPhone"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open the Shortcuts app on iPhone"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Abre la app Atajos de iPhone"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ouvre l’app Raccourcis sur iPhone"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apri l'app Comandi su iPhone"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Abra o app Atalhos no iPhone"
-          }
-        }
-      }
-    },
-    "shortcut_step_2" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "اضغط على + لإنشاء اختصار جديد"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tippe auf +, um einen neuen Kurzbefehl zu erstellen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tap + to create a new shortcut"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pulsa + para crear un nuevo atajo"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Appuie sur + pour créer un nouveau raccourci"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tocca + per creare un nuovo comando"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Toque em + para criar um novo atalho"
-          }
-        }
-      }
-    },
-    "shortcut_step_3" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ابحث عن \"تحديد موقع سيارتك\" واختر الإجراء"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Suche nach „Finde dein Auto“ und wähle die Aktion"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Search for \"Find Your Car\" and choose the action"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Busca \"Localiza tu Coche\" y elige la acción"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Recherche \"Localiser votre voiture\" et choisis l’action"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cerca \"Trova la tua auto\" e scegli l’azione"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Procure por \"Encontrar seu carro\" e escolha a ação"
-          }
-        }
-      }
-    },
-    "shortcut_step_4" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "قم بتعيين عبارة لسيري واحفظه"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Weise einen Siri-Satz zu und speichere ihn"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Assign a Siri phrase and save it"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Asígnale una frase de Siri y guárdalo"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Attribue-lui une phrase Siri et enregistre-le"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Assegna una frase Siri e salvalo"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Atribua uma frase à Siri e salve-o"
           }
         }
       }
@@ -1179,6 +793,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Buscar aparcamiento"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Buscar aparcamiento"
           }
         },
@@ -1229,6 +849,12 @@
             "value" : "Permiso de cámara denegado"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Permiso de cámara denegado"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1273,6 +899,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Por favor, activa el acceso a la cámara en Ajustes para poder añadir una foto."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Por favor, activa el acceso a la cámara en Ajustes para poder añadir una foto."
           }
         },
@@ -1323,6 +955,12 @@
             "value" : "Cancelar"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Cancelar"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1367,6 +1005,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Cancelar parquímetro"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Cancelar parquímetro"
           }
         },
@@ -1418,6 +1062,12 @@
             "value" : "Tu coche está a %d metros."
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Tu coche está a %d metros."
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1462,6 +1112,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Cargando..."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Cargando..."
           }
         },
@@ -1512,6 +1168,12 @@
             "value" : "Cambiar foto"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Cambiar foto"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1556,6 +1218,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Cerrar"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Cerrar"
           }
         },
@@ -1606,6 +1274,12 @@
             "value" : "Abrir en Google Maps"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Abrir en Google Maps"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1650,6 +1324,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Agrega una nota aquí"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Agrega una nota aquí"
           }
         },
@@ -1700,6 +1380,12 @@
             "value" : "Toca para realizar una foto"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Toca para realizar una foto"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1747,6 +1433,12 @@
             "value" : "Toca para guardar tu aparcamiento"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Toca para guardar tu aparcamiento"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1791,6 +1483,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Coche"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Coche"
           }
         },
@@ -1843,6 +1541,12 @@
             "value" : "Configura tu tiempo"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Configura tu tiempo"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1887,6 +1591,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Contacto"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Contacto"
           }
         },
@@ -1937,6 +1647,12 @@
             "value" : "Continuar"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Continuar"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1981,6 +1697,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Seguir la cuenta atrás"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Seguir la cuenta atrás"
           }
         },
@@ -2031,6 +1753,12 @@
             "value" : "Sigue recto."
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Sigue recto."
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2075,6 +1803,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Controla tu app con Siri"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Controla tu app con Siri"
           }
         },
@@ -2126,6 +1860,12 @@
             "value" : "Lat: %f, Lon: %f"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Lat: %f, Lon: %f"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2170,6 +1910,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Tu ubicación actual:"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Tu ubicación actual:"
           }
         },
@@ -2220,6 +1966,12 @@
             "value" : "la calle actual"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "la calle actual"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2264,6 +2016,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Fecha"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Fecha"
           }
         },
@@ -2314,6 +2072,12 @@
             "value" : "Eliminar"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Eliminar"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2357,6 +2121,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Distancia: %d m"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Distancia: %d m"
           }
         },
@@ -2406,6 +2176,12 @@
             "value" : "Distancia: %.2f km"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Distancia: %.2f km"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2452,6 +2228,12 @@
             "value" : "Distancia: %d m   ·   Tiempo: %d min"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Distancia: %d m   ·   Tiempo: %d min"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2495,6 +2277,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Distancia: %.2f km   ·   Tiempo: %d min"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Distancia: %.2f km   ·   Tiempo: %d min"
           }
         },
@@ -2545,6 +2333,12 @@
             "value" : "Editar nota"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Editar nota"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2589,6 +2383,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Aparca, guarda y vuelve sin complicaciones"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Aparca, guarda y vuelve sin complicaciones"
           }
         },
@@ -2639,6 +2439,12 @@
             "value" : "Obteniendo ubicación…"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Obteniendo ubicación…"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2683,6 +2489,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Obteniendo nombre del lugar…"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Obteniendo nombre del lugar…"
           }
         },
@@ -2733,6 +2545,12 @@
             "value" : "¿Quieres volver al coche o seguir la cuenta atrás?"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "¿Quieres volver al coche o seguir la cuenta atrás?"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2777,6 +2595,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Volver al coche"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Volver al coche"
           }
         },
@@ -2827,6 +2651,12 @@
             "value" : "Ir al coche"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Ir al coche"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2874,6 +2704,12 @@
             "value" : "Abrir en Google Maps"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Abrir en Google Maps"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2890,6 +2726,165 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Abrir no Google Maps"
+          }
+        }
+      }
+    },
+    "greeting_afternoon" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مساء الخير ☀️"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guten Tag ☀️"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Good afternoon ☀️"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buenas tardes ☀️"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Buenas tardes ☀️"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bon après-midi ☀️"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buon pomeriggio ☀️"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Boa tarde ☀️"
+          }
+        }
+      }
+    },
+    "greeting_morning" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "صباح الخير 🌤️"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guten Morgen 🌤️"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Good morning 🌤️"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buenos días 🌤️"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Buenos días 🌤️"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bonjour 🌤️"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buongiorno 🌤️"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bom dia 🌤️"
+          }
+        }
+      }
+    },
+    "greeting_night" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مساء الخير 🌙"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guten Abend 🌙"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Good evening 🌙"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buenas noches 🌙"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Buenas noches 🌙"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bonsoir 🌙"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buonasera 🌙"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Boa noite 🌙"
           }
         }
       }
@@ -2918,6 +2913,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Guarda tu aparcamiento o navega a tu coche con un simple comando de voz."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Guarda tu aparcamiento o navega a tu coche con un simple comando de voz."
           }
         },
@@ -2968,6 +2969,12 @@
             "value" : "Vamos hacia tu coche. Comenzamos en %@."
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Vamos hacia tu coche. Comenzamos en %@."
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3012,6 +3019,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "En %d metros, %@"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "En %d metros, %@"
           }
         },
@@ -3064,6 +3077,12 @@
             "value" : "Inactivo"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Inactivo"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3108,6 +3127,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Inicio"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Inicio"
           }
         },
@@ -3158,6 +3183,12 @@
             "value" : "Se necesita permiso de ubicacion para guardar el aparcamiento."
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Se necesita permiso de ubicacion para guardar el aparcamiento."
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3202,6 +3233,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "No se pudo obtener tu ubicacion a tiempo."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "No se pudo obtener tu ubicacion a tiempo."
           }
         },
@@ -3252,6 +3289,12 @@
             "value" : "Aun no hay aparcamiento guardado."
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Aun no hay aparcamiento guardado."
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3296,6 +3339,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Esta accion requiere Pro."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Esta accion requiere Pro."
           }
         },
@@ -3346,6 +3395,12 @@
             "value" : "Abre Mapas con tu ultimo aparcamiento guardado."
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Abre Mapas con tu ultimo aparcamiento guardado."
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3390,6 +3445,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Abrir aparcamiento en Mapas"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Abrir aparcamiento en Mapas"
           }
         },
@@ -3440,6 +3501,12 @@
             "value" : "Guarda tu ubicacion actual como ultimo aparcamiento."
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Guarda tu ubicacion actual como ultimo aparcamiento."
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3484,6 +3551,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Guardar aparcamiento"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Guardar aparcamiento"
           }
         },
@@ -3534,6 +3607,12 @@
             "value" : "Aparcamiento en Mapas"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Aparcamiento en Mapas"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3578,6 +3657,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Guardar aparcamiento"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Guardar aparcamiento"
           }
         },
@@ -3628,6 +3713,12 @@
             "value" : "Abriendo Mapas."
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Abriendo Mapas."
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3672,6 +3763,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Aparcamiento guardado."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Aparcamiento guardado."
           }
         },
@@ -3723,6 +3820,12 @@
             "value" : "Último aparcamiento"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Último aparcamiento"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3767,6 +3870,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "¡Queda poco tiempo!"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "¡Queda poco tiempo!"
           }
         },
@@ -3817,6 +3926,12 @@
             "value" : "Ubicación no disponible"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Ubicación no disponible"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3861,6 +3976,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Permiso de ubicación denegado"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Permiso de ubicación denegado"
           }
         },
@@ -3911,6 +4032,12 @@
             "value" : "Por favor, activa el acceso a la ubicación en Ajustes para poder guardar la posición de tu coche."
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Por favor, activa el acceso a la ubicación en Ajustes para poder guardar la posición de tu coche."
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3955,6 +4082,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Ubicación guardada"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Ubicación guardada"
           }
         },
@@ -4005,6 +4138,12 @@
             "value" : "Aparca, guarda y vuelve sin complicaciones."
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Aparca, guarda y vuelve sin complicaciones."
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4052,6 +4191,12 @@
             "value" : "%d min"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "%d min"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4095,6 +4240,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Minutos"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Minutos"
           }
         },
@@ -4145,6 +4296,12 @@
             "value" : "Primero debes guardar la ubicación de tu coche para poder volver a él."
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Primero debes guardar la ubicación de tu coche para poder volver a él."
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4189,6 +4346,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Primero debes guardar la ubicación de tu coche para poder volver a él."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Primero debes guardar la ubicación de tu coche para poder volver a él."
           }
         },
@@ -4241,6 +4404,12 @@
             "value" : "Siguiente"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Siguiente"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4288,6 +4457,12 @@
             "value" : "No has aparcado hoy"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "No has aparcado hoy"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4332,6 +4507,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Guarda tu aparcamiento para encontrar tu coche fácilmente"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Guarda tu aparcamiento para encontrar tu coche fácilmente"
           }
         },
@@ -4384,6 +4565,12 @@
             "value" : "No hay estacionamientos recientes"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "No hay estacionamientos recientes"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4431,6 +4618,12 @@
             "value" : "No hay aparcamiento guardado"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "No hay aparcamiento guardado"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4475,6 +4668,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Ahora no"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Ahora no"
           }
         },
@@ -4528,6 +4727,12 @@
             "value" : "Cerca de… al lado de…"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Cerca de… al lado de…"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4572,6 +4777,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Nota:"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Nota:"
           }
         },
@@ -4622,6 +4833,12 @@
             "value" : "Aviso antes de finalizar"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Aviso antes de finalizar"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4666,6 +4883,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Aceptar"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Aceptar"
           }
         },
@@ -4716,6 +4939,12 @@
             "value" : "Abrir ajustes"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Abrir ajustes"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4760,6 +4989,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Duración del parquímetro"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Duración del parquímetro"
           }
         },
@@ -4810,6 +5045,12 @@
             "value" : "Parquímetro"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Parquímetro"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4854,6 +5095,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "El tiempo de tu parquímetro ha expirado."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "El tiempo de tu parquímetro ha expirado."
           }
         },
@@ -4904,6 +5151,12 @@
             "value" : "Nota para el Aparcamiento"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Nota para el Aparcamiento"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4948,6 +5201,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Puedes volver a tu coche cuando quieras"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Puedes volver a tu coche cuando quieras"
           }
         },
@@ -4998,6 +5257,12 @@
             "value" : "¡Aparcamiento guardado!"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "¡Aparcamiento guardado!"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5042,6 +5307,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Parquímetro"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Parquímetro"
           }
         },
@@ -5092,6 +5363,12 @@
             "value" : "Vista previa de la foto"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Vista previa de la foto"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5136,6 +5413,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Alerta previa"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Alerta previa"
           }
         },
@@ -5192,6 +5475,12 @@
             "value" : "PRO"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "PRO"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5236,6 +5525,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Modo oscuro"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Modo oscuro"
           }
         },
@@ -5286,6 +5581,12 @@
             "value" : "Sin anuncios"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Sin anuncios"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5333,6 +5634,12 @@
             "value" : "Siri y Atajos (guardar aparcamiento, ir en Mapas)"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Siri y Atajos (guardar aparcamiento, ir en Mapas)"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5377,6 +5684,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Aparcamientos guardados ilimitados (gratis solo los 3 ultimos)"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Aparcamientos guardados ilimitados (gratis solo los 3 ultimos)"
           }
         },
@@ -5428,6 +5741,12 @@
             "value" : "No, gracias"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "No, gracias"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5472,6 +5791,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Mejorar a Pro"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Mejorar a Pro"
           }
         },
@@ -5522,6 +5847,12 @@
             "value" : "Desbloquea todas las funciones Pro y elimina la publicidad."
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Desbloquea todas las funciones Pro y elimina la publicidad."
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5566,6 +5897,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Version Pro"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Version Pro"
           }
         },
@@ -5616,6 +5953,12 @@
             "value" : "Valórame"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Valórame"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5660,6 +6003,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Valórame"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Valórame"
           }
         },
@@ -5710,6 +6059,12 @@
             "value" : "Si te resulta útil,¡valóranos o recomiéndanos a un amigo 🚙✨"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Si te resulta útil,¡valóranos o recomiéndanos a un amigo 🚙✨"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5754,6 +6109,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Aparcamientos"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Aparcamientos"
           }
         },
@@ -5804,6 +6165,12 @@
             "value" : "Recomendar a un amigo"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Recomendar a un amigo"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5848,6 +6215,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Añadir"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Añadir"
           }
         },
@@ -5898,6 +6271,12 @@
             "value" : "Apariencia"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Apariencia"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5942,6 +6321,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "El modo oscuro está disponible con tu suscripción Pro."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "El modo oscuro está disponible con tu suscripción Pro."
           }
         },
@@ -5992,6 +6377,12 @@
             "value" : "El modo oscuro es una función exclusiva Pro."
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "El modo oscuro es una función exclusiva Pro."
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6036,6 +6427,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Modo oscuro"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Modo oscuro"
           }
         },
@@ -6087,6 +6484,12 @@
             "value" : "Política de Privacidad"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Política de Privacidad"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6131,6 +6534,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Tu compra Pro está activa"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Tu compra Pro está activa"
           }
         },
@@ -6181,6 +6590,12 @@
             "value" : "Sin publicidad activada"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Sin publicidad activada"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6225,6 +6640,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Desbloquea la versión Pro"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Desbloquea la versión Pro"
           }
         },
@@ -6275,6 +6696,12 @@
             "value" : "Eliminar publicidad"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Eliminar publicidad"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6319,6 +6746,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Pro: Añade Siri y Atajos desde la app Atajos (guardar aparcamiento, abrir en Mapas)."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Pro: Añade Siri y Atajos desde la app Atajos (guardar aparcamiento, abrir en Mapas)."
           }
         },
@@ -6370,6 +6803,12 @@
             "value" : "Ajustes"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Ajustes"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6386,6 +6825,59 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Configurações"
+          }
+        }
+      }
+    },
+    "settings_terms_of_use" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "شروط الاستخدام"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nutzungsbedingungen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terms of Use"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Términos de uso"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Términos de uso"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conditions d'utilisation"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Termini di utilizzo"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Termos de uso"
           }
         }
       }
@@ -6414,6 +6906,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Versión"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Versión"
           }
         },
@@ -6461,6 +6959,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Compartir"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Compartir"
           }
         },
@@ -6512,6 +7016,12 @@
             "value" : "Compartir"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Compartir"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6555,6 +7065,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Aquí he aparcado mi coche:\nApple Maps: %@\nGoogle Maps: %@"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Aquí he aparcado mi coche:\nApple Maps: %@\nGoogle Maps: %@"
           }
         },
@@ -6605,6 +7121,12 @@
             "value" : "Compartir por WhatsApp"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Compartir por WhatsApp"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6621,6 +7143,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Compartilhar no WhatsApp"
+          }
+        }
+      }
+    },
+    "shortcut_step_1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "افتح تطبيق الاختصارات على iPhone"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öffne die Kurzbefehle-App auf dem iPhone"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open the Shortcuts app on iPhone"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abre la app Atajos de iPhone"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Abre la app Atajos de iPhone"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvre l’app Raccourcis sur iPhone"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri l'app Comandi su iPhone"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abra o app Atalhos no iPhone"
+          }
+        }
+      }
+    },
+    "shortcut_step_2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اضغط على + لإنشاء اختصار جديد"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tippe auf +, um einen neuen Kurzbefehl zu erstellen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap + to create a new shortcut"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pulsa + para crear un nuevo atajo"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Pulsa + para crear un nuevo atajo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appuie sur + pour créer un nouveau raccourci"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tocca + per creare un nuovo comando"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toque em + para criar um novo atalho"
+          }
+        }
+      }
+    },
+    "shortcut_step_3" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ابحث عن \"تحديد موقع سيارتك\" واختر الإجراء"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suche nach „Finde dein Auto“ und wähle die Aktion"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search for \"Find Your Car\" and choose the action"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Busca \"Localiza tu Coche\" y elige la acción"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Busca \"Localiza tu Coche\" y elige la acción"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recherche \"Localiser votre voiture\" et choisis l’action"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerca \"Trova la tua auto\" e scegli l’azione"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Procure por \"Encontrar seu carro\" e escolha a ação"
+          }
+        }
+      }
+    },
+    "shortcut_step_4" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قم بتعيين عبارة لسيري واحفظه"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weise einen Siri-Satz zu und speichere ihn"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Assign a Siri phrase and save it"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Asígnale una frase de Siri y guárdalo"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Asígnale una frase de Siri y guárdalo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Attribue-lui une phrase Siri et enregistre-le"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Assegna una frase Siri e salvalo"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atribua uma frase à Siri e salve-o"
           }
         }
       }
@@ -6649,6 +7383,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Siguiente: "
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Siguiente: "
           }
         },
@@ -6696,6 +7436,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Siri & Atajos"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Siri & Atajos"
           }
         },
@@ -6748,6 +7494,12 @@
             "value" : "Saltar"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Saltar"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6792,6 +7544,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Iniciar"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Iniciar"
           }
         },
@@ -6844,6 +7602,12 @@
             "value" : "⏱ Temporizador en marcha"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "⏱ Temporizador en marcha"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6888,6 +7652,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Tiempo restante"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Tiempo restante"
           }
         },
@@ -6938,6 +7708,12 @@
             "value" : "⏰ ¡Se acabó el tiempo!"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "⏰ ¡Se acabó el tiempo!"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6954,6 +7730,165 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "⏰ Tempo esgotado!"
+          }
+        }
+      }
+    },
+    "timer_notification_active" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مفعلة"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktiviert"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enabled"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activada"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Activada"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activée"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Attivata"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ativada"
+          }
+        }
+      }
+    },
+    "timer_notification_label" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الإشعار"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Benachrichtigung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notification"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notificación"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Notificación"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notification"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifica"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notificação"
+          }
+        }
+      }
+    },
+    "timer_pre_alert_label" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تنبيه مسبق"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voralarm"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pre-alert"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alerta previa"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Alerta previa"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alerte préalable"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avviso anticipato"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alerta prévia"
           }
         }
       }
@@ -6982,6 +7917,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Tú"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Tú"
           }
         },
@@ -7032,6 +7973,12 @@
             "value" : "Tu coche siempre localizado"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Tu coche siempre localizado"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7076,6 +8023,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Gira a la izquierda en %d metros."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Gira a la izquierda en %d metros."
           }
         },
@@ -7126,6 +8079,12 @@
             "value" : "Gira a la derecha en %d metros."
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Gira a la derecha en %d metros."
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7170,6 +8129,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Estado desconocido"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Estado desconocido"
           }
         },
@@ -7220,6 +8185,12 @@
             "value" : "Volver a mi coche"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Volver a mi coche"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7264,6 +8235,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Esperando permiso de localización…"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Esperando permiso de localización…"
           }
         },
@@ -7314,6 +8291,12 @@
             "value" : "Página web"
           }
         },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Página web"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7358,6 +8341,12 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Bienvenido a Localiza tu Coche"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "Bienvenido a Localiza tu Coche"
           }
         },

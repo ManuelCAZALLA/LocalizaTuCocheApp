@@ -1,0 +1,10 @@
+/* InfoPlist.strings (Spanish - Mexico)
+  UbiCar
+  
+  Created by Manuel Cazalla Colmenero.
+*/
+
+"NSLocationWhenInUseUsageDescription" = "Necesitamos tu ubicación para ayudarte a encontrar tu carro.";
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "Necesitamos tu ubicación para ayudarte a encontrar tu carro.";
+
+"CFBundleDisplayName" = "Localiza tu Carro : GPS";

@@ -8,4 +8,4 @@
 "NSLocationWhenInUseUsageDescription" = "Nous avons besoin de votre localisation pour vous aider à trouver votre voiture..";
 "NSLocationAlwaysAndWhenInUseUsageDescription" = "Nous avons besoin de votre localisation pour vous aider à trouver votre voiture."; 
 
-"CFBundleDisplayName" = "Localise ta Voiture";
+"CFBundleDisplayName" = "Localise ta Voiture: GPS";

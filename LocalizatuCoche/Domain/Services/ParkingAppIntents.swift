@@ -100,8 +100,8 @@ struct OpenLastParkingInMapsIntent: AppIntent {
 
     private func mapsURL(for parking: ParkingLocation) -> URL {
         let queryName = (parking.placeName ?? "").addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-        let urlString = "http://maps.apple.com/?ll=\(parking.latitude),\(parking.longitude)\(queryName.isEmpty ? "" : "&q=\(queryName)")"
-        return URL(string: urlString) ?? URL(string: "http://maps.apple.com/")!
+        let urlString = "https://maps.apple.com/?ll=\(parking.latitude),\(parking.longitude)\(queryName.isEmpty ? "" : "&q=\(queryName)")"
+        return URL(string: urlString) ?? URL(string: "https://maps.apple.com/")!
     }
 }
 

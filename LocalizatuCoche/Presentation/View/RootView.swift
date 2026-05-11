@@ -57,7 +57,10 @@ struct RootView: View {
                 }
             }
         } catch {
-            // Si falla RevenueCat, mantenemos el estado persistido.
+            await MainActor.run {
+                isPro = false
+                isDarkModeEnabled = false
+            }
         }
     }
 }

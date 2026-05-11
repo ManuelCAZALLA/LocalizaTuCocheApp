@@ -24,7 +24,11 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         Crashlytics.crashlytics().setCrashlyticsCollectionEnabled(true)
         
         // RevenueCat
+        #if DEBUG
         Purchases.logLevel = .debug
+        #else
+        Purchases.logLevel = .warn
+        #endif
         Purchases.configure(withAPIKey: Secret.revenueCatAPIKey)
         
         return true

@@ -180,7 +180,7 @@ struct RecentParkingsView: View {
     // MARK: - Share
     
     private func share(_ parking: ParkingLocation) {
-        let url = URL(string: "http://maps.apple.com/?ll=\(parking.latitude),\(parking.longitude)")!
+        let url = URL(string: "https://maps.apple.com/?ll=\(parking.latitude),\(parking.longitude)")!
         
         let vc = UIActivityViewController(activityItems: [url], applicationActivities: nil)
         

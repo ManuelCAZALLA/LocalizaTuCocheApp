@@ -6,12 +6,28 @@ final class ParkingStorage {
     private let lastKey = "saved_parking_location"
     private let historyKey = "saved_parking_history"
     private let freeHistoryLimit = 3
+    private let fileManager = FileManager.default
+    private lazy var storageDirectoryURL: URL = {
+        let baseURL = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
+            ?? fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let directory = baseURL.appendingPathComponent("ParkingStorage", isDirectory: true)
+        if !fileManager.fileExists(atPath: directory.path) {
+            try? fileManager.createDirectory(at: directory, withIntermediateDirectories: true)
+        }
+        return directory
+    }()
+    private lazy var lastURL: URL = storageDirectoryURL.appendingPathComponent("\(lastKey).json")
+    private lazy var historyURL: URL = storageDirectoryURL.appendingPathComponent("\(historyKey).json")
+    
+    private init() {
+        migrateLegacyStorageIfNeeded()
+    }
 
     // MARK: - Last parking 
     func save(_ parking: ParkingLocation) {
         do {
             let data = try JSONEncoder().encode(parking)
-            UserDefaults.standard.set(data, forKey: lastKey)
+            try writeProtectedData(data, to: lastURL)
         } catch {
             print("❌ Error guardando parking: \(error)")
         }
@@ -19,7 +35,7 @@ final class ParkingStorage {
     }
 
     func load() -> ParkingLocation? {
-        guard let data = UserDefaults.standard.data(forKey: lastKey) else { return nil }
+        guard let data = try? Data(contentsOf: lastURL) else { return nil }
         do {
             return try JSONDecoder().decode(ParkingLocation.self, from: data)
         } catch {
@@ -29,12 +45,12 @@ final class ParkingStorage {
     }
 
     func clear() {
-        UserDefaults.standard.removeObject(forKey: lastKey)
+        try? fileManager.removeItem(at: lastURL)
     }
 
     // MARK: - History
     func loadHistory() -> [ParkingLocation] {
-        guard let data = UserDefaults.standard.data(forKey: historyKey) else { return [] }
+        guard let data = try? Data(contentsOf: historyURL) else { return [] }
         do {
             return try JSONDecoder().decode([ParkingLocation].self, from: data)
         } catch {
@@ -59,15 +75,33 @@ final class ParkingStorage {
     }
 
     func clearHistory() {
-        UserDefaults.standard.removeObject(forKey: historyKey)
+        try? fileManager.removeItem(at: historyURL)
     }
 
     private func saveHistory(_ items: [ParkingLocation]) {
         do {
             let data = try JSONEncoder().encode(items)
-            UserDefaults.standard.set(data, forKey: historyKey)
+            try writeProtectedData(data, to: historyURL)
         } catch {
             print("❌ Error guardando historial: \(error)")
+        }
+    }
+
+    private func writeProtectedData(_ data: Data, to url: URL) throws {
+        try data.write(to: url, options: [.atomic, .completeFileProtection])
+    }
+    
+    private func migrateLegacyStorageIfNeeded() {
+        if !fileManager.fileExists(atPath: lastURL.path),
+           let legacyLast = UserDefaults.standard.data(forKey: lastKey) {
+            try? writeProtectedData(legacyLast, to: lastURL)
+            UserDefaults.standard.removeObject(forKey: lastKey)
+        }
+        
+        if !fileManager.fileExists(atPath: historyURL.path),
+           let legacyHistory = UserDefaults.standard.data(forKey: historyKey) {
+            try? writeProtectedData(legacyHistory, to: historyURL)
+            UserDefaults.standard.removeObject(forKey: historyKey)
         }
     }
 

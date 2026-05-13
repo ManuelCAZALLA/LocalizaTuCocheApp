@@ -1,11 +1,19 @@
 import SwiftUI
+import RevenueCat
+import RevenueCatUI
 
 struct MainTabView: View {
     @StateObject private var parkingViewModel = ParkingViewModel()
     @Binding var openParkingFromNotification: Bool
     @State private var selectedTab = 0
     @StateObject private var settingsViewModel = SettingsViewModel()
-    
+
+    @AppStorage("isPro") private var isPro = false
+    @State private var lastNonHistoryTab = 0
+    @State private var showHistoryGateSheet = false
+    @State private var showPaywallSheet = false
+    @State private var historyGateCompleted = false
+
     var body: some View {
         TabView(selection: $selectedTab) {
             ContentView()
@@ -35,19 +43,50 @@ struct MainTabView: View {
                 }
                 .tag(3)
         }
-        // Mostrar anuncio cuando se cambia a la pestaña de "últimos aparcamientos"
         .onChange(of: selectedTab) { newValue in
-            if newValue == 2 {
-                AdsService.shared.showInterstitial {
-                    // No hace falta hacer nada especial al cerrar el anuncio:
-                    // la pestaña ya está seleccionada y la vista se muestra.
-                }
+            if newValue != 2 {
+                lastNonHistoryTab = newValue
             }
+            if newValue == 2, !isPro {
+                historyGateCompleted = false
+                showHistoryGateSheet = true
+            }
+        }
+        .sheet(isPresented: $showHistoryGateSheet, onDismiss: {
+            if !historyGateCompleted {
+                selectedTab = lastNonHistoryTab
+            }
+            historyGateCompleted = false
+        }) {
+            ProOrAdGateSheet(
+                title: "pro_gate_history_title".localized,
+                message: "pro_gate_history_message".localized,
+                gateCompleted: $historyGateCompleted,
+                onUpgrade: { showPaywallSheet = true },
+                onWatchAd: {
+                    AdsService.shared.showInterstitial { }
+                }
+            )
+        }
+        .sheet(isPresented: $showPaywallSheet, onDismiss: {
+            Task { await refreshProFromPurchases() }
+        }) {
+            PaywallView(displayCloseButton: true)
         }
         .onChange(of: openParkingFromNotification) { newValue in
             if newValue {
                 selectedTab = 1
             }
+        }
+    }
+
+    private func refreshProFromPurchases() async {
+        do {
+            let info = try await Purchases.shared.customerInfo()
+            let hasPremium = info.entitlements["Premium"]?.isActive == true
+            await MainActor.run { isPro = hasPremium }
+        } catch {
+            await MainActor.run { isPro = false }
         }
     }
 }

@@ -1,6 +1,8 @@
 import SwiftUI
 import CoreLocation
 import AVFoundation
+import RevenueCat
+import RevenueCatUI
 
 @available(iOS 16.0, *)
 struct ContentView: View {
@@ -28,6 +30,9 @@ struct ContentView: View {
     @State private var coachSteps: [CoachMark] = []
     @State private var currentCoachIndex: Int = 0
     @State private var coachTargets: [String: Anchor<CGRect>] = [:]
+
+    @State private var showNavigateGateSheet = false
+    @State private var showPaywallSheet = false
     
     private var greeting: String {
         let hour = Calendar.current.component(.hour, from: Date())
@@ -158,6 +163,33 @@ struct ContentView: View {
                     .onAppear { coachTargets = value }
                     .onChange(of: value) { newValue in coachTargets = newValue }
             }
+        }
+        .sheet(isPresented: $showNavigateGateSheet) {
+            ProOrAdGateSheet(
+                title: "pro_gate_navigate_title".localized,
+                message: "pro_gate_navigate_message".localized,
+                gateCompleted: nil,
+                onUpgrade: { showPaywallSheet = true },
+                onWatchAd: {
+                    AdsService.shared.showInterstitial { showMap = true }
+                }
+            )
+        }
+        .sheet(isPresented: $showPaywallSheet, onDismiss: {
+            Task { await refreshProFromPurchases() }
+        }) {
+            PaywallView(displayCloseButton: true)
+        }
+    }
+
+    private func refreshProFromPurchases() async {
+        do {
+            let info = try await Purchases.shared.customerInfo()
+            let hasPremium = info.entitlements["Premium"]?.isActive == true
+            await MainActor.run { isPro = hasPremium }
+        } catch {
+            // Igual que RootView: sin red validamos como no Pro
+            await MainActor.run { isPro = false }
         }
     }
     
@@ -366,7 +398,11 @@ struct ContentView: View {
                         withAnimation(.easeOut(duration: 0.3)) { viewModel.clearParkingLocation() }
                     },
                     onNavigate: {
-                        AdsService.shared.showInterstitial { showMap = true }
+                        if isPro {
+                            showMap = true
+                        } else {
+                            showNavigateGateSheet = true
+                        }
                     },
                     note: last.note
                 )

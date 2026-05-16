@@ -4,14 +4,18 @@ import SwiftUI
 struct ProOrAdGateSheet: View {
     let title: String
     let message: String
-    /// Si no es `nil`, se pone a `true` al elegir Pro o anuncio (para distinguir cancelación / swipe del sheet).
     var gateCompleted: Binding<Bool>? = nil
     let onUpgrade: () -> Void
     let onWatchAd: () -> Void
 
     @Environment(\.dismiss) private var dismiss
 
-    private static let postDismissDelay: TimeInterval = 0.35
+    /// Refresca la UI cada 0.5s para detectar cuando el anuncio está listo
+    @State private var adReady: Bool = AdsService.shared.isAdReady
+    @State private var adCheckTimer: Timer? = nil
+
+    private static let postDismissDelayUpgrade: TimeInterval = 0.35
+    private static let postDismissDelayWatchAd: TimeInterval = 1.0
 
     var body: some View {
         NavigationStack {
@@ -47,10 +51,11 @@ struct ProOrAdGateSheet: View {
             }
             .safeAreaInset(edge: .bottom, spacing: 0) {
                 VStack(spacing: 12) {
+                    // Botón Pro
                     Button {
                         gateCompleted?.wrappedValue = true
                         dismiss()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + Self.postDismissDelay) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + Self.postDismissDelayUpgrade) {
                             onUpgrade()
                         }
                     } label: {
@@ -70,21 +75,34 @@ struct ProOrAdGateSheet: View {
                     }
                     .buttonStyle(.plain)
 
+                    // Botón Ver Anuncio — muestra spinner si el anuncio no está listo
                     Button {
+                        guard adReady else { return }
                         gateCompleted?.wrappedValue = true
                         dismiss()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + Self.postDismissDelay) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + Self.postDismissDelayWatchAd) {
                             onWatchAd()
                         }
                     } label: {
-                        Text("pro_gate_watch_ad".localized)
-                            .font(.subheadline)
-                            .fontWeight(.semibold)
-                            .multilineTextAlignment(.center)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 14)
+                        HStack(spacing: 8) {
+                            if !adReady {
+                                ProgressView()
+                                    .scaleEffect(0.8)
+                                Text("pro_gate_ad_loading".localized)
+                                    .font(.subheadline)
+                                    .fontWeight(.semibold)
+                            } else {
+                                Text("pro_gate_watch_ad".localized)
+                                    .font(.subheadline)
+                                    .fontWeight(.semibold)
+                            }
+                        }
+                        .multilineTextAlignment(.center)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 14)
                     }
                     .buttonStyle(.bordered)
+                    .disabled(!adReady)
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 12)
@@ -94,13 +112,26 @@ struct ProOrAdGateSheet: View {
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("cancel".localized) {
-                        dismiss()
-                    }
+                    Button("cancel".localized) { dismiss() }
                 }
             }
         }
         .presentationDetents([.medium, .large])
         .presentationDragIndicator(.visible)
+        .onAppear {
+            adReady = AdsService.shared.isAdReady
+            if !adReady {
+                AdsService.shared.loadInterstitialAd()
+                // Comprueba cada 0.5s si el anuncio ya está listo
+                adCheckTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in
+                    adReady = AdsService.shared.isAdReady
+                    if adReady { adCheckTimer?.invalidate() }
+                }
+            }
+        }
+        .onDisappear {
+            adCheckTimer?.invalidate()
+            adCheckTimer = nil
+        }
     }
 }

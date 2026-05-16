@@ -82,7 +82,6 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
-            // Fondo degradado sutil
             LinearGradient(
                 gradient: Gradient(colors: [
                     Color(.systemBackground),
@@ -164,6 +163,8 @@ struct ContentView: View {
                     .onChange(of: value) { newValue in coachTargets = newValue }
             }
         }
+        // ProOrAdGateSheet gestiona su propio dismiss + delay internamente.
+        // onWatchAd se llama ya con el sheet cerrado y tras el delay de 0.65s.
         .sheet(isPresented: $showNavigateGateSheet) {
             ProOrAdGateSheet(
                 title: "pro_gate_navigate_title".localized,
@@ -171,7 +172,10 @@ struct ContentView: View {
                 gateCompleted: nil,
                 onUpgrade: { showPaywallSheet = true },
                 onWatchAd: {
-                    AdsService.shared.showInterstitial { showMap = true }
+                    // El sheet ya está cerrado aquí (ProOrAdGateSheet llama dismiss + 0.65s antes)
+                    AdsService.shared.showInterstitial {
+                        showMap = true
+                    }
                 }
             )
         }
@@ -188,7 +192,6 @@ struct ContentView: View {
             let hasPremium = info.entitlements["Premium"]?.isActive == true
             await MainActor.run { isPro = hasPremium }
         } catch {
-            // Igual que RootView: sin red validamos como no Pro
             await MainActor.run { isPro = false }
         }
     }
@@ -206,7 +209,6 @@ struct ContentView: View {
                     .foregroundColor(Color("AppPrimary"))
             }
             Spacer()
-            // Badge Pro
             if isPro {
                 HStack(spacing: 4) {
                     Image(systemName: "crown.fill")
@@ -236,7 +238,6 @@ struct ContentView: View {
         Group {
             if locationManager.userLocation != nil {
                 HStack(spacing: 14) {
-                    // Indicador pulsante
                     ZStack {
                         Circle()
                             .fill(Color("AppSecondary").opacity(0.15))
@@ -274,7 +275,6 @@ struct ContentView: View {
                     }
                     Spacer()
                     
-                    // Indicador verde activo
                     Circle()
                         .fill(Color.green)
                         .frame(width: 8, height: 8)
@@ -295,7 +295,6 @@ struct ContentView: View {
     // MARK: - Empty State
     private var emptyStateView: some View {
         VStack(spacing: 20) {
-            // Ilustración con capas
             ZStack {
                 Circle()
                     .fill(Color("AppPrimary").opacity(0.06))
@@ -337,7 +336,6 @@ struct ContentView: View {
         VStack(spacing: 14) {
             if let image = parkingPhoto { photoPreview(image: image) }
             
-            // Botones de acción
             HStack(spacing: 12) {
                 actionButton(
                     icon: parkingPhoto == nil ? "camera" : "camera.fill",
@@ -354,7 +352,6 @@ struct ContentView: View {
                 ) { showNoteSheet = true }
             }
             
-            // Botón principal
             ParkingButton(enabled: locationManager.userLocation != nil && !isSaving) {
                 saveParkingWithAnimation()
             }
@@ -411,7 +408,6 @@ struct ContentView: View {
                     removal: .scale.combined(with: .opacity)
                 ))
                 
-                // Botones edición
                 HStack(spacing: 12) {
                     actionButton(
                         icon: last.photoData == nil ? "camera" : "camera.fill",

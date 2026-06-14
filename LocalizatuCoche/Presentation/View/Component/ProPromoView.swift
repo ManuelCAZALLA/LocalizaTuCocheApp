@@ -56,6 +56,9 @@ struct ProPromoView: View {
                         VStack(alignment: .leading, spacing: 20) {
                             benefitRow(icon: "nosign", key: "pro_benefit_no_ads")
                             benefitRow(icon: "clock.badge.checkmark", key: "pro_benefit_unlimited_parkings")
+                            benefitRow(icon: "camera.fill", key: "pro_benefit_photos_notes")
+                            benefitRow(icon: "star.fill", key: "pro_benefit_favorites")
+                            benefitRow(icon: "timer", key: "pro_benefit_extended_meter")
                             benefitRow(icon: "moon.fill", key: "pro_benefit_dark_mode")
                             benefitRow(icon: "waveform.and.mic", key: "pro_benefit_siri")
                         }

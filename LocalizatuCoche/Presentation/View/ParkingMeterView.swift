@@ -1,10 +1,15 @@
 import SwiftUI
+import RevenueCat
+import RevenueCatUI
 
 struct ParkingMeterView: View {
     @ObservedObject var parkingViewModel: ParkingViewModel
     @Binding var openParkingFromNotification: Bool
     @StateObject private var viewModel = ParkingMeterViewModel()
     @Environment(\.colorScheme) private var colorScheme
+    
+    @AppStorage("isPro") private var isPro = false
+    @State private var showPaywallSheet = false
     
     @State private var selectedMinutes: Int = 15
     @State private var preEndAlertMinutes: Int = 5
@@ -14,6 +19,11 @@ struct ParkingMeterView: View {
     
     let minuteOptions = [15, 20, 30, 45, 60, 90, 120, 150, 180]
     let preEndOptions = [1, 3, 5, 10, 15, 20]
+
+    private var availableMinuteOptions: [Int] {
+        if isPro { return minuteOptions }
+        return minuteOptions.filter { $0 <= ProFeatureLimits.freeParkingMeterMaxMinutes }
+    }
     
     enum ActiveAlert: Identifiable {
         case preEnd, final, noParking, notification
@@ -56,6 +66,7 @@ struct ParkingMeterView: View {
         }
         .onAppear {
             if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" { return }
+            clampSelectedMinutesForFreeTier()
             viewModel.requestNotificationPermission()
             setupCallbacks()
             if openParkingFromNotification {
@@ -104,6 +115,25 @@ struct ParkingMeterView: View {
             if let parking = parkingViewModel.lastParking {
                 MapFullScreenView(parkingLocation: parking, onClose: { showMap = false })
             }
+        }
+        .sheet(isPresented: $showPaywallSheet, onDismiss: {
+            Task { await refreshProFromPurchases() }
+        }) {
+            PaywallView(displayCloseButton: true)
+        }
+    }
+
+    private func clampSelectedMinutesForFreeTier() {
+        guard !isPro, selectedMinutes > ProFeatureLimits.freeParkingMeterMaxMinutes else { return }
+        selectedMinutes = ProFeatureLimits.freeParkingMeterMaxMinutes
+    }
+
+    private func refreshProFromPurchases() async {
+        do {
+            let info = try await Purchases.shared.customerInfo()
+            await MainActor.run { isPro = Entitlement.isPremiumActive(in: info) }
+        } catch {
+            await MainActor.run { isPro = false }
         }
     }
     
@@ -257,13 +287,30 @@ struct ParkingMeterView: View {
                 }
                 
                 Picker("Minutos", selection: $selectedMinutes) {
-                    ForEach(minuteOptions, id: \.self) { minute in
+                    ForEach(availableMinuteOptions, id: \.self) { minute in
                         Text(String(format: "minutes_format".localized, minute)).tag(minute)
                     }
                 }
                 .pickerStyle(WheelPickerStyle())
                 .frame(height: 150)
                 .clipped()
+
+                if !isPro {
+                    Button {
+                        showPaywallSheet = true
+                    } label: {
+                        HStack(spacing: 6) {
+                            Image(systemName: "crown.fill")
+                                .font(.caption)
+                            Text("pro_benefit_extended_meter".localized)
+                                .font(.caption)
+                                .multilineTextAlignment(.leading)
+                        }
+                        .foregroundColor(Color("AppPrimary"))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    .buttonStyle(.plain)
+                }
             }
             .padding(18)
             .background(cardBackground)

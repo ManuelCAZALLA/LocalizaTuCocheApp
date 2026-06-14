@@ -31,8 +31,38 @@ struct ContentView: View {
     @State private var currentCoachIndex: Int = 0
     @State private var coachTargets: [String: Anchor<CGRect>] = [:]
 
-    @State private var showNavigateGateSheet = false
+    @State private var activeProGate: ProGateKind?
     @State private var showPaywallSheet = false
+    
+    private enum ProGateKind: Identifiable {
+        case navigate
+        case photo
+        case note
+        
+        var id: String {
+            switch self {
+            case .navigate: return "navigate"
+            case .photo: return "photo"
+            case .note: return "note"
+            }
+        }
+        
+        var titleKey: String {
+            switch self {
+            case .navigate: return "pro_gate_navigate_title"
+            case .photo: return "pro_gate_photo_title"
+            case .note: return "pro_gate_note_title"
+            }
+        }
+        
+        var messageKey: String {
+            switch self {
+            case .navigate: return "pro_gate_navigate_message"
+            case .photo: return "pro_gate_photo_message"
+            case .note: return "pro_gate_note_message"
+            }
+        }
+    }
     
     private var greeting: String {
         let hour = Calendar.current.component(.hour, from: Date())
@@ -43,7 +73,23 @@ struct ContentView: View {
         }
     }
     
-    private func checkCameraPermission() {
+    private func requestNoteEditor() {
+        if isPro {
+            showNoteSheet = true
+        } else {
+            activeProGate = .note
+        }
+    }
+    
+    private func requestPhotoCapture() {
+        if isPro {
+            presentCameraIfAuthorized()
+        } else {
+            activeProGate = .photo
+        }
+    }
+    
+    private func presentCameraIfAuthorized() {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .authorized:
             showImagePicker = true
@@ -57,6 +103,19 @@ struct ContentView: View {
             showCameraDeniedAlert = true
         @unknown default:
             showCameraDeniedAlert = true
+        }
+    }
+    
+    private func completeProGateAfterAd(_ gate: ProGateKind) {
+        AdsService.shared.showInterstitial {
+            switch gate {
+            case .navigate:
+                showMap = true
+            case .photo:
+                presentCameraIfAuthorized()
+            case .note:
+                showNoteSheet = true
+            }
         }
     }
     
@@ -164,19 +223,13 @@ struct ContentView: View {
             }
         }
         // ProOrAdGateSheet gestiona su propio dismiss + delay internamente.
-        // onWatchAd se llama ya con el sheet cerrado y tras el delay de 0.65s.
-        .sheet(isPresented: $showNavigateGateSheet) {
+        .sheet(item: $activeProGate) { gate in
             ProOrAdGateSheet(
-                title: "pro_gate_navigate_title".localized,
-                message: "pro_gate_navigate_message".localized,
+                title: gate.titleKey.localized,
+                message: gate.messageKey.localized,
                 gateCompleted: nil,
                 onUpgrade: { showPaywallSheet = true },
-                onWatchAd: {
-                    // El sheet ya está cerrado aquí (ProOrAdGateSheet llama dismiss + 0.65s antes)
-                    AdsService.shared.showInterstitial {
-                        showMap = true
-                    }
-                }
+                onWatchAd: { completeProGateAfterAd(gate) }
             )
         }
         .sheet(isPresented: $showPaywallSheet, onDismiss: {
@@ -189,7 +242,7 @@ struct ContentView: View {
     private func refreshProFromPurchases() async {
         do {
             let info = try await Purchases.shared.customerInfo()
-            let hasPremium = info.entitlements["Premium"]?.isActive == true
+            let hasPremium = Entitlement.isPremiumActive(in: info)
             await MainActor.run { isPro = hasPremium }
         } catch {
             await MainActor.run { isPro = false }
@@ -342,14 +395,14 @@ struct ContentView: View {
                     title: parkingPhoto == nil ? "add_photo".localized : "change_photo".localized,
                     color: Color("AccentColor"),
                     coachId: "photoButton"
-                ) { checkCameraPermission() }
+                ) { requestPhotoCapture() }
                 
                 actionButton(
                     icon: parkingNote.isEmpty ? "pencil" : "pencil.circle.fill",
                     title: parkingNote.isEmpty ? "add_note".localized : "edit_note".localized,
                     color: Color.orange,
                     coachId: "noteButton"
-                ) { showNoteSheet = true }
+                ) { requestNoteEditor() }
             }
             
             ParkingButton(enabled: locationManager.userLocation != nil && !isSaving) {
@@ -398,7 +451,7 @@ struct ContentView: View {
                         if isPro {
                             showMap = true
                         } else {
-                            showNavigateGateSheet = true
+                            activeProGate = .navigate
                         }
                     },
                     note: last.note
@@ -416,7 +469,7 @@ struct ContentView: View {
                         coachId: "editPhoto"
                     ) {
                         editingPhotoForSavedParking = true
-                        checkCameraPermission()
+                        requestPhotoCapture()
                     }
                     
                     actionButton(
@@ -424,7 +477,7 @@ struct ContentView: View {
                         title: (last.note?.isEmpty ?? true) ? "add_note".localized : "edit_note".localized,
                         color: Color.orange,
                         coachId: "editNote"
-                    ) { showNoteSheet = true }
+                    ) { requestNoteEditor() }
                 }
             }
         }

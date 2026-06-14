@@ -4,9 +4,7 @@ import Foundation
 import UIKit
 
 private enum ProSubscription {
-    static var isPro: Bool {
-        UserDefaults.standard.bool(forKey: "isPro")
-    }
+    static var isPro: Bool { Entitlement.isProUser }
 }
 
 private enum ParkingIntentFailure: LocalizedError {

@@ -1,13 +1,17 @@
 import SwiftUI
 import CoreLocation
 import MapKit
+import RevenueCat
+import RevenueCatUI
 
 struct RecentParkingsView: View {
     
     @State private var items: [ParkingLocation] = []
     @State private var selected: ParkingLocation?
     @State private var searchText: String = ""
+    @State private var showPaywallSheet = false
     
+    @AppStorage("isPro") private var isPro = false
     @AppStorage("favoriteParkings") private var favoriteIDsData: Data = Data()
     
     private let loadOnAppear: Bool
@@ -65,6 +69,20 @@ struct RecentParkingsView: View {
                     selected = nil
                 }
             }
+            .sheet(isPresented: $showPaywallSheet, onDismiss: {
+                Task { await refreshProFromPurchases() }
+            }) {
+                PaywallView(displayCloseButton: true)
+            }
+        }
+    }
+    
+    private func refreshProFromPurchases() async {
+        do {
+            let info = try await Purchases.shared.customerInfo()
+            await MainActor.run { isPro = Entitlement.isPremiumActive(in: info) }
+        } catch {
+            await MainActor.run { isPro = false }
         }
     }
     
@@ -138,6 +156,10 @@ struct RecentParkingsView: View {
     }
     
     private func toggleFavorite(_ parking: ParkingLocation) {
+        guard isPro else {
+            showPaywallSheet = true
+            return
+        }
         var ids = favoriteIDs
         let key = parking.id.uuidString
         

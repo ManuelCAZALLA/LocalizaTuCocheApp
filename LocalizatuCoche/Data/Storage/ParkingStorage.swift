@@ -5,7 +5,7 @@ final class ParkingStorage {
     static let shared = ParkingStorage()
     private let lastKey = "saved_parking_location"
     private let historyKey = "saved_parking_history"
-    private let freeHistoryLimit = 3
+    private let freeHistoryLimit = ProFeatureLimits.freeHistoryCount
     private let fileManager = FileManager.default
     private lazy var storageDirectoryURL: URL = {
         let baseURL = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask).first

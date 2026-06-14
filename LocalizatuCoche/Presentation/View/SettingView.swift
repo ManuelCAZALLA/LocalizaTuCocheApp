@@ -10,10 +10,7 @@ import StoreKit
 import RevenueCat
 import RevenueCatUI
 
-// MARK: - Entitlements centralizados
-enum Entitlement {
-    static let premium = "premium"
-}
+// MARK: - Entitlements centralizados (ver ProSubscription.swift)
 
 struct SettingView: View {
     @ObservedObject var viewModel: SettingsViewModel
@@ -254,7 +251,7 @@ struct SettingView: View {
     private func refreshProStatus() async {
         do {
             let info = try await Purchases.shared.customerInfo()
-            let hasPremium = info.entitlements[Entitlement.premium]?.isActive == true
+            let hasPremium = Entitlement.isPremiumActive(in: info)
             await MainActor.run {
                 isPro = hasPremium
             }

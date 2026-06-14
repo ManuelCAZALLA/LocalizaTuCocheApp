@@ -5767,6 +5767,57 @@
         }
       }
     },
+    "pro_benefit_extended_meter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parking meter up to 3 hours (free: 60 min max)"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parquímetro hasta 3 h (gratis: máx. 60 min)"
+          }
+        }
+      }
+    },
+    "pro_benefit_favorites" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favorite parkings in history"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favoritos en el historial"
+          }
+        }
+      }
+    },
+    "pro_benefit_photos_notes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photos and notes on each parking"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foto y nota en cada aparcamiento"
+          }
+        }
+      }
+    },
     "pro_close_button" : {
       "comment" : "Secondary close button",
       "extractionState" : "manual",
@@ -6029,6 +6080,74 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "O Pro abre o mapa sem anúncios. Também pode ver um anúncio e continuar grátis."
+          }
+        }
+      }
+    },
+    "pro_gate_note_message" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pro adds notes with no limits. You can also watch an ad and continue for free."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pro te permite añadir notas sin límites. También puedes ver un anuncio y continuar gratis."
+          }
+        }
+      }
+    },
+    "pro_gate_note_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add a note"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Añadir nota"
+          }
+        }
+      }
+    },
+    "pro_gate_photo_message" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pro saves a photo of your spot. You can also watch an ad and continue for free."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pro te permite guardar una foto del sitio. También puedes ver un anuncio y continuar gratis."
+          }
+        }
+      }
+    },
+    "pro_gate_photo_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add a photo"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Añadir foto"
           }
         }
       }

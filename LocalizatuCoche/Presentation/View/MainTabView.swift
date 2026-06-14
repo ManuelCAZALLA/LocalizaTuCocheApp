@@ -83,7 +83,7 @@ struct MainTabView: View {
     private func refreshProFromPurchases() async {
         do {
             let info = try await Purchases.shared.customerInfo()
-            let hasPremium = info.entitlements["Premium"]?.isActive == true
+            let hasPremium = Entitlement.isPremiumActive(in: info)
             await MainActor.run { isPro = hasPremium }
         } catch {
             await MainActor.run { isPro = false }

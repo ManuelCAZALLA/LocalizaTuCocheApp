@@ -31,38 +31,7 @@ struct ContentView: View {
     @State private var currentCoachIndex: Int = 0
     @State private var coachTargets: [String: Anchor<CGRect>] = [:]
 
-    @State private var activeProGate: ProGateKind?
     @State private var showPaywallSheet = false
-    
-    private enum ProGateKind: Identifiable {
-        case navigate
-        case photo
-        case note
-        
-        var id: String {
-            switch self {
-            case .navigate: return "navigate"
-            case .photo: return "photo"
-            case .note: return "note"
-            }
-        }
-        
-        var titleKey: String {
-            switch self {
-            case .navigate: return "pro_gate_navigate_title"
-            case .photo: return "pro_gate_photo_title"
-            case .note: return "pro_gate_note_title"
-            }
-        }
-        
-        var messageKey: String {
-            switch self {
-            case .navigate: return "pro_gate_navigate_message"
-            case .photo: return "pro_gate_photo_message"
-            case .note: return "pro_gate_note_message"
-            }
-        }
-    }
     
     private var greeting: String {
         let hour = Calendar.current.component(.hour, from: Date())
@@ -77,7 +46,7 @@ struct ContentView: View {
         if isPro {
             showNoteSheet = true
         } else {
-            activeProGate = .note
+            showPaywallSheet = true
         }
     }
     
@@ -85,7 +54,17 @@ struct ContentView: View {
         if isPro {
             presentCameraIfAuthorized()
         } else {
-            activeProGate = .photo
+            showPaywallSheet = true
+        }
+    }
+    
+    private func requestNavigateToCar() {
+        if isPro {
+            showMap = true
+        } else {
+            AdsService.shared.showInterstitial {
+                showMap = true
+            }
         }
     }
     
@@ -103,19 +82,6 @@ struct ContentView: View {
             showCameraDeniedAlert = true
         @unknown default:
             showCameraDeniedAlert = true
-        }
-    }
-    
-    private func completeProGateAfterAd(_ gate: ProGateKind) {
-        AdsService.shared.showInterstitial {
-            switch gate {
-            case .navigate:
-                showMap = true
-            case .photo:
-                presentCameraIfAuthorized()
-            case .note:
-                showNoteSheet = true
-            }
         }
     }
     
@@ -222,16 +188,6 @@ struct ContentView: View {
                     .onChange(of: value) { newValue in coachTargets = newValue }
             }
         }
-        // ProOrAdGateSheet gestiona su propio dismiss + delay internamente.
-        .sheet(item: $activeProGate) { gate in
-            ProOrAdGateSheet(
-                title: gate.titleKey.localized,
-                message: gate.messageKey.localized,
-                gateCompleted: nil,
-                onUpgrade: { showPaywallSheet = true },
-                onWatchAd: { completeProGateAfterAd(gate) }
-            )
-        }
         .sheet(isPresented: $showPaywallSheet, onDismiss: {
             Task { await refreshProFromPurchases() }
         }) {
@@ -281,6 +237,33 @@ struct ContentView: View {
                     )
                 )
                 .clipShape(Capsule())
+            } else {
+                Button {
+                    showPaywallSheet = true
+                } label: {
+                    ZStack {
+                        Circle()
+                            .fill(
+                                LinearGradient(
+                                    colors: [Color("AccentColor").opacity(0.2), Color("AppPrimary").opacity(0.15)],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
+                            .frame(width: 44, height: 44)
+                        Image(systemName: "crown.fill")
+                            .font(.title3)
+                            .foregroundStyle(
+                                LinearGradient(
+                                    colors: [Color("AccentColor"), Color("AppPrimary")],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
+                    }
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("settings_pro_upgrade_title".localized)
             }
         }
         .padding(.horizontal)
@@ -447,13 +430,7 @@ struct ContentView: View {
                     onDelete: {
                         withAnimation(.easeOut(duration: 0.3)) { viewModel.clearParkingLocation() }
                     },
-                    onNavigate: {
-                        if isPro {
-                            showMap = true
-                        } else {
-                            activeProGate = .navigate
-                        }
-                    },
+                    onNavigate: { requestNavigateToCar() },
                     note: last.note
                 )
                 .transition(.asymmetric(

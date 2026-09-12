@@ -1,18 +1,24 @@
 import SwiftUI
 import MapKit
+import UIKit
 
 struct MapView: View {
     @StateObject private var viewModel: MapViewModel
+    
+    // Cámara aplicada por código (auto-fit / centrar / seguir).
+    @State private var region: MKCoordinateRegion
+    // Se incrementa cada vez que el código aplica una cámara programática.
+    @State private var programmaticToken: Int = 0
     @State private var shouldAutoFit: Bool = true
+    @State private var isFollowingUser: Bool = false
+    @State private var useHybridMap: Bool = false
+    
     // Coach marks
     @AppStorage("hasShownMapOnboardingV1") private var hasShownMapOnboarding = false
     @State private var mapCoachTargets: [String: Anchor<CGRect>] = [:]
     @State private var mapCoachSteps: [CoachMark] = []
     @State private var mapCoachIndex: Int = 0
     @State private var showMapCoach: Bool = false
-    
-    // Para iOS 16
-    @State private var region: MKCoordinateRegion
     
     var onClose: (() -> Void)? = nil
     
@@ -31,19 +37,11 @@ struct MapView: View {
     
     var body: some View {
         ZStack(alignment: .top) {
-            if #available(iOS 17.0, *) {
-                ios17MapView
-            } else {
-                ios16MapView
-            }
+            mapKitMapView
             
-            // Nueva barra superior reorganizada
             topBar
+            bottomOverlay
             
-            // Overlay de indicaciones escritas (en la parte inferior)
-            instructionsOverlay
-            
-            // Coach marks overlay
             if showMapCoach, mapCoachIndex < mapCoachSteps.count {
                 CoachMarksOverlay(
                     step: mapCoachSteps[mapCoachIndex],
@@ -65,34 +63,177 @@ struct MapView: View {
                     }
             }
         }
-        .onAppear { prepareMapCoachIfNeeded() }
+        .onAppear {
+            shouldAutoFit = true
+            prepareMapCoachIfNeeded()
+            if viewModel.userLocation != nil {
+                fitAnnotations()
+            }
+        }
+        .onChange(of: viewModel.userLocation) { newLocation in
+            if isFollowingUser, let location = newLocation {
+                applyProgrammaticRegion(regionCenteredOn(location, spanDelta: 0.003))
+            } else if shouldAutoFit {
+                fitAnnotations()
+            }
+        }
+        .onReceive(viewModel.$trimmedPolyline) { polyline in
+            guard polyline != nil else { return }
+            if shouldAutoFit {
+                fitAnnotations()
+            }
+        }
     }
     
-    // MARK: - Nueva Barra Superior Reorganizada
+    // MARK: - Cámara / Región
+    
+    private func fitAnnotations() {
+        var coordinates = [viewModel.parkingLocation]
+        if let userLocation = viewModel.userLocation {
+            coordinates.append(userLocation)
+        }
+        applyProgrammaticRegion(fittedRegion(for: coordinates))
+    }
+    
+    private func focusOnCar() {
+        isFollowingUser = false
+        shouldAutoFit = false
+        applyProgrammaticRegion(regionCenteredOn(viewModel.parkingLocation, spanDelta: 0.002))
+    }
+    
+    private func toggleFollow() {
+        if isFollowingUser {
+            isFollowingUser = false
+            shouldAutoFit = false
+        } else {
+            isFollowingUser = true
+            shouldAutoFit = false
+            if let userLocation = viewModel.userLocation {
+                applyProgrammaticRegion(regionCenteredOn(userLocation, spanDelta: 0.003))
+            }
+        }
+    }
+    
+    private func applyProgrammaticRegion(_ newRegion: MKCoordinateRegion) {
+        region = newRegion
+        programmaticToken += 1
+    }
+    
+    private func regionCenteredOn(_ coordinate: CLLocationCoordinate2D, spanDelta: Double) -> MKCoordinateRegion {
+        MKCoordinateRegion(
+            center: coordinate,
+            span: MKCoordinateSpan(latitudeDelta: spanDelta, longitudeDelta: spanDelta)
+        )
+    }
+    
+    private func fittedRegion(for coordinates: [CLLocationCoordinate2D]) -> MKCoordinateRegion {
+        guard let first = coordinates.first else {
+            return regionCenteredOn(viewModel.parkingLocation, spanDelta: 0.005)
+        }
+        
+        var minLat = first.latitude, maxLat = first.latitude
+        var minLon = first.longitude, maxLon = first.longitude
+        for coordinate in coordinates.dropFirst() {
+            minLat = min(minLat, coordinate.latitude)
+            maxLat = max(maxLat, coordinate.latitude)
+            minLon = min(minLon, coordinate.longitude)
+            maxLon = max(maxLon, coordinate.longitude)
+        }
+        
+        let center = CLLocationCoordinate2D(
+            latitude: (minLat + maxLat) / 2,
+            longitude: (minLon + maxLon) / 2
+        )
+        
+        let rawLatSpan = max(maxLat - minLat, 0.004)
+        let rawLonSpan = max(maxLon - minLon, 0.004)
+        let span = MKCoordinateSpan(latitudeDelta: rawLatSpan * 1.4, longitudeDelta: rawLonSpan * 1.4)
+        
+        return MKCoordinateRegion(center: center, span: span)
+    }
+    
+    // MARK: - Barra superior / Acciones
+    
     private var topBar: some View {
         VStack(spacing: 0) {
-            HStack {
-                // Información de distancia/tiempo con tamaño fijo
+            HStack(spacing: 12) {
                 distanceTimeView
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                 
-                // Botones de acción agrupados a la derecha
-                HStack(spacing: 12) {
-                    googleMapsButton
-                    
-                    if let onClose = onClose {
-                        closeButton(action: onClose)
-                    }
+                googleMapsButton
+                
+                if let onClose = onClose {
+                    closeButton(action: onClose)
                 }
             }
             .padding(.horizontal, 16)
             .padding(.top, 16)
             
+            HStack {
+                Spacer()
+                mapActionButtons
+                    .padding(.trailing, 16)
+                    .padding(.top, 10)
+            }
+            
             Spacer()
         }
     }
     
-    // MARK: - Vista de Distancia/Tiempo (Modificada)
+    private var mapActionButtons: some View {
+        VStack(spacing: 10) {
+            followButton
+            focusCarButton
+            mapTypeButton
+        }
+    }
+    
+    private var followButton: some View {
+        actionButton(icon: isFollowingUser ? "location.fill" : "location",
+                     isActive: isFollowingUser,
+                     accessibilityLabel: isFollowingUser ? "follow_off".localized : "follow_on".localized) {
+            toggleFollow()
+        }
+    }
+    
+    private var focusCarButton: some View {
+        actionButton(icon: "car.fill",
+                     isActive: false,
+                     accessibilityLabel: "focus_car".localized) {
+            focusOnCar()
+        }
+    }
+    
+    private var mapTypeButton: some View {
+        actionButton(icon: useHybridMap ? "map.fill" : "square.2.layers.3d.fill",
+                     isActive: false,
+                     accessibilityLabel: useHybridMap ? "map_standard".localized : "map_hybrid".localized) {
+            withAnimation(.easeInOut(duration: 0.3)) { useHybridMap.toggle() }
+        }
+    }
+    
+    private func actionButton(icon: String, isActive: Bool, accessibilityLabel: String, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Image(systemName: icon)
+                .font(.system(size: 15, weight: .semibold))
+                .foregroundColor(isActive ? .white : Color.primary)
+                .frame(width: 38, height: 38)
+                .background(
+                    Circle()
+                        .fill(isActive ? Color("AppPrimary") : Color(.systemBackground).opacity(0.9))
+                        .shadow(color: Color.black.opacity(0.15), radius: 6, x: 0, y: 2)
+                )
+                .overlay(
+                    Circle()
+                        .strokeBorder(Color.white.opacity(0.6), lineWidth: 0.5)
+                )
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(accessibilityLabel)
+    }
+    
+    // MARK: - Distancia / Tiempo
+    
     private var distanceTimeView: some View {
         Group {
             if let distance = viewModel.distanceToCar(), let minutes = viewModel.expectedTravelTimeMinutes {
@@ -101,96 +242,184 @@ struct MapView: View {
                 distanceOnlyText(distance: distance)
             } else {
                 // Placeholder para mantener el espacio cuando no hay datos
-                Text("Cargando...")
+                Text("loading".localized)
                     .font(.subheadline)
-                    .foregroundColor(.white)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 8)
-                    .background(Color.black.opacity(0.7))
-                    .cornerRadius(14)
-                    .hidden() // Oculto pero mantiene el espacio
+                    .background(Color(.systemBackground).opacity(0.8))
+                    .clipShape(Capsule())
+                    .hidden()
             }
         }
     }
     
-    // MARK: - iOS 17+ Map View
-    @available(iOS 17.0, *)
-    private var ios17MapView: some View {
-        Map(position: .constant(.region(region)), interactionModes: .all) {
-            Annotation("Coche".localized, coordinate: viewModel.parkingLocation) {
-                carAnnotationView
-            }
-            if let userCoord = viewModel.userLocation {
-                Annotation("Tú".localized, coordinate: userCoord) {
-                    userAnnotationView
-                }
-            }
-            if let polyline = viewModel.trimmedPolyline {
-                MapPolyline(polyline)
-                    .stroke(Color("AppPrimary"), lineWidth: 7)
+    private func distanceTimeText(distance: Int, minutes: Int) -> some View {
+        Group {
+            if distance >= 1000 {
+                Text(String(format: NSLocalizedString("distance_time_km", comment: ""), Double(distance)/1000.0, minutes))
+            } else {
+                Text(String(format: NSLocalizedString("distance_time", comment: ""), distance, minutes))
             }
         }
-        .ignoresSafeArea()
-        .onAppear {
-            shouldAutoFit = true
-        }
-        .gesture(DragGesture().onChanged { _ in
-            shouldAutoFit = false
-        })
+        .font(.subheadline.weight(.semibold))
+        .foregroundColor(.primary)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 8)
+        .background(.ultraThinMaterial, in: Capsule())
+        .shadow(color: Color.black.opacity(0.12), radius: 6, x: 0, y: 2)
     }
     
-    // MARK: - iOS 16 Map View
-    @available(iOS 16.0, *)
-    private var ios16MapView: some View {
-        Map(coordinateRegion: $region, interactionModes: .all, annotationItems: annotationItems) { item in
-            MapAnnotation(coordinate: item.coordinate) {
-                if item.type == .car {
-                    carAnnotationView
-                } else {
-                    userAnnotationView
-                }
+    private func distanceOnlyText(distance: Int) -> some View {
+        Group {
+            if distance >= 1000 {
+                Text(String(format: NSLocalizedString("distance_km", comment: ""), Double(distance)/1000.0))
+            } else {
+                Text(String(format: NSLocalizedString("distance", comment: ""), distance))
             }
         }
-        .overlay(
-            // Para iOS 16, dibujamos la polyline como overlay si es necesario
-            polylineOverlay
+        .font(.subheadline.weight(.semibold))
+        .foregroundColor(.primary)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 8)
+        .background(.ultraThinMaterial, in: Capsule())
+        .shadow(color: Color.black.opacity(0.12), radius: 6, x: 0, y: 2)
+    }
+    
+    // MARK: - Mapa
+
+    private var mapKitMapView: some View {
+        CarParkingMapView(
+            carCoordinate: viewModel.parkingLocation,
+            userCoordinate: viewModel.userLocation,
+            polyline: viewModel.trimmedPolyline,
+            programmaticRegion: region,
+            programmaticToken: programmaticToken,
+            mapType: useHybridMap ? .hybrid : .standard,
+            onUserPan: {
+                shouldAutoFit = false
+                isFollowingUser = false
+            }
         )
         .ignoresSafeArea()
         .onAppear {
             shouldAutoFit = true
-            updateRegionForAnnotations()
         }
-        .gesture(DragGesture().onChanged { _ in
-            shouldAutoFit = false
-        })
     }
     
     // MARK: - Annotation Views
+    
     private var carAnnotationView: some View {
         Image(systemName: "car.fill")
-            .font(.title)
+            .font(.system(size: 18, weight: .semibold))
             .foregroundColor(Color("AppPrimary"))
+            .frame(width: 36, height: 36)
             .background(
                 Circle()
                     .fill(Color.white)
-                    .frame(width: 36, height: 36)
                     .shadow(radius: 4)
             )
     }
     
     private var userAnnotationView: some View {
         Image(systemName: "person.fill")
-            .font(.title)
+            .font(.system(size: 16, weight: .semibold))
             .foregroundColor(.accentColor)
+            .frame(width: 32, height: 32)
             .background(
                 Circle()
                     .fill(Color.white)
-                    .frame(width: 36, height: 36)
                     .shadow(radius: 4)
             )
     }
     
-    // MARK: - Botón Google Maps (Modificado para ser más compacto)
+    // MARK: - Brújula y Overlay Inferior
+    
+    private var bottomOverlay: some View {
+        VStack {
+            Spacer()
+            
+            VStack(spacing: 10) {
+                compassArrow
+                
+                if viewModel.currentStepInstruction != nil || viewModel.nextStepInstruction != nil {
+                    instructionsCard
+                }
+            }
+            .padding(.horizontal, 16)
+            .padding(.bottom, 20)
+        }
+    }
+    
+    private var compassArrow: some View {
+        Group {
+            if let bearing = viewModel.bearingToCar, let heading = viewModel.deviceHeading {
+                let relative = Self.normalizedDegrees(bearing - heading)
+                
+                HStack(spacing: 10) {
+                    Image(systemName: "location.north.fill")
+                        .font(.system(size: 24, weight: .bold))
+                        .foregroundColor(Color("AppPrimary"))
+                        .rotationEffect(.degrees(relative))
+                    
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text("towards_your_car".localized)
+                            .font(.caption.weight(.semibold))
+                        Text("\(Int(relative.rounded()))°")
+                            .font(.footnote.monospacedDigit())
+                            .foregroundColor(.secondary)
+                    }
+                }
+                .padding(.horizontal, 14)
+                .padding(.vertical, 8)
+                .background(.regularMaterial, in: Capsule())
+                .shadow(color: Color.black.opacity(0.15), radius: 8, x: 0, y: 3)
+                .animation(.easeInOut(duration: 0.2), value: viewModel.deviceHeading)
+            }
+        }
+    }
+    
+    private var instructionsCard: some View {
+        VStack(spacing: 8) {
+            if let currentInstruction = viewModel.currentStepInstruction {
+                HStack {
+                    Image(systemName: "location.fill")
+                        .foregroundColor(.blue)
+                        .font(.system(size: 16))
+                    
+                    Text(currentInstruction)
+                        .font(.system(size: 16, weight: .medium))
+                        .foregroundColor(.primary)
+                        .multilineTextAlignment(.leading)
+                    
+                    Spacer()
+                }
+            }
+            
+            if let nextInstruction = viewModel.nextStepInstruction {
+                Divider()
+                
+                HStack {
+                    Image(systemName: "arrow.right")
+                        .foregroundColor(.secondary)
+                        .font(.system(size: 14))
+                    
+                    Text("Siguiente: ".localized + nextInstruction)
+                        .font(.system(size: 14))
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.leading)
+                    
+                    Spacer()
+                }
+            }
+        }
+        .padding(16)
+        .background(.regularMaterial)
+        .cornerRadius(12)
+        .shadow(radius: 4)
+    }
+    
+    // MARK: - Botón Google Maps
+    
     private var googleMapsButton: some View {
         Button(action: openInGoogleMaps) {
             Image(systemName: "map.fill")
@@ -204,7 +433,6 @@ struct MapView: View {
         .coachMarkTarget(id: "googleMapsButton")
     }
     
-    // MARK: - Botón Cerrar (Modificado para ser consistente)
     private func closeButton(action: @escaping () -> Void) -> some View {
         Button(action: action) {
             Image(systemName: "xmark")
@@ -217,163 +445,25 @@ struct MapView: View {
         .buttonStyle(.plain)
     }
     
-    // MARK: - NUEVO: Open Google Maps Function
     private func openInGoogleMaps() {
         let latitude = viewModel.parkingLocation.latitude
         let longitude = viewModel.parkingLocation.longitude
         
-        // URL para Google Maps app
         let googleMapsURL = "comgooglemaps://?daddr=\(latitude),\(longitude)&directionsmode=walking"
-        
-        // URL para Google Maps web como fallback
         let googleMapsWebURL = "https://www.google.com/maps/dir/?api=1&destination=\(latitude),\(longitude)&travelmode=walking"
         
         if let url = URL(string: googleMapsURL), UIApplication.shared.canOpenURL(url) {
-            // Google Maps app está instalada
             UIApplication.shared.open(url)
         } else if let webURL = URL(string: googleMapsWebURL) {
-            // Fallback a Google Maps web
             UIApplication.shared.open(webURL)
         }
     }
     
-    // MARK: - Instructions Overlay
-    private var instructionsOverlay: some View {
-        VStack {
-            Spacer()
-            
-            if viewModel.currentStepInstruction != nil || viewModel.nextStepInstruction != nil {
-                VStack(spacing: 8) {
-                    // Instrucción actual
-                    if let currentInstruction = viewModel.currentStepInstruction {
-                        HStack {
-                            Image(systemName: "location.fill")
-                                .foregroundColor(.blue)
-                                .font(.system(size: 16))
-                            
-                            Text(currentInstruction)
-                                .font(.system(size: 16, weight: .medium))
-                                .foregroundColor(.primary)
-                                .multilineTextAlignment(.leading)
-                            
-                            Spacer()
-                        }
-                    }
-                    
-                    // Próxima instrucción
-                    if let nextInstruction = viewModel.nextStepInstruction {
-                        Divider()
-                        
-                        HStack {
-                            Image(systemName: "arrow.right")
-                                .foregroundColor(.secondary)
-                                .font(.system(size: 14))
-                            
-                            Text("Siguiente: ".localized + nextInstruction)
-                                .font(.system(size: 14))
-                                .foregroundColor(.secondary)
-                                .multilineTextAlignment(.leading)
-                            
-                            Spacer()
-                        }
-                    }
-                }
-                .padding(16)
-                .background(.regularMaterial)
-                .cornerRadius(12)
-                .shadow(radius: 4)
-                .padding(.horizontal, 16)
-                .padding(.bottom, 20)
-            }
-        }
-    }
-    
-    private func distanceTimeText(distance: Int, minutes: Int) -> some View {
-        Group {
-            if distance >= 1000 {
-                Text(String(format: NSLocalizedString("distance_time_km", comment: ""), Double(distance)/1000.0, minutes))
-            } else {
-                Text(String(format: NSLocalizedString("distance_time", comment: ""), distance, minutes))
-            }
-        }
-        .font(.subheadline)
-        .foregroundColor(.white)
-        .padding(.horizontal, 16)
-        .padding(.vertical, 8)
-        .background(Color.black.opacity(0.7))
-        .cornerRadius(14)
-    }
-    
-    private func distanceOnlyText(distance: Int) -> some View {
-        Group {
-            if distance >= 1000 {
-                Text(String(format: NSLocalizedString("distance_km", comment: ""), Double(distance)/1000.0))
-            } else {
-                Text(String(format: NSLocalizedString("distance", comment: ""), distance))
-            }
-        }
-        .font(.subheadline)
-        .foregroundColor(.white)
-        .padding(.horizontal, 16)
-        .padding(.vertical, 8)
-        .background(Color.black.opacity(0.7))
-        .cornerRadius(14)
-    }
-    
-    // MARK: - iOS 16 Support
-    private var annotationItems: [MapAnnotationItem] {
-        var items: [MapAnnotationItem] = [
-            MapAnnotationItem(coordinate: viewModel.parkingLocation, type: .car)
-        ]
-        
-        if let userCoord = viewModel.userLocation {
-            items.append(MapAnnotationItem(coordinate: userCoord, type: .user))
-        }
-        
-        return items
-    }
-    
-    private var polylineOverlay: some View {
-        
-        EmptyView()
-    }
-    
-    private func updateRegionForAnnotations() {
-        guard shouldAutoFit else { return }
-        
-        var coordinates = [viewModel.parkingLocation]
-        if let userLocation = viewModel.userLocation {
-            coordinates.append(userLocation)
-        }
-        
-        if coordinates.count > 1 {
-            let region = calculateRegion(for: coordinates)
-            withAnimation(.easeInOut(duration: 1.0)) {
-                self.region = region
-            }
-        }
-    }
-    
-    private func calculateRegion(for coordinates: [CLLocationCoordinate2D]) -> MKCoordinateRegion {
-        let latitudes = coordinates.map { $0.latitude }
-        let longitudes = coordinates.map { $0.longitude }
-        
-        let minLat = latitudes.min() ?? 0
-        let maxLat = latitudes.max() ?? 0
-        let minLon = longitudes.min() ?? 0
-        let maxLon = longitudes.max() ?? 0
-        
-        let center = CLLocationCoordinate2D(
-            latitude: (minLat + maxLat) / 2,
-            longitude: (minLon + maxLon) / 2
-        )
-        
-        let span = MKCoordinateSpan(
-            latitudeDelta: max(maxLat - minLat, 0.005) * 1.3,
-            longitudeDelta: max(maxLon - minLon, 0.005) * 1.3
-        )
-        
-        return MKCoordinateRegion(center: center, span: span)
+    private static func normalizedDegrees(_ degrees: Double) -> Double {
+        var result = degrees.truncatingRemainder(dividingBy: 360)
+        if result > 180 { result -= 360 }
+        if result < -180 { result += 360 }
+        return result
     }
 }
 
@@ -405,22 +495,192 @@ extension MapView {
     }
 }
 
-// MARK: - Supporting Types
-struct MapAnnotationItem: Identifiable {
-    let id = UUID()
-    let coordinate: CLLocationCoordinate2D
-    let type: AnnotationType
-    
-    enum AnnotationType {
-        case car, user
-    }
-}
-
 struct MapFullScreenView: View {
     let parkingLocation: ParkingLocation
     let onClose: () -> Void
     
     var body: some View {
         MapView(parkingLocation: parkingLocation, onClose: onClose)
+    }
+}
+
+// MARK: - MKMapView representable (añade ruta, anotaciones y cámara)
+struct CarParkingMapView: UIViewRepresentable {
+    let carCoordinate: CLLocationCoordinate2D
+    let userCoordinate: CLLocationCoordinate2D?
+    let polyline: MKPolyline?
+    let programmaticRegion: MKCoordinateRegion
+    let programmaticToken: Int
+    let mapType: MKMapType
+    let onUserPan: () -> Void
+    
+    func makeUIView(context: Context) -> MKMapView {
+        let mapView = MKMapView()
+        mapView.delegate = context.coordinator
+        mapView.isRotateEnabled = false
+        mapView.showsCompass = true
+        mapView.showsScale = true
+        mapView.showsBuildings = true
+        mapView.mapType = mapType
+        mapView.setRegion(programmaticRegion, animated: false)
+        
+        context.coordinator.lastAppliedToken = programmaticToken
+        context.coordinator.lastAppliedRegion = programmaticRegion
+        updateAnnotationsAndOverlay(on: mapView, coordinator: context.coordinator)
+        
+        return mapView
+    }
+    
+    func updateUIView(_ mapView: MKMapView, context: Context) {
+        if mapView.mapType != mapType {
+            mapView.mapType = mapType
+        }
+        
+        if context.coordinator.lastAppliedToken != programmaticToken {
+            context.coordinator.lastAppliedToken = programmaticToken
+            context.coordinator.lastAppliedRegion = programmaticRegion
+            mapView.setRegion(programmaticRegion, animated: true)
+        }
+        
+        if context.coordinator.needsContentUpdate(
+            car: carCoordinate,
+            user: userCoordinate,
+            polyline: polyline
+        ) {
+            updateAnnotationsAndOverlay(on: mapView, coordinator: context.coordinator)
+        }
+    }
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(onUserPan: onUserPan)
+    }
+    
+    private func updateAnnotationsAndOverlay(on mapView: MKMapView, coordinator: Coordinator) {
+        mapView.removeOverlays(mapView.overlays)
+        if let polyline = polyline {
+            let casing = MKPolyline(points: polyline.points(), count: polyline.pointCount)
+            coordinator.casingPolyline = casing
+            mapView.addOverlay(casing)
+            mapView.addOverlay(polyline)
+        } else {
+            coordinator.casingPolyline = nil
+        }
+        
+        mapView.removeAnnotations(mapView.annotations)
+        
+        let car = MKPointAnnotation()
+        car.coordinate = carCoordinate
+        car.title = "Coche"
+        mapView.addAnnotation(car)
+        
+        if let userCoordinate = userCoordinate {
+            let user = MKPointAnnotation()
+            user.coordinate = userCoordinate
+            user.title = "Tú"
+            mapView.addAnnotation(user)
+        }
+        
+        coordinator.appliedCar = carCoordinate
+        coordinator.appliedUser = userCoordinate
+        coordinator.appliedPolyline = polyline
+    }
+    
+    final class Coordinator: NSObject, MKMapViewDelegate {
+        var lastAppliedToken: Int = -1
+        var lastAppliedRegion: MKCoordinateRegion?
+        var appliedCar: CLLocationCoordinate2D?
+        var appliedUser: CLLocationCoordinate2D?
+        var appliedPolyline: MKPolyline?
+        weak var casingPolyline: MKPolyline?
+        private let onUserPan: () -> Void
+        
+        init(onUserPan: @escaping () -> Void) {
+            self.onUserPan = onUserPan
+        }
+        
+        func needsContentUpdate(car: CLLocationCoordinate2D, user: CLLocationCoordinate2D?, polyline: MKPolyline?) -> Bool {
+            if appliedCar != car { return true }
+            if appliedUser != user { return true }
+            if appliedPolyline !== polyline { return true }
+            return false
+        }
+        
+        // MARK: MKMapViewDelegate
+        
+        func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+            guard let last = lastAppliedRegion else { return }
+            
+            let current = mapView.region
+            let moved = CLLocation(latitude: current.center.latitude, longitude: current.center.longitude)
+                .distance(from: CLLocation(latitude: last.center.latitude, longitude: last.center.longitude))
+            let zoomed = abs(current.span.latitudeDelta - last.span.latitudeDelta) > 0.001
+                || abs(current.span.longitudeDelta - last.span.longitudeDelta) > 0.001
+            
+            if moved > 30 || zoomed {
+                onUserPan()
+            }
+        }
+        
+        func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+            guard let point = annotation as? MKPointAnnotation else { return nil }
+            
+            let isCar = point.title == "Coche"
+            let identifier = isCar ? "carAnnotation" : "userAnnotation"
+            
+            let view = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+                ?? MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            view.annotation = annotation
+            view.image = isCar ? Self.carImage : Self.userImage
+            view.centerOffset = .zero
+            return view
+        }
+        
+        func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+            if let polyline = overlay as? MKPolyline {
+                let renderer = MKPolylineRenderer(polyline: polyline)
+                let isCasing = polyline === casingPolyline
+                renderer.strokeColor = isCasing ? UIColor.white.withAlphaComponent(0.85) : (UIColor(named: "AppPrimary") ?? .systemBlue)
+                renderer.lineWidth = isCasing ? 13 : 7
+                renderer.lineCap = .round
+                renderer.lineJoin = .round
+                return renderer
+            }
+            return MKOverlayRenderer(overlay: overlay)
+        }
+        
+        private static let carImage: UIImage = {
+            circleIcon(systemName: "car.fill", tint: UIColor.ltcAppPrimary)
+        }()
+        
+        private static let userImage: UIImage = {
+            circleIcon(systemName: "person.fill", tint: .systemGreen)
+        }()
+        
+        private static func circleIcon(systemName: String, tint: UIColor) -> UIImage {
+            let size: CGFloat = 36
+            let renderer = UIGraphicsImageRenderer(size: CGSize(width: size, height: size))
+            return renderer.image { context in
+                UIColor.white.setFill()
+                UIBezierPath(ovalIn: CGRect(x: 1, y: 1, width: size - 2, height: size - 2)).fill()
+                
+                let configuration = UIImage.SymbolConfiguration(pointSize: 17, weight: .semibold)
+                if let symbol = UIImage(systemName: systemName, withConfiguration: configuration) {
+                    tint.setFill()
+                    let symbolRect = CGRect(
+                        x: (size - symbol.size.width) / 2,
+                        y: (size - symbol.size.height) / 2,
+                        width: symbol.size.width,
+                        height: symbol.size.height
+                    )
+                    symbol.draw(in: symbolRect)
+                }
+            }
+        }
+    }
+}
+
+private extension UIColor {
+    static var ltcAppPrimary: UIColor {
+        UIColor(named: "AppPrimary") ?? .systemBlue
     }
 }

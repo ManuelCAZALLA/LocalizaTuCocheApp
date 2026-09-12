@@ -39,4 +39,3 @@ class LaunchViewModel: NSObject, ObservableObject {
         isAuthorized = (status == .authorizedAlways || status == .authorizedWhenInUse)
     }
 }
-

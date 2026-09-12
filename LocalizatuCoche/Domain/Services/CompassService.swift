@@ -47,14 +47,18 @@ final class CompassService: NSObject, ObservableObject, CLLocationManagerDelegat
         
         // Verificar disponibilidad del magnetómetro
         guard CLLocationManager.headingAvailable() else {
+            #if DEBUG
             print("❌ Magnetómetro no disponible en este dispositivo")
+            #endif
             return
         }
         
         locationManager.startUpdatingLocation()
         locationManager.startUpdatingHeading()
         
+        #if DEBUG
         print("🧭 Servicios de compass iniciados")
+        #endif
     }
     
     func stopUpdatingHeading() {
@@ -67,7 +71,9 @@ final class CompassService: NSObject, ObservableObject, CLLocationManagerDelegat
         targetCoordinate = nil
         isNavigatingWithCompass = false
         
+        #if DEBUG
         print("🧭 Servicios de compass detenidos")
+        #endif
     }
     
     // MARK: - Navigation Methods
@@ -78,7 +84,9 @@ final class CompassService: NSObject, ObservableObject, CLLocationManagerDelegat
         isNavigatingWithCompass = true
         updateBearingToTarget()
         
+        #if DEBUG
         print("🧭 Navegación con compass iniciada hacia: \(target)")
+        #endif
     }
     
     /// Detener navegación con compass
@@ -87,7 +95,9 @@ final class CompassService: NSObject, ObservableObject, CLLocationManagerDelegat
         bearingToTarget = nil
         isNavigatingWithCompass = false
         
+        #if DEBUG
         print("🧭 Navegación con compass detenida")
+        #endif
     }
     
     private func updateBearingToTarget() {
@@ -162,7 +172,9 @@ final class CompassService: NSObject, ObservableObject, CLLocationManagerDelegat
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        #if DEBUG
         print("❌ Error de compass/ubicación: \(error.localizedDescription)")
+        #endif
     }
 
     func locationManagerShouldDisplayHeadingCalibration(_ manager: CLLocationManager) -> Bool {
@@ -175,7 +187,9 @@ final class CompassService: NSObject, ObservableObject, CLLocationManagerDelegat
         case .authorizedWhenInUse, .authorizedAlways:
             startLocationServices()
         case .denied, .restricted:
+            #if DEBUG
             print("❌ Permisos de ubicación denegados para compass")
+            #endif
             stopUpdatingHeading()
         default:
             break

@@ -1,7 +1,8 @@
 import SwiftUI
 import CoreLocation
-import StoreKit
 import AVFoundation
+import RevenueCat
+import RevenueCatUI
 
 @available(iOS 16.0, *)
 struct ContentView: View {
@@ -11,64 +12,70 @@ struct ContentView: View {
     @State private var showMap = false
     @State private var parkingNote: String = ""
     @State private var showNoteSheet = false
-    @State private var showRatePopup = false
     
-    // Estados para la foto
     @State private var showImagePicker = false
     @State private var parkingPhoto: UIImage? = nil
     @State private var editingPhotoForSavedParking = false
     @State private var showCameraDeniedAlert = false
-    @State private var hasCountedLaunch = false
     
-    // Estados de animación y feedback
     @State private var isSaving = false
     @State private var showSuccessAnimation = false
+    @State private var pulseAnimation = false
     
-    @AppStorage("hasRatedOrRecommended") private var hasRated = false
-    @AppStorage("launchCount") private var launchCount = 0
-    @State private var lastPopupDate = UserDefaults.standard.object(forKey: "lastRatePopupDate") as? Date ?? Date.distantPast
-
-    func updateLastPopupDate(_ date: Date) {
-        lastPopupDate = date
-        UserDefaults.standard.set(date, forKey: "lastRatePopupDate")
-    }
-
-    @State private var ratePopupAlreadyShown = false
+    @AppStorage("isPro") private var isPro = false
+    @AppStorage("hasSeenProPromoV1") private var hasSeenProPromo = false
+    @AppStorage("hasShownOnboardingV1") private var hasShownOnboarding = false
     
-    private func checkRatePopupLogic() {
-        guard !hasRated else { return }
-        
-       if !hasCountedLaunch {
-            launchCount += 1
-            UserDefaults.standard.set(launchCount, forKey: "launchCount")
-            hasCountedLaunch = true
-        }
-        
-        let now = Date()
-        let fiveDays: TimeInterval = 5 * 24 * 60 * 60
-        let shouldShowByLaunch = launchCount % 3 == 0
-        let shouldShowByDate = now.timeIntervalSince(lastPopupDate) > fiveDays
-        
-        if (shouldShowByLaunch || shouldShowByDate) && !ratePopupAlreadyShown {
-            showRatePopup = true
-            updateLastPopupDate(now)
-            ratePopupAlreadyShown = true
+    @State private var showCoachMarks = false
+    @State private var coachSteps: [CoachMark] = []
+    @State private var currentCoachIndex: Int = 0
+    @State private var coachTargets: [String: Anchor<CGRect>] = [:]
+
+    @State private var showPaywallSheet = false
+    
+    private var greeting: String {
+        let hour = Calendar.current.component(.hour, from: Date())
+        switch hour {
+        case 6..<12: return "greeting_morning".localized
+        case 12..<18: return "greeting_afternoon".localized
+        default: return "greeting_night".localized
         }
     }
-
     
-    private func checkCameraPermission() {
+    private func requestNoteEditor() {
+        if isPro {
+            showNoteSheet = true
+        } else {
+            showPaywallSheet = true
+        }
+    }
+    
+    private func requestPhotoCapture() {
+        if isPro {
+            presentCameraIfAuthorized()
+        } else {
+            showPaywallSheet = true
+        }
+    }
+    
+    private func requestNavigateToCar() {
+        if isPro {
+            showMap = true
+        } else {
+            AdsService.shared.showInterstitial {
+                showMap = true
+            }
+        }
+    }
+    
+    private func presentCameraIfAuthorized() {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .authorized:
             showImagePicker = true
         case .notDetermined:
             AVCaptureDevice.requestAccess(for: .video) { granted in
                 DispatchQueue.main.async {
-                    if granted {
-                        showImagePicker = true
-                    } else {
-                        showCameraDeniedAlert = true
-                    }
+                    if granted { showImagePicker = true } else { showCameraDeniedAlert = true }
                 }
             }
         case .denied, .restricted:
@@ -80,85 +87,66 @@ struct ContentView: View {
     
     private func saveParkingWithAnimation() {
         guard let _ = locationManager.userLocation else { return }
-        
-        withAnimation(.easeInOut(duration: 0.3)) {
-            isSaving = true
-        }
-        
-        // Simular un pequeño delay para mostrar el loading
+        withAnimation(.easeInOut(duration: 0.3)) { isSaving = true }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             viewModel.saveParkingLocation(
                 note: parkingNote.isEmpty ? nil : parkingNote,
                 photoData: parkingPhoto?.jpegData(compressionQuality: 0.8)
             )
-            
-            // Limpiar estados
             parkingNote = ""
             parkingPhoto = nil
-            
             withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
                 isSaving = false
                 showSuccessAnimation = true
             }
-            
-            // Ocultar la animación después de 2 segundos
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                withAnimation(.easeOut(duration: 0.3)) {
-                    showSuccessAnimation = false
-                }
+                withAnimation(.easeOut(duration: 0.3)) { showSuccessAnimation = false }
             }
         }
     }
     
     var body: some View {
         ZStack {
-            // Fondo
             LinearGradient(
                 gradient: Gradient(colors: [
                     Color(.systemBackground),
-                    Color(.systemGray6).opacity(0.3)
+                    Color("AppPrimary").opacity(0.04)
                 ]),
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
+                startPoint: .top,
+                endPoint: .bottom
             )
             .ignoresSafeArea()
             
             ScrollView(showsIndicators: false) {
-                VStack(spacing: 28) {
-                    // Header mejorado
+                VStack(spacing: 20) {
                     headerSection
-                    
-                    // Sección de ubicación actual
                     locationSection
                     
-                    // Contenido principal
                     if viewModel.lastParking == nil {
-                        // Estado vacío cuando no hay aparcamiento
                         emptyStateView
-                        
-                        // Sección para nuevo aparcamiento
                         newParkingSection
                     } else {
                         savedParkingSection
                     }
                 }
-                .padding(.top, 20)
+                .padding(.top, 16)
                 .padding(.bottom, 40)
             }
             
-            // Overlay de éxito con animación
-            if showSuccessAnimation {
-                successOverlay
+            if showSuccessAnimation { successOverlay }
+            
+            if showCoachMarks, currentCoachIndex < coachSteps.count {
+                CoachMarksOverlay(
+                    step: coachSteps[currentCoachIndex],
+                    targets: coachTargets,
+                    onNext: advanceCoachStep,
+                    onSkip: finishCoach
+                )
+                .allowsHitTesting(true)
+                .transition(.opacity)
             }
         }
-        .onAppear {
-            checkRatePopupLogic()
-        }
-        .overlay(
-            RateOrRecommendPopup(isPresented: $showRatePopup) {
-                showRatePopup = false
-            }
-        )
+        .onAppear { prepareCoachMarksIfNeeded() }
         .sheet(isPresented: $showImagePicker) {
             ImagePicker(sourceType: .camera, selectedImage: $parkingPhoto)
                 .onDisappear {
@@ -170,16 +158,15 @@ struct ContentView: View {
                 }
         }
         .alert("camera_permission_denied".localized, isPresented: $showCameraDeniedAlert) {
-            Button("settings".localized) {
-                if let settingsUrl = URL(string: UIApplication.openSettingsURLString) {
-                    UIApplication.shared.open(settingsUrl)
+            Button("open_settings".localized) {
+                if let url = URL(string: UIApplication.openSettingsURLString) {
+                    UIApplication.shared.open(url)
                 }
             }
             Button("cancel".localized, role: .cancel) {}
         } message: {
             Text("camera_permission_message".localized)
         }
-        
         .sheet(isPresented: $showNoteSheet) {
             NoteSheet(
                 initialText: viewModel.lastParking?.note ?? parkingNote,
@@ -191,27 +178,92 @@ struct ContentView: View {
                     }
                     showNoteSheet = false
                 },
-                onCancel: {
-                    showNoteSheet = false
-                }
+                onCancel: { showNoteSheet = false }
             )
+        }
+        .overlayPreferenceValue(CoachMarkTargetsKey.self) { value in
+            GeometryReader { _ in
+                Color.clear
+                    .onAppear { coachTargets = value }
+                    .onChange(of: value) { newValue in coachTargets = newValue }
+            }
+        }
+        .sheet(isPresented: $showPaywallSheet, onDismiss: {
+            Task { await refreshProFromPurchases() }
+        }) {
+            PaywallView(displayCloseButton: true)
+        }
+    }
+
+    private func refreshProFromPurchases() async {
+        do {
+            let info = try await Purchases.shared.customerInfo()
+            let hasPremium = Entitlement.isPremiumActive(in: info)
+            await MainActor.run { isPro = hasPremium }
+        } catch {
+            await MainActor.run { isPro = false }
         }
     }
     
-    // MARK: - Header Section
+    // MARK: - Header
     private var headerSection: some View {
-        VStack(spacing: 12) {
-            HStack(spacing: 12) {
-                Image(systemName: "sparkles")
-                    .foregroundColor(Color("AccentColor"))
-                    .font(.title2)
-                    .scaleEffect(1.2)
-                
+        HStack(alignment: .center) {
+            VStack(alignment: .leading, spacing: 4) {
+                Text(greeting)
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
                 Text("main_slogan".localized)
-                    .font(.title3)
-                    .fontWeight(.medium)
+                    .font(.title2)
+                    .fontWeight(.bold)
                     .foregroundColor(Color("AppPrimary"))
-                    .multilineTextAlignment(.leading)
+            }
+            Spacer()
+            if isPro {
+                HStack(spacing: 4) {
+                    Image(systemName: "crown.fill")
+                        .font(.caption)
+                    Text("PREMIUM")
+                        .font(.caption)
+                        .fontWeight(.bold)
+                }
+                .foregroundColor(.white)
+                .padding(.horizontal, 10)
+                .padding(.vertical, 5)
+                .background(
+                    LinearGradient(
+                        colors: [Color("AccentColor"), Color("AppPrimary")],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                )
+                .clipShape(Capsule())
+            } else {
+                Button {
+                    showPaywallSheet = true
+                } label: {
+                    ZStack {
+                        Circle()
+                            .fill(
+                                LinearGradient(
+                                    colors: [Color("AccentColor").opacity(0.2), Color("AppPrimary").opacity(0.15)],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
+                            .frame(width: 44, height: 44)
+                        Image(systemName: "crown.fill")
+                            .font(.title3)
+                            .foregroundStyle(
+                                LinearGradient(
+                                    colors: [Color("AccentColor"), Color("AppPrimary")],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
+                    }
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("settings_pro_upgrade_title".localized)
             }
         }
         .padding(.horizontal)
@@ -221,43 +273,53 @@ struct ContentView: View {
     private var locationSection: some View {
         Group {
             if locationManager.userLocation != nil {
-                HStack(spacing: 12) {
+                HStack(spacing: 14) {
                     ZStack {
                         Circle()
                             .fill(Color("AppSecondary").opacity(0.15))
-                            .frame(width: 40, height: 40)
+                            .frame(width: 44, height: 44)
+                        Circle()
+                            .fill(Color("AppSecondary").opacity(0.1))
+                            .frame(width: 44, height: 44)
+                            .scaleEffect(pulseAnimation ? 1.4 : 1.0)
+                            .opacity(pulseAnimation ? 0 : 0.6)
+                            .animation(.easeInOut(duration: 1.5).repeatForever(autoreverses: false), value: pulseAnimation)
                         Image(systemName: "location.fill")
                             .foregroundColor(Color("AppSecondary"))
-                            .font(.title3)
+                            .font(.body)
                     }
+                    .onAppear { pulseAnimation = true }
                     
                     VStack(alignment: .leading, spacing: 2) {
                         Text("current_location".localized)
                             .font(.caption)
                             .foregroundColor(.secondary)
-                        
                         if let placeName = viewModel.placeName {
                             Text(placeName)
-                                .font(.headline)
+                                .font(.subheadline)
+                                .fontWeight(.semibold)
                                 .foregroundColor(Color("AppPrimary"))
-                                .lineLimit(2)
+                                .lineLimit(1)
                         } else {
-                            HStack(spacing: 8) {
-                                ProgressView()
-                                    .scaleEffect(0.8)
+                            HStack(spacing: 6) {
+                                ProgressView().scaleEffect(0.7)
                                 Text("getting_place_name".localized)
-                                    .font(.subheadline)
+                                    .font(.caption)
                                     .foregroundColor(.secondary)
                             }
                         }
                     }
-                    
                     Spacer()
+                    
+                    Circle()
+                        .fill(Color.green)
+                        .frame(width: 8, height: 8)
+                        .shadow(color: Color.green.opacity(0.5), radius: 3)
                 }
-                .padding(16)
+                .padding(14)
                 .background(Color(.systemBackground))
-                .cornerRadius(16)
-                .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 4)
+                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                .shadow(color: Color.black.opacity(0.06), radius: 10, x: 0, y: 4)
                 .padding(.horizontal)
             } else {
                 LocationStatusView(status: locationManager.authorizationStatus)
@@ -266,39 +328,109 @@ struct ContentView: View {
         }
     }
     
-    // MARK: - New Parking Section
-    private var newParkingSection: some View {
+    // MARK: - Empty State
+    private var emptyStateView: some View {
         VStack(spacing: 20) {
-            // Preview de foto si existe
-            if let image = parkingPhoto {
-                photoPreview(image: image)
+            ZStack {
+                Circle()
+                    .fill(Color("AppPrimary").opacity(0.06))
+                    .frame(width: 120, height: 120)
+                Circle()
+                    .fill(Color("AppPrimary").opacity(0.1))
+                    .frame(width: 90, height: 90)
+                Image(systemName: "car.2.fill")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 50, height: 50)
+                    .foregroundColor(Color("AppPrimary"))
             }
             
-            // Botones de acción mejorados
-            actionButtonsRow
+            VStack(spacing: 8) {
+                Text("no_parking_today".localized)
+                    .font(.title3)
+                    .fontWeight(.bold)
+                    .foregroundColor(Color("AppPrimary"))
+                    .multilineTextAlignment(.center)
+                Text("no_parking_today_funny".localized)
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+                    .lineSpacing(3)
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 36)
+        .padding(.horizontal, 24)
+        .background(Color(.systemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+        .shadow(color: Color.black.opacity(0.05), radius: 12, x: 0, y: 6)
+        .padding(.horizontal)
+    }
+    
+    // MARK: - New Parking Section
+    private var newParkingSection: some View {
+        VStack(spacing: 14) {
+            if let image = parkingPhoto { photoPreview(image: image) }
             
-            // Botón principal de guardar usando ParkingButton
+            HStack(spacing: 12) {
+                actionButton(
+                    icon: parkingPhoto == nil ? "camera" : "camera.fill",
+                    title: parkingPhoto == nil ? "add_photo".localized : "change_photo".localized,
+                    color: Color("AccentColor"),
+                    coachId: "photoButton"
+                ) { requestPhotoCapture() }
+                
+                actionButton(
+                    icon: parkingNote.isEmpty ? "pencil" : "pencil.circle.fill",
+                    title: parkingNote.isEmpty ? "add_note".localized : "edit_note".localized,
+                    color: Color.orange,
+                    coachId: "noteButton"
+                ) { requestNoteEditor() }
+            }
+            
             ParkingButton(enabled: locationManager.userLocation != nil && !isSaving) {
                 saveParkingWithAnimation()
             }
+            .coachMarkTarget(id: "saveButton")
         }
         .padding(.horizontal)
     }
     
+    // MARK: - Action Button Helper
+    private func actionButton(icon: String, title: String, color: Color, coachId: String, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            HStack(spacing: 8) {
+                Image(systemName: icon)
+                    .font(.body)
+                    .fontWeight(.semibold)
+                Text(title)
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 14)
+            .background(color.opacity(0.12))
+            .foregroundColor(color)
+            .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+            .overlay(
+                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                    .strokeBorder(color.opacity(0.25), lineWidth: 1)
+            )
+        }
+        .buttonStyle(PlainButtonStyle())
+        .coachMarkTarget(id: coachId)
+    }
+    
     // MARK: - Saved Parking Section
     private var savedParkingSection: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 14) {
             if let last = viewModel.lastParking {
                 ParkingInfoCard(
                     parking: last,
                     onDelete: {
-                        withAnimation(.easeOut(duration: 0.3)) {
-                            viewModel.clearParkingLocation()
-                        }
+                        withAnimation(.easeOut(duration: 0.3)) { viewModel.clearParkingLocation() }
                     },
-                    onNavigate: {
-                        showMap = true
-                    },
+                    onNavigate: { requestNavigateToCar() },
                     note: last.note
                 )
                 .transition(.asymmetric(
@@ -306,8 +438,24 @@ struct ContentView: View {
                     removal: .scale.combined(with: .opacity)
                 ))
                 
-                // Botones de edición
-                editButtonsRow(for: last)
+                HStack(spacing: 12) {
+                    actionButton(
+                        icon: last.photoData == nil ? "camera" : "camera.fill",
+                        title: last.photoData == nil ? "add_photo".localized : "change_photo".localized,
+                        color: Color("AccentColor"),
+                        coachId: "editPhoto"
+                    ) {
+                        editingPhotoForSavedParking = true
+                        requestPhotoCapture()
+                    }
+                    
+                    actionButton(
+                        icon: (last.note?.isEmpty ?? true) ? "pencil" : "pencil.circle.fill",
+                        title: (last.note?.isEmpty ?? true) ? "add_note".localized : "edit_note".localized,
+                        color: Color.orange,
+                        coachId: "editNote"
+                    ) { requestNoteEditor() }
+                }
             }
         }
         .padding(.horizontal)
@@ -320,147 +468,59 @@ struct ContentView: View {
     
     // MARK: - Photo Preview
     private func photoPreview(image: UIImage) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack {
-                Text("photo_preview".localized)
-                    .font(.headline)
-                    .foregroundColor(Color("AppPrimary"))
-                Spacer()
-                Button(action: { parkingPhoto = nil }) {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(.secondary)
-                        .font(.title3)
-                }
-            }
-            
+        ZStack(alignment: .topTrailing) {
             Image(uiImage: image)
                 .resizable()
                 .scaledToFill()
-                .frame(height: 200)
+                .frame(height: 180)
                 .clipped()
-                .cornerRadius(16)
-                .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
-        }
-    }
-    
-    // MARK: - Action Buttons Row
-    private var actionButtonsRow: some View {
-        HStack(spacing: 16) {
-            // Botón de foto
-            Button(action: checkCameraPermission) {
-                HStack(spacing: 8) {
-                    Image(systemName: parkingPhoto == nil ? "camera" : "camera.fill")
-                        .font(.title3)
-                    Text(parkingPhoto == nil ? "add_photo".localized : "change_photo".localized)
-                        .font(.body)
-                        .fontWeight(.medium)
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 14)
-                .background(Color("AccentColor"))
-                .foregroundColor(.white)
-                .cornerRadius(12)
-                .shadow(color: Color("AccentColor").opacity(0.3), radius: 4, x: 0, y: 2)
-            }
-            .buttonStyle(PlainButtonStyle())
+                .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+                .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
             
-            // Botón de nota
-            Button(action: { showNoteSheet = true }) {
-                HStack(spacing: 8) {
-                    Image(systemName: parkingNote.isEmpty ? "pencil" : "pencil.circle.fill")
-                        .font(.title3)
-                    Text(parkingNote.isEmpty ? "add_note".localized : "edit_note".localized)
-                        .font(.body)
-                        .fontWeight(.medium)
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 14)
-                .background(Color.orange)
-                .foregroundColor(.white)
-                .cornerRadius(12)
-                .shadow(color: Color.orange.opacity(0.3), radius: 4, x: 0, y: 2)
+            Button(action: { withAnimation { parkingPhoto = nil } }) {
+                Image(systemName: "xmark.circle.fill")
+                    .font(.title2)
+                    .foregroundColor(.white)
+                    .shadow(color: Color.black.opacity(0.3), radius: 4)
             }
-            .buttonStyle(PlainButtonStyle())
+            .padding(10)
         }
     }
     
-    // MARK: - Edit Buttons Row
-    private func editButtonsRow(for parking: ParkingLocation) -> some View {
-        HStack(spacing: 16) {
-            Button(action: {
-                editingPhotoForSavedParking = true
-                checkCameraPermission()
-            }) {
-                HStack(spacing: 8) {
-                    Image(systemName: parking.photoData == nil ? "camera" : "camera.fill")
-                        .font(.body)
-                    Text(parking.photoData == nil ? "add_photo".localized : "change_photo".localized)
-                        .font(.body)
-                        .fontWeight(.medium)
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 12)
-                .background(Color("AccentColor"))
-                .foregroundColor(.white)
-                .cornerRadius(12)
-                .shadow(color: Color("AccentColor").opacity(0.3), radius: 4, x: 0, y: 2)
-            }
-            .buttonStyle(PlainButtonStyle())
-            
-            Button(action: { showNoteSheet = true }) {
-                HStack(spacing: 8) {
-                    Image(systemName: (parking.note?.isEmpty ?? true) ? "pencil" : "pencil.circle.fill")
-                        .font(.body)
-                    Text((parking.note?.isEmpty ?? true) ? "add_note".localized : "edit_note".localized)
-                        .font(.body)
-                        .fontWeight(.medium)
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 12)
-                .background(Color.orange)
-                .foregroundColor(.white)
-                .cornerRadius(12)
-                .shadow(color: Color.orange.opacity(0.3), radius: 4, x: 0, y: 2)
-            }
-            .buttonStyle(PlainButtonStyle())
-        }
-    }
-    
-    // MARK: - Success Overlay 
+    // MARK: - Success Overlay
     private var successOverlay: some View {
         ZStack {
-            Color.black.opacity(0.4)
+            Color.black.opacity(0.45)
                 .ignoresSafeArea()
                 .onTapGesture {
-                    withAnimation(.easeOut(duration: 0.3)) {
-                        showSuccessAnimation = false
-                    }
+                    withAnimation(.easeOut(duration: 0.3)) { showSuccessAnimation = false }
                 }
             
             VStack(spacing: 20) {
-                // Ícono animado
                 ZStack {
                     Circle()
-                        .fill(Color.green.opacity(0.2))
+                        .fill(Color.green.opacity(0.15))
                         .frame(width: 100, height: 100)
-                        .scaleEffect(showSuccessAnimation ? 1.0 : 0.5)
-                        .animation(.spring(response: 0.6, dampingFraction: 0.8), value: showSuccessAnimation)
-                    
+                    Circle()
+                        .fill(Color.green.opacity(0.08))
+                        .frame(width: 100, height: 100)
+                        .scaleEffect(showSuccessAnimation ? 1.5 : 1.0)
+                        .opacity(showSuccessAnimation ? 0 : 1)
+                        .animation(.easeOut(duration: 1.0).repeatForever(autoreverses: false), value: showSuccessAnimation)
                     Image(systemName: "checkmark.circle.fill")
-                        .font(.system(size: 50))
+                        .font(.system(size: 52))
                         .foregroundColor(.green)
                         .scaleEffect(showSuccessAnimation ? 1.0 : 0.3)
                         .animation(.spring(response: 0.5, dampingFraction: 0.7).delay(0.1), value: showSuccessAnimation)
                 }
                 
-                VStack(spacing: 8) {
-                    Text("¡Aparcamiento guardado!")
-                        .font(.title2)
+                VStack(spacing: 6) {
+                    Text("parking_saved_success_title".localized)
+                        .font(.title3)
                         .fontWeight(.bold)
                         .foregroundColor(.primary)
-                    
-                    Text("Tu ubicación ha sido guardada correctamente")
-                        .font(.body)
+                    Text("parking_saved_success_subtitle".localized)
+                        .font(.subheadline)
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
                 }
@@ -469,54 +529,50 @@ struct ContentView: View {
             }
             .padding(32)
             .background(
-                RoundedRectangle(cornerRadius: 20)
+                RoundedRectangle(cornerRadius: 24, style: .continuous)
                     .fill(Color(.systemBackground))
-                    .shadow(color: Color.black.opacity(0.2), radius: 20, x: 0, y: 10)
+                    .shadow(color: Color.black.opacity(0.15), radius: 30, x: 0, y: 10)
             )
-            .scaleEffect(showSuccessAnimation ? 1.0 : 0.8)
+            .scaleEffect(showSuccessAnimation ? 1.0 : 0.85)
             .animation(.spring(response: 0.5, dampingFraction: 0.8), value: showSuccessAnimation)
         }
         .transition(.opacity)
     }
-    
-    // MARK: - Empty State View
-    private var emptyStateView: some View {
-        VStack(spacing: 16) {
-            Image(systemName: "car.2.fill")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 80, height: 80)
-                .foregroundColor(Color("AppPrimary"))
-                .opacity(0.7)
-            
-            VStack(spacing: 8) {
-                Text("no_parking_today".localized)
-                    .font(.title2)
-                    .fontWeight(.semibold)
-                    .foregroundColor(Color("AppPrimary"))
-                    .multilineTextAlignment(.center)
-                }
-            Text("no_parking_today_funny".localized)
-                .font(.body)
-                .foregroundColor(.secondary)
-                .multilineTextAlignment(.center)
+}
 
+// MARK: - Coach Marks Logic
+extension ContentView {
+    private func prepareCoachMarksIfNeeded() {
+        guard !hasShownOnboarding else { return }
+        coachSteps = [
+            CoachMark(id: "photoButton", textKey: "coach_photo"),
+            CoachMark(id: "noteButton", textKey: "coach_note"),
+            CoachMark(id: "saveButton", textKey: "coach_save")
+        ]
+        currentCoachIndex = 0
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+            withAnimation(.easeInOut(duration: 0.25)) { showCoachMarks = true }
         }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 40)
-        .padding(.horizontal, 32)
-        .background(Color(.systemBackground))
-        .cornerRadius(20)
-        .shadow(color: Color.black.opacity(0.05), radius: 12, x: 0, y: 6)
-        .padding(.horizontal)
+    }
+    
+    private func advanceCoachStep() {
+        let next = currentCoachIndex + 1
+        if next < coachSteps.count {
+            withAnimation(.easeInOut(duration: 0.25)) { currentCoachIndex = next }
+        } else {
+            finishCoach()
+        }
+    }
+    
+    private func finishCoach() {
+        withAnimation(.easeInOut(duration: 0.25)) { showCoachMarks = false }
+        hasShownOnboarding = true
     }
 }
 
 #Preview {
     if #available(iOS 16.0, *) {
         ContentView()
-    } else {
-        // Fallback on earlier versions
     }
 }
 
@@ -536,7 +592,6 @@ struct NoteSheet: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 24) {
-                // Header
                 VStack(spacing: 12) {
                     HStack(spacing: 12) {
                         ZStack {
@@ -547,7 +602,6 @@ struct NoteSheet: View {
                                 .font(.title2)
                                 .foregroundColor(Color("AccentColor"))
                         }
-                        
                         VStack(alignment: .leading, spacing: 4) {
                             Text("parking_note".localized)
                                 .font(.title2)
@@ -557,19 +611,17 @@ struct NoteSheet: View {
                                 .font(.subheadline)
                                 .foregroundColor(.secondary)
                         }
-                        
                         Spacer()
                     }
                 }
                 .padding(.top, 8)
                 
-                // Text Editor
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
+                        Spacer()
                         Text("\(text.count)/200")
                             .font(.caption)
-                            .foregroundColor(text.count > 200 ? .red : .secondary)
-
+                            .foregroundColor(text.count > 180 ? .orange : (text.count > 200 ? .red : .secondary))
                     }
                     
                     ZStack(alignment: .topLeading) {
@@ -578,12 +630,11 @@ struct NoteSheet: View {
                             .frame(minHeight: 120)
                             .padding(12)
                             .background(Color(.systemGray6))
-                            .cornerRadius(12)
+                            .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
                             .overlay(
-                                RoundedRectangle(cornerRadius: 12)
-                                    .stroke(isTextEditorFocused ? Color("AccentColor") : Color.clear, lineWidth: 2)
+                                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                    .strokeBorder(isTextEditorFocused ? Color("AccentColor") : Color.clear, lineWidth: 2)
                             )
-                        
                         if text.isEmpty {
                             Text("note_placeholder".localized)
                                 .foregroundColor(.secondary)
@@ -596,8 +647,7 @@ struct NoteSheet: View {
                 
                 Spacer()
                 
-                // Action Buttons
-                HStack(spacing: 16) {
+                HStack(spacing: 12) {
                     Button(action: onCancel) {
                         Text("cancel".localized)
                             .font(.body)
@@ -606,7 +656,7 @@ struct NoteSheet: View {
                             .padding(.vertical, 14)
                             .background(Color(.systemGray5))
                             .foregroundColor(.primary)
-                            .cornerRadius(12)
+                            .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
                     }
                     .buttonStyle(PlainButtonStyle())
                     
@@ -616,10 +666,10 @@ struct NoteSheet: View {
                             .fontWeight(.semibold)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 14)
-                            .background(Color("AccentColor"))
+                            .background(text.count > 200 ? Color.gray : Color("AccentColor"))
                             .foregroundColor(.white)
-                            .cornerRadius(12)
-                            .shadow(color: Color("AccentColor").opacity(0.3), radius: 4, x: 0, y: 2)
+                            .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                            .shadow(color: Color("AccentColor").opacity(text.count > 200 ? 0 : 0.3), radius: 4, x: 0, y: 2)
                     }
                     .buttonStyle(PlainButtonStyle())
                     .disabled(text.count > 200)
@@ -628,11 +678,8 @@ struct NoteSheet: View {
             .padding()
             .navigationBarHidden(true)
         }
-        // Reemplazar presentationDetents con sheet en iOS 16
         .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                isTextEditorFocused = true
-            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { isTextEditorFocused = true }
         }
     }
 }

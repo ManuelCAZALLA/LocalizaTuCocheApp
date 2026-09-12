@@ -7,7 +7,6 @@
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
         <scene sceneID="EHf-IW-A2E">
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
@@ -16,41 +15,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView contentMode="scaleAspectFit" image="LaunchImage" translatesAutoresizingMaskIntoConstraints="NO" id="launchImage">
-                                <rect key="frame" x="151.5" y="160" width="90" height="90"/>
+                                <rect key="frame" x="146.5" y="326" width="100" height="100"/>
                             </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Aparca, guarda y vuelve" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="titleLine1">
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Sin complicaciones" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="titleLine2">
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Tu coche siempre localizado" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="subtitleLabel">
-                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <color key="textColor" white="1" alpha="0.7" colorSpace="calibratedWhite"/>
-                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
                         <color key="backgroundColor" red="0.05" green="0.2" blue="0.45" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <!-- Image -->
-                            <constraint firstItem="launchImage" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="imgCenterX"/>
-                            <constraint firstItem="launchImage" firstAttribute="top" secondItem="Bcu-3y-fUS" secondAttribute="top" constant="120" id="imgTop"/>
-                            <constraint firstItem="launchImage" firstAttribute="width" constant="90" id="imgWidth"/>
-                            <constraint firstItem="launchImage" firstAttribute="height" constant="90" id="imgHeight"/>
-
-                            <!-- Title Line 1 -->
-                            <constraint firstItem="titleLine1" firstAttribute="top" secondItem="launchImage" secondAttribute="bottom" constant="24" id="title1Top"/>
-                            <constraint firstItem="titleLine1" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="title1CenterX"/>
-
-                            <!-- Title Line 2 -->
-                            <constraint firstItem="titleLine2" firstAttribute="top" secondItem="titleLine1" secondAttribute="bottom" constant="4" id="title2Top"/>
-                            <constraint firstItem="titleLine2" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="title2CenterX"/>
-
-                            <!-- Subtitle -->
-                            <constraint firstItem="subtitleLabel" firstAttribute="top" secondItem="titleLine2" secondAttribute="bottom" constant="20" id="subtitleTop"/>
-                            <constraint firstItem="subtitleLabel" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="subtitleCenterX"/>
+                            <!-- Logo centrado perfectamente -->
+                            <constraint firstItem="launchImage" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="logoCenterX"/>
+                            <constraint firstItem="launchImage" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="logoCenterY"/>
+                            <constraint firstItem="launchImage" firstAttribute="width" constant="100" id="logoWidth"/>
+                            <constraint firstItem="launchImage" firstAttribute="height" constant="100" id="logoHeight"/>
                         </constraints>
                     </view>
                 </viewController>

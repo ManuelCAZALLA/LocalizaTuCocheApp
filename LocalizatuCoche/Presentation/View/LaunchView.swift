@@ -7,7 +7,6 @@ struct LaunchView: View {
     
     var body: some View {
         ZStack {
-            // Fondo degradado profesional
             LinearGradient(gradient: Gradient(colors: [Color("AppPrimary"), Color("AppSecondary")]), startPoint: .topLeading, endPoint: .bottomTrailing)
                 .ignoresSafeArea()
             
@@ -30,12 +29,6 @@ struct LaunchView: View {
                         
                         Spacer(minLength: 0)
                         
-                        Text("allow_location".localized)
-                            .font(.body)
-                            .foregroundColor(.white.opacity(0.85))
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal)
-                        
                         Button(action: {
                             let manager = CLLocationManager()
                             let status = manager.authorizationStatus
@@ -46,7 +39,7 @@ struct LaunchView: View {
                             }
                         }) {
                             
-                            Text("Permitir Ubicación")
+                            Text("Continuar".localized)
                                 .font(.title2.bold())
                                 .padding()
                                 .frame(maxWidth: .infinity)

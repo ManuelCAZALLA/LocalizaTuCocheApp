@@ -16,6 +16,13 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var isRecalculatingRoute = false
     @Published var currentStepInstruction: String?
     @Published var nextStepInstruction: String?
+    @Published var deviceHeading: Double?
+    
+    /// Bearing (en grados, 0=norte, horario) desde el usuario hacia el coche.
+    var bearingToCar: Double? {
+        guard let userLocation = userLocation else { return nil }
+        return Self.calculateBearing(from: userLocation, to: parkingLocation)
+    }
     
     // MARK: - Propiedades Privadas
     private let locationManager = CLLocationManager()
@@ -29,6 +36,9 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     private var routeCalculationTimer: Timer?
     private var currentStepIndex = 0
     private var hasSpokenInitialMessage = false
+    private var headingBuffer: [Double] = []
+    private var cachedPolyPoints: [MKMapPoint] = []
+    private var cachedPolyPointCount = 0
     
     // 🔹 Nuevo: para recordar el último paso anunciado
     private var lastSpokenStepIndex: Int?
@@ -56,6 +66,14 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         locationManager.distanceFilter = 3
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
+        
+        if CLLocationManager.headingAvailable() {
+            locationManager.headingOrientation = .portrait
+            locationManager.headingFilter = 2
+            locationManager.startUpdatingHeading()
+        } else {
+            deviceHeading = nil
+        }
     }
     
     private func configureAudioSession() {
@@ -97,6 +115,48 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         }
     }
     
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+        guard newHeading.headingAccuracy >= 0 else {
+            DispatchQueue.main.async {
+                self.deviceHeading = nil
+            }
+            return
+        }
+        
+        let rawHeading = newHeading.trueHeading >= 0 ? newHeading.trueHeading : newHeading.magneticHeading
+        let smoothed = smoothHeading(rawHeading)
+        
+        DispatchQueue.main.async {
+            self.deviceHeading = smoothed
+        }
+    }
+    
+    func locationManagerShouldDisplayHeadingCalibration(_ manager: CLLocationManager) -> Bool {
+        true
+    }
+    
+    private func smoothHeading(_ newHeading: Double) -> Double {
+        headingBuffer.append(newHeading)
+        if headingBuffer.count > 5 {
+            headingBuffer.removeFirst()
+        }
+        if headingBuffer.count == 1 {
+            return newHeading
+        }
+        
+        var sinSum: Double = 0
+        var cosSum: Double = 0
+        for heading in headingBuffer {
+            let radians = heading * .pi / 180
+            sinSum += sin(radians)
+            cosSum += cos(radians)
+        }
+        
+        let avgRadians = atan2(sinSum / Double(headingBuffer.count), cosSum / Double(headingBuffer.count))
+        let avgDegrees = avgRadians * 180 / .pi
+        return avgDegrees < 0 ? avgDegrees + 360 : avgDegrees
+    }
+    
     // MARK: - Cálculo de Ruta
     func calculateRoute(isRecalculation: Bool = false) {
         guard let userLocation = userLocation else { return }
@@ -131,6 +191,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
                 print("Ruta calculada: \(Int(route.distance))m, \(Int(route.expectedTravelTime/60))min")
                 self.route = route
                 self.trimmedPolyline = route.polyline
+                self.cachePolylinePoints(route.polyline)
                 self.timeRemaining = route.expectedTravelTime
                 self.distanceRemaining = route.distance
                 
@@ -264,7 +325,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
             if let languageCode = Locale.current.language.languageCode {
                 localeLanguageCode = languageCode.identifier
             } else {
-                localeLanguageCode = "es" // default fallback
+                localeLanguageCode = "es" 
             }
         } else {
             localeLanguageCode = Locale.current.languageCode ?? "es"
@@ -300,14 +361,15 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
     
     private func updateTimeAndDistanceWithRoute(from location: CLLocation, route: MKRoute) {
-        let polyline = route.polyline
+        guard cachedPolyPointCount >= 2 else { return }
+        
         let point = MKMapPoint(location.coordinate)
         
         var closestIndex = 0
         var closestDistance = CLLocationDistance.greatestFiniteMagnitude
         
-        for i in 0..<polyline.pointCount {
-            let pt = polyline.points()[i]
+        for i in 0..<cachedPolyPointCount {
+            let pt = cachedPolyPoints[i]
             let dist = point.distance(to: pt)
             if dist < closestDistance {
                 closestDistance = dist
@@ -316,12 +378,10 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         }
         
         var remainingDistance: CLLocationDistance = 0
-        let points = polyline.points()
-        
-        for i in closestIndex..<polyline.pointCount - 1 {
-            let start = points[i]
-            let end = points[i + 1]
-            remainingDistance += start.distance(to: end)
+        if closestIndex < cachedPolyPointCount - 1 {
+            for i in closestIndex..<(cachedPolyPointCount - 1) {
+                remainingDistance += cachedPolyPoints[i].distance(to: cachedPolyPoints[i + 1])
+            }
         }
         
         let progressFactor = min(1.0, max(0.0, remainingDistance / route.distance))
@@ -329,6 +389,12 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         
         distanceRemaining = max(0, remainingDistance)
         timeRemaining = max(0, remainingTime)
+    }
+    
+    private func cachePolylinePoints(_ polyline: MKPolyline) {
+        let count = polyline.pointCount
+        cachedPolyPointCount = count
+        cachedPolyPoints = Array(UnsafeBufferPointer(start: polyline.points(), count: count))
     }
     
     private func updateDirectTimeAndDistance(from location: CLLocation) {
@@ -357,6 +423,18 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
             return words[(index + 1)...].joined(separator: " ")
         }
         return "la calle actual"
+    }
+    
+    private static func calculateBearing(from start: CLLocationCoordinate2D, to end: CLLocationCoordinate2D) -> Double {
+        let lat1 = start.latitude * .pi / 180
+        let lat2 = end.latitude * .pi / 180
+        let deltaLon = (end.longitude - start.longitude) * .pi / 180
+        
+        let y = sin(deltaLon) * cos(lat2)
+        let x = cos(lat1) * sin(lat2) - sin(lat1) * cos(lat2) * cos(deltaLon)
+        
+        let bearing = atan2(y, x) * 180 / .pi
+        return (bearing + 360).truncatingRemainder(dividingBy: 360)
     }
     
     // MARK: - Limpieza

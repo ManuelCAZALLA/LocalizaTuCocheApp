@@ -3,28 +3,28 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyA-GiH1jZ9erUfUdAdAoqb5xh-pNywuHMI</string>
+	<string>AIzaSyBsdA_q13BiXDxBuQ_WTJH6VLvHfIWo8JQ</string>
 	<key>GCM_SENDER_ID</key>
-	<string>1038709079538</string>
+	<string>41057586960</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.ManuelCazalla.LocalizatuCoche</string>
 	<key>PROJECT_ID</key>
-	<string>ubicatucar-58088</string>
+	<string>localiza-tu-coche</string>
 	<key>STORAGE_BUCKET</key>
-	<string>ubicatucar-58088.firebasestorage.app</string>
+	<string>localiza-tu-coche.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
+	<true/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_GCM_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1038709079538:ios:b37e3d29d3f5efbfee3f6b</string>
+	<string>1:41057586960:ios:82825396ebce8c053b5f95</string>
 </dict>
 </plist>
